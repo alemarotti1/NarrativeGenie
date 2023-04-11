@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model conta {
+  email    String     @id @db.VarChar(255)
+  senha    String?    @db.VarChar(64)
+  historia historia[]
+}
+
+model elemento_narrativo {
+  id_elem_narr                                      Int         @id
+  Historia_id_historia                              Int
+  tipo                                              String?     @db.VarChar(45)
+  historia                                          historia    @relation(fields: [Historia_id_historia], references: [id_historia], onDelete: NoAction, onUpdate: NoAction, map: "fk_Elemento_narrativo_Historia1")
+  lugar                                             lugar?
+  outro                                             outro?
+  personagem                                        personagem?
+  relacao_relacao_id_elem_narr1Toelemento_narrativo relacao[]   @relation("relacao_id_elem_narr1Toelemento_narrativo")
+  relacao_relacao_id_elem_narr2Toelemento_narrativo relacao[]   @relation("relacao_id_elem_narr2Toelemento_narrativo")
+
+  @@index([Historia_id_historia], map: "fk_Elemento_narrativo_Historia1")
+}
+
+model historia {
+  id_historia        Int                  @id
+  nome               String?              @db.VarChar(255)
+  descricao          String?              @db.VarChar(1000)
+  path_img_capa      String?              @db.VarChar(255)
+  email_escritor     String               @db.VarChar(255)
+  elemento_narrativo elemento_narrativo[]
+  conta              conta                @relation(fields: [email_escritor], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "fk_Historia_Conta")
+
+  @@index([email_escritor], map: "fk_Historia_Conta")
+}
+
+model lugar {
+  id_elem_narr       Int                @id
+  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Lugar_Elemento_narrativo1")
+}
+
+model outro {
+  Elemento_narrativo_id_elem_narr Int                @id
+  elemento_narrativo              elemento_narrativo @relation(fields: [Elemento_narrativo_id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Outro_Elemento_narrativo1")
+}
+
+model personagem {
+  id_elem_narr       Int                @id
+  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Personagem_Elemento_narrativo1")
+}
+
+model relacao {
+  id_elem_narr1                                                Int
+  id_elem_narr2                                                Int
+  nome_relacao                                                 String?            @db.VarChar(255)
+  descricao                                                    String?            @db.VarChar(1000)
+  elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo elemento_narrativo @relation("relacao_id_elem_narr1Toelemento_narrativo", fields: [id_elem_narr1], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Elemento_narrativo_has_Elemento_narrativo_Elemento_narrati1")
+  elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo elemento_narrativo @relation("relacao_id_elem_narr2Toelemento_narrativo", fields: [id_elem_narr2], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Elemento_narrativo_has_Elemento_narrativo_Elemento_narrati2")
+
+  @@id([id_elem_narr1, id_elem_narr2])
+  @@index([id_elem_narr2], map: "fk_Elemento_narrativo_has_Elemento_narrativo_Elemento_narrati2")
+}
