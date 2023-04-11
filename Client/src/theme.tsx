@@ -5,6 +5,12 @@ const config: ThemeConfig = {
   useSystemColorMode: false,
 };
 
-const theme = extendTheme({ config });
+const theme = extendTheme({
+  config,
+  fonts: {
+    heading: `'Alice'`,
+    body: `'Alice'`,
+  },
+});
 
 export default theme;
