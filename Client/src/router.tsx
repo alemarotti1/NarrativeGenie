@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Main from "./layout/Main";
 import Error from "./pages/Error";
 import Root from "./pages/Root";
+import Worlds from "./pages/Worlds";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,17 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Root />,
+      },
+    ],
+  },
+  {
+    path: "/worlds",
+    element: <Main />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/worlds",
+        element: <Worlds />,
       },
     ],
   },
