@@ -1,4 +1,7 @@
 import axios from "axios";
+import path from "path";
+import fs from "fs";
+import { v4 as uuidv4 } from "uuid";
 
 import environment from "../config/environment";
 
@@ -14,12 +17,21 @@ class WaifuDiff {
     });
   }
 
-  public async completion(prompt: string) {
-    const data = await this.api.post("waifu-diffusion", {
+  public async query(prompt: string) {
+    const response = await this.api.post("/waifu-diffusion", {
       inputs: prompt
-    });
+    }, { responseType: 'stream' });
 
-    return data;
+    const filename = `${uuidv4()}.jpg`;
+    const filepath = path.resolve(__dirname, '..', 'images', filename);
+    const writer = fs.createWriteStream(filepath);
+
+    response.data.pipe(writer);
+    
+    return new Promise((resolve, reject) => {
+      writer.on('finish', () => resolve('images/' + filename));
+      writer.on('error', () => reject());
+    });
   }
 }
 
