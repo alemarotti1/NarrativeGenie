@@ -1,6 +1,6 @@
-//class Lugar inherits from class Historia
+//class Lugar inherits from class ElementoNarrativo
 
-class Lugar extends Historia {
+class Lugar extends ElementoNarrativo {
     
 
 }

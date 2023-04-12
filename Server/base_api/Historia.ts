@@ -3,6 +3,7 @@
 import * as express from 'express';
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
+import { criarHistoria } from '../controllers/Historia';
 
 const HistoriaRouter = express.Router();
 

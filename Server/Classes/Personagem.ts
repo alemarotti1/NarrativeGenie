@@ -1,5 +1,5 @@
-//class Personagem inherits from Historia
+//class Personagem inherits from ElementoNarrativo
 
-class Personagem extends Historia {
+class Personagem extends ElementoNarrativo {
 
 }

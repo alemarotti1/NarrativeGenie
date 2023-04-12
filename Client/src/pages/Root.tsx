@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   Flex,
@@ -12,9 +12,30 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { HiOutlineChevronDown, HiOutlinePlusCircle } from "react-icons/hi";
+
 import image from "../assets/image.png";
+import api from "../config/api";
+
+const categories = ["Personagem", "Lugar", "Objeto"];
 
 const Root: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [category, setCategory] = useState("Categoria");
+  const [prompt, setPrompt] = useState("");
+
+  const handleCategory = (category: string) => {
+    setCategory(category);
+  };
+
+  const handleCreate = () => {
+    setIsLoading(true);
+    api.get("/historia", { params: { prompt: `${category}: ${prompt}` } }).then(res => {
+      alert(res.data.result);
+      setPrompt("");
+      setIsLoading(false);
+    });
+  };
+
   return (
     <>
       <Flex
@@ -45,17 +66,14 @@ const Root: React.FC = () => {
                 <HiOutlineChevronDown style={{ marginLeft: "30px" }} />
               }
             >
-              Categoria
+              {category}
             </MenuButton>
             <MenuList>
-              <MenuItem>Personagem</MenuItem>
-              <MenuItem>Lugar</MenuItem>
-              <MenuItem>Objeto</MenuItem>
-              <MenuDivider />
-              <MenuItem>
-                <HiOutlinePlusCircle style={{ marginRight: "5px" }} />
-                Adicionar nova
-              </MenuItem>
+              {categories.map(category => (
+                <MenuItem onClick={() => handleCategory(category)} key={category}>
+                  {category}
+                </MenuItem>
+              ))}
             </MenuList>
           </Menu>
           <Input
@@ -66,6 +84,8 @@ const Root: React.FC = () => {
             ml="2"
             w="full"
             borderRadius="xl"
+            value={prompt}
+            onChange={e => setPrompt(e.target.value)}
           />
           <Button
             ml="2"
@@ -76,6 +96,8 @@ const Root: React.FC = () => {
             _active={{ bg: "#4e4a44" }}
             borderRadius="xl"
             fontWeight={"regular"}
+            onClick={handleCreate}
+            isLoading={isLoading}
           >
             Criar
           </Button>
