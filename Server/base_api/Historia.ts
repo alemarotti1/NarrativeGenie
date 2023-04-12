@@ -5,7 +5,7 @@ import chatGPT from '../external/chatgpt';
 const HistoriaRouter = express.Router();
 
 HistoriaRouter.get('/', async (req, res) => {
-    const result = await chatGPT.completion("Hello World");
+    const result = await chatGPT.completion(req.query['prompt']?.toString() || "Hello world");
     res.json({ result: result.data[0].generated_text });
 });
 
