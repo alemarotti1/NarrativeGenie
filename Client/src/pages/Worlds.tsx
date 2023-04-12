@@ -113,6 +113,7 @@ const Worlds: React.FC = () => {
           <Text
             py="1"
             color="white"
+            fontWeight="normal"
             maxH="200px"
             style={{
               display: "-webkit-box",
@@ -205,6 +206,7 @@ const Worlds: React.FC = () => {
             py="1"
             color="white"
             maxH="200px"
+            fontWeight="normal"
             style={{
               display: "-webkit-box",
               maxWidth: "full",
