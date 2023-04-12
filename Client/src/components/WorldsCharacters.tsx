@@ -14,7 +14,7 @@ import {
 import { HiOutlineSearch, HiOutlineFilter } from "react-icons/hi";
 import { BsFilter } from "react-icons/bs";
 
-const WorldsCharacterers: React.FC = () => {
+const WorldsCharacters: React.FC = () => {
   return (
     <Flex direction={"column"} mb="40px" h="full" >
       <Grid
@@ -194,4 +194,4 @@ const WorldsCharacterers: React.FC = () => {
   );
 };
 
-export default WorldsCharacterers;
+export default WorldsCharacters;
