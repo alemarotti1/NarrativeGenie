@@ -51,6 +51,12 @@ model outro {
 
 model personagem {
   id_elem_narr       Int                @id
+  categoria          String             @db.VarChar(255)
+  nome               String?            @db.VarChar(255)
+  descricao          String?            @db.VarChar(2000)
+  backstory          String?            @db.VarChar(2000)
+  especie            String?            @db.VarChar(255)
+  imagem             String?            @db.VarChar(255)
   elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Personagem_Elemento_narrativo1")
 }
 

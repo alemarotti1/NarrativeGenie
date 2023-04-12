@@ -1,5 +1,6 @@
 import express, { json, NextFunction, Request, Response, Router, urlencoded } from 'express';
 import cors from 'cors';
+import path from 'path';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -19,6 +20,7 @@ app.get('/', (req : Request, res : Response) => {
     res.send('Hello World!');
 });
 
+app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use('/auth', authRouter);
 app.use('/elemento-narrativo', ElementoNarrativoRouter);
 app.use('/historia', HistoriaRouter);
