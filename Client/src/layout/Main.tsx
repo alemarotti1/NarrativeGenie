@@ -3,8 +3,6 @@ import { Flex } from "@chakra-ui/react";
 import { Outlet } from "react-router-dom";
 import bg from "../assets/background.png";
 
-import Header from "./Header";
-
 const Main: React.FC = () => {
   return (
     <Flex
@@ -28,7 +26,6 @@ const Main: React.FC = () => {
         },
       }}
     >
-      <Header />
       <Outlet />
     </Flex>
   );

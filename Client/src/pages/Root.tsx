@@ -18,6 +18,8 @@ import api from "../config/api";
 
 const categories = ["Personagem", "Lugar", "Objeto"];
 
+import Header from "../layout/Header";
+
 const Root: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState("Categoria");
@@ -38,6 +40,7 @@ const Root: React.FC = () => {
 
   return (
     <>
+      <Header />
       <Flex
         w="60%"
         maxWidth={"1000px"}
