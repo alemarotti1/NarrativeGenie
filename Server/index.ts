@@ -10,6 +10,7 @@ import "express-async-errors";
 import authRouter from './base_api/auth';
 import ElementoNarrativoRouter from './base_api/ElementoNarrativo';
 import HistoriaRouter from './base_api/Historia';
+import PersonagemRouter from './base_api/Personagem';
 
 const app = express();
 app.use(cors());
@@ -22,6 +23,7 @@ app.get('/', (req : Request, res : Response) => {
 
 app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use('/auth', authRouter);
+app.use('/personagem', PersonagemRouter);
 app.use('/elemento-narrativo', ElementoNarrativoRouter);
 app.use('/historia', HistoriaRouter);
 

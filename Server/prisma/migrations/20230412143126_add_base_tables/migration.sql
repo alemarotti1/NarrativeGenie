@@ -8,7 +8,7 @@ CREATE TABLE `conta` (
 
 -- CreateTable
 CREATE TABLE `elemento_narrativo` (
-    `id_elem_narr` INTEGER NOT NULL,
+    `id_elem_narr` INTEGER NOT NULL AUTO_INCREMENT,
     `Historia_id_historia` INTEGER NOT NULL,
     `tipo` VARCHAR(45) NULL,
 
@@ -45,6 +45,12 @@ CREATE TABLE `outro` (
 -- CreateTable
 CREATE TABLE `personagem` (
     `id_elem_narr` INTEGER NOT NULL,
+    `categoria` VARCHAR(255) NOT NULL,
+    `nome` VARCHAR(255) NULL,
+    `descricao` VARCHAR(2000) NULL,
+    `backstory` VARCHAR(2000) NULL,
+    `especie` VARCHAR(255) NULL,
+    `imagem` VARCHAR(255) NULL,
 
     PRIMARY KEY (`id_elem_narr`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

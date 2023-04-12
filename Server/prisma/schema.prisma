@@ -14,7 +14,7 @@ model conta {
 }
 
 model elemento_narrativo {
-  id_elem_narr                                      Int         @id
+  id_elem_narr                                      Int         @id               @default(autoincrement())
   Historia_id_historia                              Int
   tipo                                              String?     @db.VarChar(45)
   historia                                          historia    @relation(fields: [Historia_id_historia], references: [id_historia], onDelete: NoAction, onUpdate: NoAction, map: "fk_Elemento_narrativo_Historia1")
