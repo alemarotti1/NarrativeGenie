@@ -10,7 +10,6 @@ const Main: React.FC = () => {
     <Flex
       w="100vw"
       h="100vh"
-      // overflow="hidden"
       direction="column"
       bgImage={`url("${bg}")`}
       bgPosition="top"
