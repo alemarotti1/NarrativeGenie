@@ -18,7 +18,7 @@ const Main: React.FC = () => {
         "&::-webkit-scrollbar": {
           width: "16px",
           borderRadius: "8px",
-          backgroundColor: `rgba(255, 255, 255, 0.4)`,
+          backgroundColor: "none",
         },
         "&::-webkit-scrollbar-thumb": {
           borderRadius: "8px",
