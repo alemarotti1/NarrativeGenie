@@ -14,9 +14,12 @@ import {
 import { HiOutlineSearch, HiOutlineFilter } from "react-icons/hi";
 import { BsFilter } from "react-icons/bs";
 
+import Header from "../layout/Header";
+
 const Worlds: React.FC = () => {
   return (
     <Flex direction={"column"} mb="40px">
+      <Header text="Mundos" />
       <Flex
         w="fit-content"
         alignSelf={"flex-end"}
@@ -149,6 +152,7 @@ const Worlds: React.FC = () => {
             textColor="white"
             fontWeight="regular"
             borderRadius="3xl"
+            mr="2"
           >
             Ver mais
           </Button>
@@ -239,6 +243,7 @@ const Worlds: React.FC = () => {
             textColor="white"
             fontWeight="regular"
             borderRadius="3xl"
+            mr="2"
           >
             Ver mais
           </Button>

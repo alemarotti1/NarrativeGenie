@@ -17,7 +17,11 @@ import { RiMenuFill } from "react-icons/ri";
 import logo from "../assets/logo_img.svg";
 import avatar from "../assets/avatar.png";
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  text?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ text }) => {
   return (
     <Flex
       px="4"
@@ -39,7 +43,7 @@ const Header: React.FC = () => {
         fontFamily="Fondamento"
         fontWeight="regular"
       >
-        Narrative Genie
+        {text ?? "Narrative Genie"}
       </Heading>
       <Spacer />
       <Text
