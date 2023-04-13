@@ -26,7 +26,7 @@ const Description: React.FC = () => {
       w="full"
       alignSelf={"center"}
     >
-      <Header />
+      <Header text="Witunkles, The Spirit Vales" href="/world" />
       <WorldHeader current={current} onEdit={onEdit} />
       {chooseTab()}
     </Flex>
