@@ -1,32 +1,22 @@
 import axios from "axios";
-import * as openai from "openai";
 
 import environment from "../config/environment";
 
 class ChatGPT {
-  private readonly api : openai.OpenAIApi;
-  private readonly configuration : openai.Configuration;
-  private models : any;
+  private readonly api;
 
   constructor() {
-    this.configuration = new openai.Configuration({
-      apiKey: process.env.OPENAI_API_KEY,
-      organization: process.env.OPENAI_ORGANIZATION,
+    this.api = axios.create({
+      baseURL: "https://api-inference.huggingface.co/models/EleutherAI/",
+      headers: {
+        Authorization: `Bearer ${environment.HUGGING_FACE_API_TOKEN}`
+      }
     });
-
-    this.api = new openai.OpenAIApi(this.configuration);
-  }
-
-  public async loadModels() {
-    this.models = await this.api.listModels();
   }
 
   public async completion(prompt: string) {
-    const data = await this.api.createCompletion({
-      model: "gpt-3.5-turbo",
-      prompt: prompt,
-      max_tokens: 200,
-      temperature: 0.5,
+    const data = await this.api.post("gpt-neo-2.7B", {
+      inputs: prompt
     });
 
     return data;

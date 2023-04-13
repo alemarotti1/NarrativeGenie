@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         element: <Worlds />,
       },
       {
-        path: "/world",
+        path: "/worlds/:id",
         element: <Description />,
       },
       {
