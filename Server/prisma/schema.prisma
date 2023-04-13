@@ -51,7 +51,6 @@ model outro {
 
 model personagem {
   id_elem_narr       Int                @id
-  categoria          String             @db.VarChar(255)
   nome               String?            @db.VarChar(255)
   descricao          String?            @db.VarChar(2000)
   backstory          String?            @db.VarChar(2000)

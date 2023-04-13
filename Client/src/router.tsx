@@ -19,26 +19,12 @@ const router = createBrowserRouter([
         path: "/",
         element: <Root />,
       },
-    ],
-  },
-  {
-    path: "/worlds",
-    element: <Main />,
-    errorElement: <Error />,
-    children: [
       {
         path: "/worlds",
         element: <Worlds />,
       },
-    ],
-  },
-  {
-    path: "/world",
-    element: <Main />,
-    errorElement: <Error />,
-    children: [
       {
-        path: "/world",
+        path: "/worlds/:id",
         element: <Description />,
       },
     ],
