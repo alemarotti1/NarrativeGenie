@@ -8,17 +8,14 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
   Image,
   useDisclosure,
   Modal,
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
-  Text,
   Spacer,
 } from "@chakra-ui/react";
 import { HiOutlineChevronDown, HiOutlinePlusCircle } from "react-icons/hi";
@@ -60,9 +57,8 @@ const Root: React.FC = () => {
     <>
       <Modal isCentered isOpen={isOpen} onClose={onClose} size="xl">
         <ModalOverlay
-          bg="none"
+          bg="rgba(0,0,0,0.5)"
           backdropFilter="auto"
-          backdropInvert="80%"
           backdropBlur="2px"
         />
         <ModalContent>

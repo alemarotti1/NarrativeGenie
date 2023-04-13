@@ -73,9 +73,8 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
           _active={{ color: "white", bg: "whiteAlpha.300" }}
         />
         <MenuList>
-          <MenuItem>Perfil</MenuItem>
+          <MenuItem onClick={() => navigate("/profile")}>Perfil</MenuItem>
           <MenuItem onClick={() => navigate("/worlds")}>Mundos</MenuItem>
-          <MenuItem>Configurações</MenuItem>
           <MenuItem>Sair</MenuItem>
         </MenuList>
       </Menu>
