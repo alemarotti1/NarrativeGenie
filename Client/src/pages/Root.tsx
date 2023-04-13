@@ -31,8 +31,8 @@ const Root: React.FC = () => {
 
   const handleCreate = () => {
     setIsLoading(true);
-    api.get("/historia", { params: { prompt: `${category}: ${prompt}` } }).then(res => {
-      alert(res.data.result);
+    api.post("/personagem", { gptPrompt: prompt, waifuPrompt: prompt }).then(res => {
+      alert("ID do personagem: " + res.data.id);
       setPrompt("");
       setIsLoading(false);
     });

@@ -3,12 +3,18 @@
 import * as express from 'express';
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
+import { listarHistorias, buscarHistoria } from '../controllers/Historia';
 
 const HistoriaRouter = express.Router();
 
 HistoriaRouter.get('/', async (req, res) => {
-    //const result = await chatGPT.completion(req.query['prompt']?.toString() || "Hello world");
-    //res.json({ result: result.data[0].generated_text });
+    const stories = await listarHistorias(req.query.email?.toString() || "");
+    res.json({ stories });
+});
+
+HistoriaRouter.get('/:id', async (req, res) => {
+    const story = await buscarHistoria(parseInt(req.params.id));
+    res.json({ story });
 });
 
 /***
