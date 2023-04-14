@@ -19,14 +19,15 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { HiOutlineChevronDown, HiOutlinePlusCircle } from "react-icons/hi";
+import { useNavigate } from "react-router-dom"; 
 
 import image from "../assets/image.png";
 import api from "../config/api";
 
-const categories = ["Personagem", "Lugar", "Objeto"];
-const worlds = [
-  "Witunkles, The Spirit Vales",
-  "Eldlubach, Reach of the Elders",
+const categories = [
+  { label: "Personagem", path: "characters" },
+  { label: "Lugar", path: "places" },
+  { label: "Objeto", path: "objects" },
 ];
 
 import Header from "../layout/Header";
@@ -38,6 +39,7 @@ const Root: React.FC = () => {
   const [world, setWorld] = useState("Mundo");
   const [prompt, setPrompt] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
   useEffect(() => {
     api.get("/historia", { params: { email: "teste@teste.com" }}).then((res) => {
@@ -56,10 +58,11 @@ const Root: React.FC = () => {
     setIsLoading(true);
     const id_historia = worlds.find((w: any) => w.label === world)?.value;
     api.post(`/${category.toLowerCase()}`, { gptPrompt: prompt, waifuPrompt: prompt, id_historia }).then(res => {
-      alert(`ID do ${category.toLowerCase()}: ` + res.data.id);
+      const path = categories.find((c) => c.label === category)?.path;
       setPrompt("");
       onClose();
       setIsLoading(false);
+      navigate(`/${path}/${res.data.id}`);
     });
   };
 
@@ -153,10 +156,10 @@ const Root: React.FC = () => {
             <MenuList>
               {categories.map((category) => (
                 <MenuItem
-                  onClick={() => handleCategory(category)}
-                  key={category}
+                  onClick={() => handleCategory(category.label)}
+                  key={category.path}
                 >
-                  {category}
+                  {category.label}
                 </MenuItem>
               ))}
             </MenuList>
@@ -181,7 +184,7 @@ const Root: React.FC = () => {
             _active={{ bg: "#4e4a44" }}
             borderRadius="xl"
             fontWeight={"regular"}
-            onClick={() => onOpen()}
+            onClick={onOpen}
           >
             Criar
           </Button>

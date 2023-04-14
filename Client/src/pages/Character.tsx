@@ -48,7 +48,7 @@ const Character: React.FC = () => {
 
   return (
     <>
-      <Header text="Witunkles, The Spirit Vales" href="/world" />
+      <Header text="Witunkles, The Spirit Vales" href="/worlds" />
       <Flex
         direction={"column"}
         h="fit-content"
