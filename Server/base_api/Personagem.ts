@@ -20,7 +20,7 @@ PersonagemRouter.post('/', async (req, res) => {
         imagem: waifuResult?.toString() || "",
         backstory: "Lorem Ipsum",
         especie: "Lorem Ipsum",
-        id_historia: 1
+        id_historia: req.body.id_historia
     };
 
     const personagemId = await criarPersonagem(personagemParams);

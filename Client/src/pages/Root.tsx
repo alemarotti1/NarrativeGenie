@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Flex,
@@ -34,9 +34,19 @@ import Header from "../layout/Header";
 const Root: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState("Categoria");
+  const [worlds, setWorlds] = useState<any[]>([]);
   const [world, setWorld] = useState("Mundo");
   const [prompt, setPrompt] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  useEffect(() => {
+    api.get("/historia", { params: { email: "teste@teste.com" }}).then((res) => {
+      setWorlds(res.data.stories.map((story: any) => ({
+        value: story.id_historia,
+        label: story.nome
+      })) || []);
+    });
+  }, []);
 
   const handleCategory = (category: string) => {
     setCategory(category);
@@ -44,9 +54,11 @@ const Root: React.FC = () => {
 
   const handleCreate = () => {
     setIsLoading(true);
-    api.post("/personagem", { gptPrompt: prompt, waifuPrompt: prompt }).then(res => {
-      alert("ID do personagem: " + res.data.id);
+    const id_historia = worlds.find((w: any) => w.label === world)?.value;
+    api.post(`/${category.toLowerCase()}`, { gptPrompt: prompt, waifuPrompt: prompt, id_historia }).then(res => {
+      alert(`ID do ${category.toLowerCase()}: ` + res.data.id);
       setPrompt("");
+      onClose();
       setIsLoading(false);
     });
   };
@@ -85,8 +97,8 @@ const Root: React.FC = () => {
               </MenuButton>
               <MenuList>
                 {worlds.map((world) => (
-                  <MenuItem onClick={() => setWorld(world)} key={world}>
-                    {world}
+                  <MenuItem onClick={() => setWorld(world.label)} key={world.value}>
+                    {world.label}
                   </MenuItem>
                 ))}
               </MenuList>
