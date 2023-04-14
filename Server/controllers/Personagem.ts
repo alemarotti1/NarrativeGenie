@@ -13,7 +13,6 @@ export const criarPersonagem = async (personagemParams: PersonagemParams) => {
     const personagem = await db.personagem.create({
         data: {
             imagem: personagemParams.imagem,
-            categoria: "personagem",
             nome: personagemParams.nome,
             descricao: personagemParams.descricao,
             backstory: personagemParams.backstory,
