@@ -13,15 +13,18 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import { RiMenuFill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/logo_img.svg";
 import avatar from "../assets/avatar.png";
 
 interface HeaderProps {
   text?: string;
+  href?: string;
 }
 
-const Header: React.FC<HeaderProps> = ({ text }) => {
+const Header: React.FC<HeaderProps> = ({ text, href }) => {
+  const navigate = useNavigate();
   return (
     <Flex
       px="4"
@@ -35,7 +38,10 @@ const Header: React.FC<HeaderProps> = ({ text }) => {
         boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.7)",
       }}
     >
-      <Image src={logo} alt="logo" h="20" />
+      <a  href="/">
+        <Image src={logo} alt="logo" h="20" />
+      </a>
+      
       <Heading
         pl="4"
         fontSize="70px"
@@ -43,7 +49,7 @@ const Header: React.FC<HeaderProps> = ({ text }) => {
         fontFamily="Fondamento"
         fontWeight="regular"
       >
-        {text ?? "Narrative Genie"}
+        <a href={href ?? "/"}> {text ?? "Narrative Genie"} </a>
       </Heading>
       <Spacer />
       <Text
@@ -67,9 +73,8 @@ const Header: React.FC<HeaderProps> = ({ text }) => {
           _active={{ color: "white", bg: "whiteAlpha.300" }}
         />
         <MenuList>
-          <MenuItem>Perfil</MenuItem>
-          <MenuItem>Mundos</MenuItem>
-          <MenuItem>Configurações</MenuItem>
+          <MenuItem onClick={() => navigate("/profile")}>Perfil</MenuItem>
+          <MenuItem onClick={() => navigate("/worlds")}>Mundos</MenuItem>
           <MenuItem>Sair</MenuItem>
         </MenuList>
       </Menu>

@@ -3,18 +3,17 @@ import {
   Button,
   Flex,
   Heading,
-  Input,
   Image,
-  InputGroup,
-  InputRightElement,
   Text,
   Grid,
   GridItem,
 } from "@chakra-ui/react";
-import { HiOutlineSearch, HiOutlineFilter } from "react-icons/hi";
-import { BsFilter } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+
 
 const WorldsCharacters: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <Flex direction={"column"} mb="40px" h="full" >
       <Grid
@@ -84,6 +83,7 @@ const WorldsCharacters: React.FC = () => {
             textColor="white"
             fontWeight="regular"
             borderRadius="3xl"
+            onClick={() => navigate("/character")}
           >
             Ver mais
           </Button>
@@ -176,6 +176,7 @@ const WorldsCharacters: React.FC = () => {
             textColor="white"
             fontWeight="regular"
             borderRadius="3xl"
+            onClick={() => navigate("/character")}
           >
             Ver mais
           </Button>

@@ -7,15 +7,23 @@ import {
   Grid,
   Text,
   Textarea,
+  Tag,
 } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
+import Header from "../layout/Header";
 
-const DescriptionCard: React.FC = () => {
+const Character: React.FC = () => {
   const [disabled, setDisabled] = useState(true);
   const text =
-    "Witunkles é um mundo mágico cheio de maravilhas incríveis e criaturas encantadas. É um lugar onde a magia é tecida no próprio tecido da existência e onde as leis da física às vezes são distorcidas ou quebradas por poderosos feitiços e encantamentos.As paisagens de Witunkles são diversas e de tirar o fôlego, variando de montanhas cobertas de neve a florestas exuberantes e praias ensolaradas. Essas paisagens costumam ser habitadas por criaturas mágicas como dragões, unicórnios, centauros e animais falantes.Em Witunkles, a magia é respeitada e temida, pois pode ser usada para o bem ou para o mal. Existem escolas de magia onde jovens feiticeiros e magos podem aprender a controlar seus poderes, e também existem bruxos das trevas que procuram usar sua magia para propósitos egoístas ou destrutivos.O povo de Witunkles é um grupo diverso, com muitas culturas e costumes diferentes. Eles estão unidos, no entanto, por seu amor compartilhado pela magia e sua reverência pelo mundo natural. Witunkles é um mundo mágico cheio de maravilhas incríveis e criaturas encantadas. É um lugar onde a magia é tecida no próprio tecido da existência e onde as leis da física às vezes são distorcidas ou quebradas por poderosos feitiços e encantamentos.As paisagens de Witunkles são diversas e de tirar o fôlego, variando de montanhas cobertas de neve a florestas exuberantes e praias ensolaradas. Essas paisagens costumam ser habitadas por criaturas mágicas como dragões, unicórnios, centauros e animais falantes.Em Witunkles, a magia é respeitada e temida, pois pode ser usada para o bem ou para o mal. Existem escolas de magia onde jovens feiticeiros e magos podem aprender a controlar seus poderes, e também existem bruxos das trevas que procuram usar sua magia para propósitos egoístas ou destrutivos.O povo de Witunkles é um grupo diverso, com muitas culturas e costumes diferentes. Eles estão unidos, no entanto, por seu amor compartilhado pela magia e sua reverência pelo mundo natural.";
+    "Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável. Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas. Um dia, Noldorin Glynkas conheceu uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado por ela e logo eles se apaixonaram. Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos, e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável. Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas. Um dia, Noldorin Glynkas conheceu uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado por ela e logo eles se apaixonaram. Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos, e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.";
   const [value, setValue] = useState(text);
   const [backup, setBackup] = useState("");
+
+  const related = {
+    personagens: ["Chasianna Darkweaver", "Thorfinn Glynkas"],
+    lugares: ["Aranthia", "Celestyal City"],
+    caracteristicas: ["temperamental", "corajoso", "determinado"],
+  };
 
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
@@ -29,14 +37,19 @@ const DescriptionCard: React.FC = () => {
 
   return (
     <>
-      <Flex direction={"column"} h="100vh" w="full" align="center">
+      <Header text="Witunkles, The Spirit Vales" href="/world" />
+      <Flex
+        direction={"column"}
+        h="fit-content"
+        maxW="1600px"
+        bg="rgba(0,0,0,0.3)"
+        border="none"
+        borderRadius="3xl"
+        mx="10"
+        alignSelf="center"
+      >
         <Grid
-          mx="10"
-          h="fit-content"
-          bg="rgba(255,255,255,0.3)"
-          border="none"
-          borderRadius="3xl"
-          columnGap={3}
+          columnGap={1}
           p="5"
           px="10"
           pb="10"
@@ -82,19 +95,19 @@ const DescriptionCard: React.FC = () => {
 
           <GridItem area={"nav"} alignSelf="auto">
             <Image
-              w="full"
               maxW="400px"
+              w="250px"
               h="250px"
               maxH="400px"
               alignSelf="auto"
+              mx="auto"
               objectFit="cover"
-              borderRadius="2xl"
+              borderRadius="200px"
               src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
               alt="Caffe Latte"
             />
           </GridItem>
           <GridItem
-            pl="2"
             w="full"
             h="250px"
             area={"footer"}
@@ -112,13 +125,19 @@ const DescriptionCard: React.FC = () => {
             }}
           >
             {disabled ? (
-              <Text py="1" color="white" fontWeight="normal">
-                {value}
-              </Text>
+              <>
+                <Text color="white" fontSize="xl">
+                  Noldorin Glynkas
+                </Text>
+                <Text py="1" color="white" fontWeight="normal">
+                  {value}
+                </Text>
+              </>
             ) : (
               <Textarea
                 value={value}
                 bg="white"
+                w="full"
                 maxH="full"
                 h="full"
                 onChange={handleInputChange}
@@ -138,9 +157,16 @@ const DescriptionCard: React.FC = () => {
             )}
           </GridItem>
         </Grid>
+        <Flex alignSelf="flex-start" px="40px" direction="column" mb="20px">
+          {Object.entries(related).map(([key, value]) => (
+            <Text color="white" fontSize="xl">
+              {key}: {value.map((v) => <Tag m="1px" borderRadius="xl" color="orange.500">{v}</Tag>)}
+            </Text>
+          ))}
+        </Flex>
       </Flex>
     </>
   );
 };
 
-export default DescriptionCard;
+export default Character;

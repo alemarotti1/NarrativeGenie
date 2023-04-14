@@ -6,6 +6,8 @@ import Error from "./pages/Error";
 import Root from "./pages/Root";
 import Worlds from "./pages/Worlds";
 import Description from "./pages/Description";
+import Profile from "./pages/Profile";
+import Character from "./pages/Character";
 
 const router = createBrowserRouter([
   {
@@ -38,6 +40,28 @@ const router = createBrowserRouter([
       {
         path: "/world",
         element: <Description />,
+      },
+    ],
+  },
+  {
+    path: "/profile",
+    element: <Main />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/profile",
+        element: <Profile />,
+      },
+    ],
+  },
+  {
+    path: "/character",
+    element: <Main />,
+    errorElement: <Error />,
+    children: [
+      {
+        path: "/character",
+        element: <Character />,
       },
     ],
   },
