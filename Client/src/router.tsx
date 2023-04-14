@@ -27,24 +27,10 @@ const router = createBrowserRouter([
         path: "/worlds/:id",
         element: <Description />,
       },
-    ],
-  },
-  {
-    path: "/profile",
-    element: <Main />,
-    errorElement: <Error />,
-    children: [
       {
         path: "/profile",
         element: <Profile />,
       },
-    ],
-  },
-  {
-    path: "/character",
-    element: <Main />,
-    errorElement: <Error />,
-    children: [
       {
         path: "/character",
         element: <Character />,
