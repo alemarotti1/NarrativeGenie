@@ -12,7 +12,7 @@ import {
 import { HiPencilAlt } from "react-icons/hi";
 import Header from "../layout/Header";
 
-const Character: React.FC = () => {
+const Place: React.FC = () => {
   const [disabled, setDisabled] = useState(true);
   const text =
     "Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável. Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas. Um dia, Noldorin Glynkas conheceu uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado por ela e logo eles se apaixonaram. Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos, e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável. Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas. Um dia, Noldorin Glynkas conheceu uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado por ela e logo eles se apaixonaram. Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos, e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.";
@@ -167,4 +167,4 @@ const Character: React.FC = () => {
   );
 };
 
-export default Character;
+export default Place;

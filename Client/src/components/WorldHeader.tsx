@@ -7,30 +7,30 @@ interface ComponentHandlerProps {
 }
 
 const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
-  const [tab, setTab] = React.useState("");
+  const [tab, setTab] = React.useState("Des");
 
   const onChangeTabDescricao = () => {
-    console.log("teste", tab)
+    console.log("teste", tab);
     setTab("Des");
     onEdit("Des");
   };
 
   const onChangeTabPersonagem = () => {
-    console.log("teste", tab)
-    setTab("Per");
-    onEdit("Per");
+    console.log("teste", tab);
+    setTab("character");
+    onEdit("character");
   };
 
   const onChangeTabLugares = () => {
-    console.log("teste", tab)
-    setTab("Lug");
-    onEdit("Lug");
+    console.log("teste", tab);
+    setTab("place");
+    onEdit("place");
   };
 
   const onChangeTabObjetos = () => {
-    console.log("teste", tab)
-    setTab("Obj");
-    onEdit("Obj");
+    console.log("teste", tab);
+    setTab("object");
+    onEdit("object");
   };
 
   return (
@@ -50,30 +50,30 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
     >
       <Button
         color="white"
-        bg="none"
         fontWeight="normal"
         onClick={onChangeTabDescricao}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
         h="40px"
         borderRadius="3xl"
+        bg={tab == "Des" ? "rgba(255,255,255, 0.3)" : "none"}
       >
         Descrição
       </Button>
       <Button
         color="white"
-        bg="none"
         fontWeight="normal"
         onClick={onChangeTabPersonagem}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
         h="40px"
         borderRadius="3xl"
+        bg={tab == "character" ? "rgba(255,255,255, 0.3)" : "none"}
       >
         Personagens
       </Button>
 
       <Button
         color="white"
-        bg="none"
+        bg={tab == "place" ? "rgba(255,255,255, 0.3)" : "none"}
         fontWeight="normal"
         onClick={onChangeTabLugares}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
@@ -85,7 +85,7 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
 
       <Button
         color="white"
-        bg="none"
+        bg={tab == "object" ? "rgba(255,255,255, 0.3)" : "none"}
         fontWeight="normal"
         onClick={onChangeTabObjetos}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}

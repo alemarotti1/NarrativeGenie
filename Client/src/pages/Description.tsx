@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Flex, Button } from "@chakra-ui/react";
 import DescriptionCard from "../components/DescriptionCard";
 import WorldHeader from "../components/WorldHeader";
-import WorldsCharacters from "../components/WorldsCharacters";
+import CategoriesList from "../components/CategoriesList";
 import Header from "../layout/Header";
 
 const Description: React.FC = () => {
@@ -14,9 +14,9 @@ const Description: React.FC = () => {
   const chooseTab = () => {
     if (current === "Des") {
       return <DescriptionCard />;
-    } else if (current === "Per") {
-      return <WorldsCharacters />;
-    } else <></>
+    } else {
+      return <CategoriesList category={current} />;
+    }
   };
 
   return (

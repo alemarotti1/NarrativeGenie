@@ -10,8 +10,11 @@ import {
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
+interface WorldsProps {
+  category: string;
+}
 
-const WorldsCharacters: React.FC = () => {
+const CategoriesList: React.FC<WorldsProps> = ({category}) => {
   const navigate = useNavigate();
 
   return (
@@ -83,7 +86,7 @@ const WorldsCharacters: React.FC = () => {
             textColor="white"
             fontWeight="regular"
             borderRadius="3xl"
-            onClick={() => navigate("/character")}
+            onClick={() => navigate(`/${category}`)}
           >
             Ver mais
           </Button>
@@ -100,7 +103,7 @@ const WorldsCharacters: React.FC = () => {
       </Grid>
 
       <Grid
-        mt="10"
+        mt="5"
         mx="10"
         bg="rgba(0,0,0,0.6)"
         border="none"
@@ -176,7 +179,7 @@ const WorldsCharacters: React.FC = () => {
             textColor="white"
             fontWeight="regular"
             borderRadius="3xl"
-            onClick={() => navigate("/character")}
+            onClick={() => navigate(`/${category}`)}
           >
             Ver mais
           </Button>
@@ -195,4 +198,4 @@ const WorldsCharacters: React.FC = () => {
   );
 };
 
-export default WorldsCharacters;
+export default CategoriesList;
