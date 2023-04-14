@@ -28,7 +28,7 @@ model elemento_narrativo {
 }
 
 model historia {
-  id_historia        Int                  @id
+  id_historia        Int                  @id               @default(autoincrement())
   nome               String?              @db.VarChar(255)
   descricao          String?              @db.VarChar(1000)
   path_img_capa      String?              @db.VarChar(255)

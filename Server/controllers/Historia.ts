@@ -23,12 +23,18 @@ export const buscarHistoria = async (id_historia: number) => {
     return historia;
 };
 
-export const criarHistoria = async (id_historia: number, nome: string, descricao: string) => {
+type HistoriaParams = {
+    nome: string;
+    descricao: string;
+    path_img_capa: string;
+}
+
+export const criarHistoria = async (historiaParams: HistoriaParams) => {
     const historia = await db.historia.create({
         data: {
-            id_historia,
-            nome,
-            descricao,
+            nome: historiaParams.nome,
+            descricao: historiaParams.descricao,
+            path_img_capa: historiaParams.path_img_capa,
             conta: {
                 connect: {
                     email: "teste@teste.com"
