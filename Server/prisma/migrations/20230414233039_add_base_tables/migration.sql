@@ -31,15 +31,21 @@ CREATE TABLE `historia` (
 -- CreateTable
 CREATE TABLE `lugar` (
     `id_elem_narr` INTEGER NOT NULL,
+    `nome` VARCHAR(255) NULL,
+    `descricao` VARCHAR(2000) NULL,
+    `imagem` VARCHAR(255) NULL,
 
     PRIMARY KEY (`id_elem_narr`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `outro` (
-    `Elemento_narrativo_id_elem_narr` INTEGER NOT NULL,
+    `id_elem_narr` INTEGER NOT NULL,
+    `nome` VARCHAR(255) NULL,
+    `descricao` VARCHAR(2000) NULL,
+    `imagem` VARCHAR(255) NULL,
 
-    PRIMARY KEY (`Elemento_narrativo_id_elem_narr`)
+    PRIMARY KEY (`id_elem_narr`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
@@ -75,7 +81,7 @@ ALTER TABLE `historia` ADD CONSTRAINT `fk_Historia_Conta` FOREIGN KEY (`email_es
 ALTER TABLE `lugar` ADD CONSTRAINT `fk_Lugar_Elemento_narrativo1` FOREIGN KEY (`id_elem_narr`) REFERENCES `elemento_narrativo`(`id_elem_narr`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
-ALTER TABLE `outro` ADD CONSTRAINT `fk_Outro_Elemento_narrativo1` FOREIGN KEY (`Elemento_narrativo_id_elem_narr`) REFERENCES `elemento_narrativo`(`id_elem_narr`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `outro` ADD CONSTRAINT `fk_Outro_Elemento_narrativo1` FOREIGN KEY (`id_elem_narr`) REFERENCES `elemento_narrativo`(`id_elem_narr`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE `personagem` ADD CONSTRAINT `fk_Personagem_Elemento_narrativo1` FOREIGN KEY (`id_elem_narr`) REFERENCES `elemento_narrativo`(`id_elem_narr`) ON DELETE NO ACTION ON UPDATE NO ACTION;

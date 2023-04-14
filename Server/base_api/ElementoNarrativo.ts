@@ -6,7 +6,7 @@ import * as express from 'express';
 const ElementoNarrativoRouter = express.Router();
 
 ElementoNarrativoRouter.get('/', (req, res) => {
-    res.send(req.query);
+  res.send(req.query);
 });
 
 /***
@@ -16,9 +16,9 @@ ElementoNarrativoRouter.get('/', (req, res) => {
  * @param {string} nome - Nome do elemento narrativo
  */
 ElementoNarrativoRouter.put('/', (req, res) => {
-    const value = req.body;
-    //create a new ElementoNarrativo
-    const elemento = new ElementoNarrativo(value.id_elem_narr, value.Historia_id_historia, value.tipo, value.historia);
+  const value = req.body;
+  //create a new ElementoNarrativo
+  const elemento = new ElementoNarrativo(value.id_elem_narr, value.Historia_id_historia, value.tipo, value.historia);
 });
 
 
