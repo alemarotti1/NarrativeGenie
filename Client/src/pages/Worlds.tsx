@@ -99,7 +99,7 @@ const Worlds: React.FC = () => {
       </Flex>
 
       {loading ? (
-        <Flex w="full" alignSelf="center" py="10">
+        <Flex w="full" justify="center" py="10">
           <Spinner color="white" size="lg" />
         </Flex>
       ) : (
