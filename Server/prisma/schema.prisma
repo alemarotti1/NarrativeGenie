@@ -41,12 +41,18 @@ model historia {
 
 model lugar {
   id_elem_narr       Int                @id
+  nome               String?      @db.VarChar(255)
+  descricao          String?      @db.VarChar(2000)
+  imagem             String?      @db.VarChar(255)
   elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Lugar_Elemento_narrativo1")
 }
 
 model outro {
-  Elemento_narrativo_id_elem_narr Int                @id
-  elemento_narrativo              elemento_narrativo @relation(fields: [Elemento_narrativo_id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Outro_Elemento_narrativo1")
+  id_elem_narr Int                @id
+  nome               String?      @db.VarChar(255)
+  descricao          String?      @db.VarChar(2000)
+  imagem             String?      @db.VarChar(255)
+  elemento_narrativo              elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Outro_Elemento_narrativo1")
 }
 
 model personagem {
