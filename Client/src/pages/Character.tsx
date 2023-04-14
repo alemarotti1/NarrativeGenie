@@ -41,12 +41,10 @@ const Character: React.FC = () => {
       <Flex
         direction={"column"}
         h="fit-content"
-        maxW="1600px"
         bg="rgba(0,0,0,0.3)"
         border="none"
         borderRadius="3xl"
         mx="10"
-        alignSelf="center"
       >
         <Grid
           columnGap={1}
