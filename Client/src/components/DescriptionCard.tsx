@@ -28,14 +28,13 @@ const DescriptionCard: React.FC = () => {
   const [world, setWorld] = useState<WorldParams | null>(null);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const text =
-    "Witunkles é um mundo mágico cheio de maravilhas incríveis e criaturas encantadas. É um lugar onde a magia é tecida no próprio tecido da existência e onde as leis da física às vezes são distorcidas ou quebradas por poderosos feitiços e encantamentos.As paisagens de Witunkles são diversas e de tirar o fôlego, variando de montanhas cobertas de neve a florestas exuberantes e praias ensolaradas. Essas paisagens costumam ser habitadas por criaturas mágicas como dragões, unicórnios, centauros e animais falantes.Em Witunkles, a magia é respeitada e temida, pois pode ser usada para o bem ou para o mal. Existem escolas de magia onde jovens feiticeiros e magos podem aprender a controlar seus poderes, e também existem bruxos das trevas que procuram usar sua magia para propósitos egoístas ou destrutivos.O povo de Witunkles é um grupo diverso, com muitas culturas e costumes diferentes. Eles estão unidos, no entanto, por seu amor compartilhado pela magia e sua reverência pelo mundo natural. Witunkles é um mundo mágico cheio de maravilhas incríveis e criaturas encantadas. É um lugar onde a magia é tecida no próprio tecido da existência e onde as leis da física às vezes são distorcidas ou quebradas por poderosos feitiços e encantamentos.As paisagens de Witunkles são diversas e de tirar o fôlego, variando de montanhas cobertas de neve a florestas exuberantes e praias ensolaradas. Essas paisagens costumam ser habitadas por criaturas mágicas como dragões, unicórnios, centauros e animais falantes.Em Witunkles, a magia é respeitada e temida, pois pode ser usada para o bem ou para o mal. Existem escolas de magia onde jovens feiticeiros e magos podem aprender a controlar seus poderes, e também existem bruxos das trevas que procuram usar sua magia para propósitos egoístas ou destrutivos.O povo de Witunkles é um grupo diverso, com muitas culturas e costumes diferentes. Eles estão unidos, no entanto, por seu amor compartilhado pela magia e sua reverência pelo mundo natural.";
-  const [value, setValue] = useState(text);
+  const [value, setValue] = useState(world?.descricao || "");
   const [backup, setBackup] = useState("");
 
   useEffect(() => {
     api.get(`/historia/${id}`).then((res) => {
       setWorld(res.data.story);
+      setValue(res.data.story.descricao);
       setLoading(false);
     });
   }, []);
@@ -46,7 +45,7 @@ const DescriptionCard: React.FC = () => {
   };
 
   const handleEdit = () => {
-    setBackup(text);
+    setBackup(value);
     setDisabled(false);
   };
 
@@ -115,7 +114,7 @@ const DescriptionCard: React.FC = () => {
           </GridItem>
 
           {loading ? (
-            <Flex w="full" alignSelf="center" py="10">
+            <Flex w="full" justify="center" py="10">
               <Spinner color="white" size="lg" />
             </Flex>
           ) : (
@@ -153,7 +152,7 @@ const DescriptionCard: React.FC = () => {
               >
               {disabled ? (
                 <Text py="1" color="white" fontWeight="normal">
-                  {world?.descricao}
+                  {value}
                 </Text>
               ) : (
                 <Textarea

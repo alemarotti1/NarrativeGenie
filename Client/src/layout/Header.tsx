@@ -24,7 +24,6 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ text, href }) => {
-  const navigate = useNavigate();
   return (
     <Flex
       px="4"
