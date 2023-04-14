@@ -1,9 +1,10 @@
 //define the Historia router
 
 import * as express from 'express';
+
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
-import { listarHistorias, buscarHistoria } from '../controllers/Historia';
+import { listarHistorias, buscarHistoria, criarHistoria } from '../controllers/Historia';
 
 const HistoriaRouter = express.Router();
 
@@ -23,8 +24,21 @@ HistoriaRouter.get('/:id', async (req, res) => {
  * @apiGroup Historia
  * @param {string} titulo - Título da história
  */
-HistoriaRouter.put('/', async (req, res) => {
-    //TODO: implementar o método de criação de histórias
+HistoriaRouter.post('/', async (req, res) => {
+    const [gptResult, waifuResult] = await Promise.all([
+        chatGPT.completion(req.body['gptPrompt']?.toString() || "Hello world"),
+        waifuDiff.query(req.body['waifuPrompt']?.toString() || "Hello world")
+    ]);
+
+    const historiaParams = {
+        nome: "Lorem Ipsum",
+        descricao: gptResult?.data[0].generated_text,
+        path_img_capa: waifuResult?.toString() || ""
+    };
+
+    const historiaId = await criarHistoria(historiaParams);
+    
+    res.json({ id: historiaId });
 });
 
 HistoriaRouter.get('/waifu/', async (req, res) => {

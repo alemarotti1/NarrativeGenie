@@ -18,7 +18,7 @@ CREATE TABLE `elemento_narrativo` (
 
 -- CreateTable
 CREATE TABLE `historia` (
-    `id_historia` INTEGER NOT NULL,
+    `id_historia` INTEGER NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(255) NULL,
     `descricao` VARCHAR(1000) NULL,
     `path_img_capa` VARCHAR(255) NULL,
@@ -45,7 +45,6 @@ CREATE TABLE `outro` (
 -- CreateTable
 CREATE TABLE `personagem` (
     `id_elem_narr` INTEGER NOT NULL,
-    `categoria` VARCHAR(255) NOT NULL,
     `nome` VARCHAR(255) NULL,
     `descricao` VARCHAR(2000) NULL,
     `backstory` VARCHAR(2000) NULL,
