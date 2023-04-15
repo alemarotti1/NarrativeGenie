@@ -45,6 +45,7 @@ const DescriptionCard: React.FC = () => {
           borderRadius="3xl"
           gridGap={3}
           p="7"
+          pt="5"
           pb="10"
           templateAreas={`
                   "main main"
