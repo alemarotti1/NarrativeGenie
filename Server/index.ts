@@ -11,6 +11,7 @@ import authRouter from './base_api/auth';
 import ElementoNarrativoRouter from './base_api/ElementoNarrativo';
 import HistoriaRouter from './base_api/Historia';
 import PersonagemRouter from './base_api/Personagem';
+import RelacoesRouter from './base_api/Relacao';
 import OutroRouter from './base_api/Outro';
 import LugarRouter from './base_api/Lugar';
 
@@ -30,6 +31,7 @@ app.use('/outro', OutroRouter);
 app.use('/lugar', LugarRouter);
 app.use('/elemento-narrativo', ElementoNarrativoRouter);
 app.use('/historia', HistoriaRouter);
+app.use('/relacao', RelacoesRouter);
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.status(404).json({ message: "Path not found" });
