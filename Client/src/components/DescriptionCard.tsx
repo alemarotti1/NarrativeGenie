@@ -16,7 +16,7 @@ import api from "../config/api";
 import environment from "../config/environment";
 
 type WorldParams = {
-  id_historia: string;
+  id_historia: number;
   nome: string;
   descricao: string;
   path_img_capa: string;

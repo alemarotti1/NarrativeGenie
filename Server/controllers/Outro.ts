@@ -16,6 +16,18 @@ export const buscarOutro = async (id_elem_narr: number) => {
   const outro = await db.outro.findUnique({
     where: {
       id_elem_narr
+    },
+    include: {
+      elemento_narrativo: {
+        select: {
+          historia: {
+            select: {
+              id_historia: true,
+              nome: true,
+            }
+          }
+        }
+      }
     }
   });
 
