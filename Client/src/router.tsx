@@ -8,6 +8,8 @@ import Worlds from "./pages/Worlds";
 import Description from "./pages/Description";
 import Profile from "./pages/Profile";
 import Character from "./pages/Character";
+import Place from "./pages/Place";
+import ObjectPage from "./pages/Object";
 
 const router = createBrowserRouter([
   {
@@ -32,11 +34,20 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/character",
+        path: "/characters/:id",
         element: <Character />,
+      },
+      {
+        path: "/places/:id",
+        element: <Place />,
+      },
+      {
+        path: "/objects/:id",
+        element: <ObjectPage />,
       },
     ],
   },
+  
 ]);
 
 const Router: React.FC = () => <RouterProvider router={router} />;

@@ -5,6 +5,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model conta {
@@ -34,19 +35,33 @@ model historia {
   path_img_capa      String?              @db.VarChar(255)
   email_escritor     String               @db.VarChar(255)
   elemento_narrativo elemento_narrativo[]
-  conta              conta                @relation(fields: [email_escritor], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "fk_Historia_Conta")
+  conta              conta                @relation(fields: [email_escritor], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_Historia_Conta")
 
   @@index([email_escritor], map: "fk_Historia_Conta")
 }
 
 model lugar {
-  id_elem_narr       Int                @id
-  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Lugar_Elemento_narrativo1")
+  id_elem_narr       Int          @id
+  nome               String?      @db.VarChar(255)
+  descricao          String?      @db.VarChar(2000)
+  imagem             String?      @db.VarChar(255)
+  riqueza            Int          @default(0)
+  saude              Int          @default(0)
+  seguranca          Int          @default(0)
+  agua               Int          @default(0)
+  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: NoAction, map: "fk_Lugar_Elemento_narrativo1")
+  
+  @@index([id_elem_narr])
 }
 
 model outro {
-  Elemento_narrativo_id_elem_narr Int                @id
-  elemento_narrativo              elemento_narrativo @relation(fields: [Elemento_narrativo_id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Outro_Elemento_narrativo1")
+  id_elem_narr Int                @id
+  nome               String?      @db.VarChar(255)
+  descricao          String?      @db.VarChar(2000)
+  imagem             String?      @db.VarChar(255)
+  elemento_narrativo              elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: NoAction, map: "fk_Outro_Elemento_narrativo1")
+
+  @@index([id_elem_narr])
 }
 
 model personagem {
@@ -55,8 +70,11 @@ model personagem {
   descricao          String?            @db.VarChar(2000)
   backstory          String?            @db.VarChar(2000)
   especie            String?            @db.VarChar(255)
+  personalidade      String?            @db.VarChar(2000)
   imagem             String?            @db.VarChar(255)
-  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Personagem_Elemento_narrativo1")
+  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: NoAction, map: "fk_Personagem_Elemento_narrativo1")
+
+  @@index([id_elem_narr])
 }
 
 model relacao {

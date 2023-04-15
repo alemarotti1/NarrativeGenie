@@ -30,8 +30,10 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
       py="3"
       bg="rgba(0,0,0,0.7)"
       align="center"
-      mx="10"
-      my="10"
+      ml="10"
+      mr="9"
+      mt="10"
+      mb="5"
       style={{
         borderRadius: "30px",
         boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.7)",
@@ -72,6 +74,9 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
           _active={{ color: "white", bg: "whiteAlpha.300" }}
         />
         <MenuList>
+          <Link to="/">
+            <MenuItem>Início</MenuItem>
+          </Link>
           <Link to="/profile">
             <MenuItem>Perfil</MenuItem>
           </Link>

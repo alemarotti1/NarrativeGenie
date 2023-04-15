@@ -14,19 +14,15 @@ import { useParams } from 'react-router-dom';
 
 import api from "../config/api";
 import environment from "../config/environment";
+import { WorldParams } from "../pages/Description";
 
-type WorldParams = {
-  id_historia: string;
-  nome: string;
-  descricao: string;
-  path_img_capa: string;
-  email_escritor: string;
+interface DescriptionCardProps {
+  world: WorldParams;
 };
 
-const DescriptionCard: React.FC = () => {
+const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
   const { id } = useParams();
-  const [world, setWorld] = useState<WorldParams | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(world?.descricao || "");
   const [backup, setBackup] = useState("");
@@ -51,27 +47,38 @@ const DescriptionCard: React.FC = () => {
 
   return (
     <>
-      <Flex direction={"column"} h="100vh" w="full" align="center">
+      <Flex
+        direction={"column"}
+        h="fit-content"
+        align="center"
+        overflow="hidden"
+        mx="10"
+        my="7"
+        mr="9"
+      >
         <Grid
-          mx="10"
-          h="fit-content"
+          h="full"
           bg="rgba(255,255,255,0.3)"
           border="none"
           borderRadius="3xl"
-          columnGap={3}
-          p="5"
-          px="10"
+          gridGap={3}
+          p="7"
+          pt="5"
           pb="10"
           templateAreas={`
                   "main main"
                   "nav footer"`}
-          gridTemplateRows={"40px  1fr"}
+          gridTemplateRows={"1fr  8fr"}
           gridTemplateColumns={"1fr 3fr"}
-          gap="1"
           color="blackAlpha.700"
           fontWeight="bold"
         >
-          <GridItem area="main" display="flex" justifyContent="flex-end">
+          <GridItem
+            area="main"
+            display="flex"
+            alignItems="flex-end"
+            justifyContent="flex-end"
+          >
             <Button
               variant="solid"
               bg="none"
@@ -126,7 +133,7 @@ const DescriptionCard: React.FC = () => {
                 w="full"
                 h="250px"
                 area={"footer"}
-                overflowY="scroll"
+                overflowY={disabled ? "scroll" : "hidden"}
                 sx={{
                   "&::-webkit-scrollbar": {
                     width: "16px",
@@ -149,6 +156,7 @@ const DescriptionCard: React.FC = () => {
                   bg="white"
                   maxH="full"
                   h="full"
+                  w="full"
                   onChange={handleInputChange}
                   overflowY="scroll"
                   sx={{

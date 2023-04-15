@@ -33,14 +33,25 @@ const Worlds: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    fetchWorlds();
+  }, []);
+
+  const fetchWorlds = () => {
+    setLoading(true);
     api.get("/historia", { params: { email: "teste@teste.com" }}).then((res) => {
       setWorlds(res.data.stories || []);
       setLoading(false);
     });
-  }, []);
+  };
+
+  const deleteWorld = (id: string) => {
+    api.delete(`/historia/${id}`).then((res) => {
+      fetchWorlds();
+    });
+  };
 
   return (
-    <Flex direction={"column"} mb="40px">
+    <Flex direction={"column"}>
       <Header text="Mundos" href="/worlds" />
       <Flex
         w="fit-content"
@@ -49,7 +60,6 @@ const Worlds: React.FC = () => {
         py="1"
         borderRadius="3xl"
         mx="10"
-        mt="-6"
         bg="rgba(0,0,0,0.4)"
         justifyContent="flex-end"
       >
@@ -181,6 +191,7 @@ const Worlds: React.FC = () => {
                   textColor="white"
                   fontWeight="regular"
                   borderRadius="3xl"
+                  onClick={() => deleteWorld(world.id_historia)}
                 >
                   Deletar
                 </Button>

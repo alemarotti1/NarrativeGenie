@@ -1,22 +1,115 @@
-import React, { useState } from "react";
-import { Flex, Button } from "@chakra-ui/react";
+import React, { useState, useEffect } from "react";
+import { Flex, Spinner } from "@chakra-ui/react";
+import { useParams } from 'react-router-dom';
+
+import api from "../config/api";
 import DescriptionCard from "../components/DescriptionCard";
 import WorldHeader from "../components/WorldHeader";
-import WorldsCharacters from "../components/WorldsCharacters";
+import CategoriesList from "../components/CategoriesList";
 import Header from "../layout/Header";
 
+export type CharacterParams = {
+  id_elem_narr: number;
+  nome: string;
+  descricao: string;
+  backstory: string;
+  personalidade: string;
+  especie: string;
+  imagem: string;
+}
+
+export type ObjectParams = {
+  id_elem_narr: number;
+  nome: string;
+  descricao: string;
+  imagem: string;
+}
+
+export type PlaceParams = {
+  id_elem_narr: number;
+  nome: string;
+  descricao: string;
+  riqueza: number;
+  saude: number;
+  seguranca: number;
+  agua: number;
+  imagem: string;
+}
+
+export type NarrativeElementParams = {
+  id_elem_narr: number;
+  Historia_id_historia: number;
+  tipo: "personagem" | "lugar" | "outro";
+  personagem: CharacterParams | null;
+  lugar: PlaceParams | null;
+  outro: ObjectParams | null;
+};
+
+export type WorldParams = {
+  id_historia: number;
+  nome: string;
+  descricao: string;
+  path_img_capa: string;
+  email_escritor: string;
+  elemento_narrativo: NarrativeElementParams[];
+};
+
 const Description: React.FC = () => {
+  const { id } = useParams();
+  const [loading, setLoading] = useState(true);
+  const [world, setWorld] = useState<WorldParams | null>(null);
   const [current, setCurrent] = useState("Des");
+
+  useEffect(() => {
+    fetchWorld();
+  }, []);
+
+  const fetchWorld = () => {
+    setLoading(true);
+    api.get(`/historia/${id}`).then((res) => {
+      setWorld(res.data.story);
+      setLoading(false);
+    });
+  };
+
   const onEdit = (newCurrent: any) => {
     setCurrent(newCurrent);
   };
 
+  const onDelete = (id: number) => {
+    api.delete(`/elemento-narrativo/${id}`).then((res) => {
+      fetchWorld();
+    });
+  };
+
   const chooseTab = () => {
-    if (current === "Des") {
-      return <DescriptionCard />;
-    } else if (current === "Per") {
-      return <WorldsCharacters />;
-    } else <></>
+    if (loading) {
+      return (
+        <Flex w="full" justify="center" py="10">
+          <Spinner color="white" size="lg" />
+        </Flex>
+      );
+    } else if (current === "Des") {
+      return <DescriptionCard world={world as WorldParams} />;
+    } else {
+      let items: CharacterParams[] | PlaceParams[] | ObjectParams[] = [];
+      
+      if (current === "characters") {
+        items = (world?.elemento_narrativo.filter(
+          elem => elem.tipo === "personagem"
+        ).map(elem => elem.personagem) || []) as CharacterParams[];
+      } else if (current === "places") {
+        items = (world?.elemento_narrativo.filter(
+          elem => elem.tipo === "lugar"
+        ).map(elem => elem.lugar) || []) as PlaceParams[];
+      } else if (current === "objects") {
+        items = (world?.elemento_narrativo.filter(
+          elem => elem.tipo === "outro"
+        ).map(elem => elem.outro) || []) as ObjectParams[];
+      };
+
+      return <CategoriesList category={current} items={items} onDelete={onDelete} />;
+    }
   };
 
   return (
@@ -26,7 +119,7 @@ const Description: React.FC = () => {
       w="full"
       alignSelf={"center"}
     >
-      <Header text="Witunkles, The Spirit Vales" href="/world" />
+      <Header text={world?.nome || "Carregando..."} href="/worlds" />
       <WorldHeader current={current} onEdit={onEdit} />
       {chooseTab()}
     </Flex>

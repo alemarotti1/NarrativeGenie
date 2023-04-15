@@ -17,14 +17,15 @@ import api from "../config/api";
 import environment from "../config/environment";
 import Header from "../layout/Header";
 
-type CharacterParams = {
+type PlaceParams = {
   id_elem_narr: number;
   nome: string;
   descricao: string;
-  backstory: string;
-  personalidade: string;
-  especie: string;
   imagem: string;
+  riqueza: number;
+  saude: number;
+  seguranca: number;
+  agua: number;
   elemento_narrativo: {
     historia: {
       id_historia: number;
@@ -33,19 +34,19 @@ type CharacterParams = {
   }
 };
 
-const Character: React.FC = () => {
+const Place: React.FC = () => {
   const { id } = useParams();
-  const [character, setCharacter] = useState<CharacterParams | null>(null);
+  const [place, setPlace] = useState<PlaceParams | null>(null);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const [value, setValue] = useState(character?.descricao || "");
+  const [value, setValue] = useState(place?.descricao || "");
   const [TitleValue, setTitleValue] = useState("Noldorin Glynkas");
   const [backup, setBackup] = useState("");
 
   useEffect(() => {
-    api.get(`/personagem/${id}`).then((res) => {
-      setCharacter(res.data.character);
-      setValue(res.data.character.descricao);
+    api.get(`/lugar/${id}`).then((res) => {
+      setPlace(res.data.place);
+      setValue(res.data.place.descricao);
       setLoading(false);
     });
   }, []);
@@ -75,7 +76,7 @@ const Character: React.FC = () => {
     setDisabled(false);
   };
 
-  const story = character?.elemento_narrativo.historia;
+  const story = place?.elemento_narrativo.historia;
 
   return (
     <>
@@ -160,7 +161,7 @@ const Character: React.FC = () => {
               alignSelf="auto"
               objectFit="cover"
               borderRadius="2xl"
-              src={environment.API_URL + character?.imagem}
+              src={environment.API_URL + place?.imagem}
               alt="Lugar"
             />
           </GridItem>
@@ -200,7 +201,7 @@ const Character: React.FC = () => {
             {disabled ? (
               <>
                 <Text color="white" fontSize="xl">
-                  {character?.nome}
+                  {place?.nome}
                 </Text>
                 <Text py="1" color="white" fontWeight="normal">
                   {value}
@@ -255,4 +256,4 @@ const Character: React.FC = () => {
   );
 };
 
-export default Character;
+export default Place;
