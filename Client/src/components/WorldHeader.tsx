@@ -16,21 +16,18 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
   };
 
   const onChangeTabPersonagem = () => {
-    console.log("teste", tab);
-    setTab("character");
-    onEdit("character");
+    setTab("characters");
+    onEdit("characters");
   };
 
   const onChangeTabLugares = () => {
-    console.log("teste", tab);
-    setTab("place");
-    onEdit("place");
+    setTab("places");
+    onEdit("places");
   };
 
   const onChangeTabObjetos = () => {
-    console.log("teste", tab);
-    setTab("object");
-    onEdit("object");
+    setTab("objects");
+    onEdit("objects");
   };
 
   return (
@@ -61,14 +58,14 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
         onClick={onChangeTabPersonagem}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
         borderRadius="3xl"
-        bg={tab == "character" ? "rgba(255,255,255, 0.3)" : "none"}
+        bg={tab == "characters" ? "rgba(255,255,255, 0.3)" : "none"}
       >
         Personagens
       </Button>
 
       <Button
         color="white"
-        bg={tab == "place" ? "rgba(255,255,255, 0.3)" : "none"}
+        bg={tab == "places" ? "rgba(255,255,255, 0.3)" : "none"}
         fontWeight="normal"
         onClick={onChangeTabLugares}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
@@ -79,7 +76,7 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
 
       <Button
         color="white"
-        bg={tab == "object" ? "rgba(255,255,255, 0.3)" : "none"}
+        bg={tab == "objects" ? "rgba(255,255,255, 0.3)" : "none"}
         fontWeight="normal"
         onClick={onChangeTabObjetos}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
