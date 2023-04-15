@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Flex,
@@ -11,15 +11,41 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
+import { useParams } from 'react-router-dom';
+
+import api from "../config/api";
+import environment from "../config/environment";
 import Header from "../layout/Header";
 
+type PlaceParams = {
+  id_elem_narr: number;
+  nome: string;
+  descricao: string;
+  imagem: string;
+  elemento_narrativo: {
+    historia: {
+      id_historia: number;
+      nome: string;
+    }
+  }
+};
+
 const Place: React.FC = () => {
+  const { id } = useParams();
+  const [place, setPlace] = useState<PlaceParams | null>(null);
+  const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const text =
-    "Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável. Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas. Um dia, Noldorin Glynkas conheceu uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado por ela e logo eles se apaixonaram. Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos, e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável. Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas. Um dia, Noldorin Glynkas conheceu uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado por ela e logo eles se apaixonaram. Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos, e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.";
-  const [value, setValue] = useState(text);
+  const [value, setValue] = useState(place?.descricao || "");
   const [TitleValue, setTitleValue] = useState("Noldorin Glynkas");
   const [backup, setBackup] = useState("");
+
+  useEffect(() => {
+    api.get(`/lugar/${id}`).then((res) => {
+      setPlace(res.data.place);
+      setValue(res.data.place.descricao);
+      setLoading(false);
+    });
+  }, []);
 
   const related = {
     personagens: ["Chasianna Darkweaver", "Thorfinn Glynkas"],
@@ -42,13 +68,15 @@ const Place: React.FC = () => {
   };
 
   const handleEdit = () => {
-    setBackup(text);
+    setBackup(value);
     setDisabled(false);
   };
 
+  const story = place?.elemento_narrativo.historia;
+
   return (
     <>
-      <Header text="Witunkles, The Spirit Vales" href="/world" />
+      <Header text={story?.nome || "Carregando..."} href={`/worlds/${story?.id_historia}`} />
       <Flex
         direction={"column"}
         h="fit-content"
@@ -129,8 +157,8 @@ const Place: React.FC = () => {
               alignSelf="auto"
               objectFit="cover"
               borderRadius="2xl"
-              src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
-              alt="Caffe Latte"
+              src={environment.API_URL + place?.imagem}
+              alt="Lugar"
             />
           </GridItem>
           <GridItem area={"title"}>
@@ -168,6 +196,9 @@ const Place: React.FC = () => {
           >
             {disabled ? (
               <>
+                <Text color="white" fontSize="xl">
+                  {place?.nome}
+                </Text>
                 <Text py="1" color="white" fontWeight="normal">
                   {value}
                 </Text>

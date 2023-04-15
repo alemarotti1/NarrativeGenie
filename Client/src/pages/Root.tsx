@@ -25,9 +25,9 @@ import image from "../assets/image.png";
 import api from "../config/api";
 
 const categories = [
-  { label: "Personagem", path: "characters" },
-  { label: "Lugar", path: "places" },
-  { label: "Objeto", path: "objects" },
+  { label: "Personagem", api: "personagem", path: "characters" },
+  { label: "Lugar", api: "lugar", path: "places" },
+  { label: "Objeto", api: "outro", path: "objects" },
 ];
 
 import Header from "../layout/Header";
@@ -56,13 +56,13 @@ const Root: React.FC = () => {
 
   const handleCreate = () => {
     setIsLoading(true);
-    const id_historia = worlds.find((w: any) => w.label === world)?.value;
-    api.post(`/${category.toLowerCase()}`, { gptPrompt: prompt, waifuPrompt: prompt, id_historia }).then(res => {
-      const path = categories.find((c) => c.label === category)?.path;
+    const worldId = worlds.find((w: any) => w.label === world)?.value;
+    const categoryObject = categories.find((c) => c.label === category);
+    api.post(`/${categoryObject?.api}`, { gptPrompt: prompt, waifuPrompt: prompt, id_historia: worldId }).then(res => {
       setPrompt("");
       onClose();
       setIsLoading(false);
-      navigate(`/${path}/${res.data.id}`);
+      navigate(`/${categoryObject?.path}/${res.data.id}`);
     });
   };
 

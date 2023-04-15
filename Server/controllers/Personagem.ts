@@ -16,6 +16,18 @@ export const buscarPersonagem = async (id_elem_narr: number) => {
   const personagem = await db.personagem.findUnique({
     where: {
       id_elem_narr
+    },
+    include: {
+      elemento_narrativo: {
+        select: {
+          historia: {
+            select: {
+              id_historia: true,
+              nome: true,
+            }
+          }
+        }
+      }
     }
   });
 

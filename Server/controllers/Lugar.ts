@@ -16,6 +16,18 @@ export const buscarLugar = async (id_elem_narr: number) => {
   const lugar = await db.lugar.findUnique({
     where: {
       id_elem_narr
+    },
+    include: {
+      elemento_narrativo: {
+        select: {
+          historia: {
+            select: {
+              id_historia: true,
+              nome: true,
+            }
+          }
+        }
+      }
     }
   });
 
