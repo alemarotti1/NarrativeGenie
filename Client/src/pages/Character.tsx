@@ -22,6 +22,7 @@ type CharacterParams = {
   nome: string;
   descricao: string;
   backstory: string;
+  personalidade: string;
   especie: string;
   imagem: string;
   elemento_narrativo: {

@@ -33,6 +33,10 @@ LugarRouter.post('/', async (req, res) => {
     nome: "Lorem Ipsum",
     descricao: gptResult?.data[0].generated_text,
     imagem: waifuResult?.toString() || "",
+    riqueza: 2,
+    saude: 3,
+    seguranca: 2,
+    agua: 1,
     id_historia: req.body.id_historia
   };
 
