@@ -23,12 +23,17 @@ const Character: React.FC = () => {
     personagens: ["Chasianna Darkweaver", "Thorfinn Glynkas"],
     lugares: ["Aranthia", "Celestyal City"],
     personalidade: ["temperamental", "corajoso", "determinado"],
+    caracteristicas: ["alto", "forte", "olhos pretos"]
   };
 
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
     setValue(inputValue);
   };
+
+  const capitalize = (string: string) => {
+    return <text>{string[0].toUpperCase()+string.substring(1)}</text>;
+  }
 
   const handleEdit = () => {
     setBackup(text);
@@ -41,26 +46,47 @@ const Character: React.FC = () => {
       <Flex
         direction={"column"}
         h="fit-content"
-        bg="rgba(0,0,0,0.3)"
-        border="none"
-        borderRadius="3xl"
-        mx="10"
+        align="center"
+        overflow="hidden"
+        m="10"
+        mr="5"
       >
         <Grid
-          columnGap={1}
-          p="5"
-          px="10"
+          h="full"
+          bg="rgba(0,0,0,0.4)"
+          border="none"
+          borderRadius="3xl"
+          overflowY={"scroll"}
+            sx={{
+              "&::-webkit-scrollbar": {
+                width: "16px",
+                borderRadius: "8px",
+                backgroundColor: "none",
+              },
+              "&::-webkit-scrollbar-thumb": {
+                borderRadius: "8px",
+                backgroundColor: `rgba(0, 0, 0, 0.8)`,
+              },
+            }}
+          gridGap={3}
+          p="7"
+          pt="5"
           pb="10"
           templateAreas={`
                   "main main"
-                  "nav footer"`}
-          gridTemplateRows={"40px  1fr"}
+                  "nav footer"
+                  "tags tags"`}
+          gridTemplateRows={"1fr  auto 2fr"}
           gridTemplateColumns={"1fr 3fr"}
-          gap="1"
           color="blackAlpha.700"
           fontWeight="bold"
         >
-          <GridItem area="main" display="flex" justifyContent="flex-end">
+          <GridItem
+            area="main"
+            display="flex"
+            alignItems="flex-end"
+            justifyContent="flex-end"
+          >
             <Button
               variant="solid"
               bg="none"
@@ -93,23 +119,16 @@ const Character: React.FC = () => {
 
           <GridItem area={"nav"} alignSelf="auto">
             <Image
-              maxW="400px"
-              w="250px"
-              h="250px"
-              maxH="400px"
               alignSelf="auto"
-              mx="auto"
               objectFit="cover"
-              borderRadius="200px"
+              borderRadius="2xl"
               src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
               alt="Caffe Latte"
             />
           </GridItem>
           <GridItem
-            w="full"
-            h="250px"
             area={"footer"}
-            overflowY="scroll"
+            overflowY={disabled ? "scroll" : "hidden"}
             sx={{
               "&::-webkit-scrollbar": {
                 width: "16px",
@@ -154,14 +173,25 @@ const Character: React.FC = () => {
               />
             )}
           </GridItem>
+          <GridItem area={"tags"} alignSelf="flex-start" mt="2">
+            {Object.entries(related).map(([key, value]) => (
+              <Text color="white" fontSize="xl">
+                {capitalize(key)}:{" "}
+                {value.map((v) => (
+                  <Tag
+                    m="2px"
+                    fontWeight="bold"
+                    fontSize="md"
+                    borderRadius="xl"
+                    color="orange.600"
+                  >
+                    {v}
+                  </Tag>
+                ))}
+              </Text>
+            ))}
+          </GridItem>
         </Grid>
-        <Flex alignSelf="flex-start" px="40px" direction="column" mb="20px">
-          {Object.entries(related).map(([key, value]) => (
-            <Text color="white" fontSize="xl">
-              {key}: {value.map((v) => <Tag m="1px" borderRadius="xl" color="orange.500">{v}</Tag>)}
-            </Text>
-          ))}
-        </Flex>
       </Flex>
     </>
   );

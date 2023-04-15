@@ -38,7 +38,6 @@ const DescriptionCard: React.FC = () => {
         mr="5"
       >
         <Grid
-          //mx="10"
           h="full"
           bg="rgba(255,255,255,0.3)"
           border="none"
