@@ -56,14 +56,25 @@ const Description: React.FC = () => {
   const [current, setCurrent] = useState("Des");
 
   useEffect(() => {
+    fetchWorld();
+  }, []);
+
+  const fetchWorld = () => {
+    setLoading(true);
     api.get(`/historia/${id}`).then((res) => {
       setWorld(res.data.story);
       setLoading(false);
     });
-  }, []);
+  };
 
   const onEdit = (newCurrent: any) => {
     setCurrent(newCurrent);
+  };
+
+  const onDelete = (id: number) => {
+    api.delete(`/elemento-narrativo/${id}`).then((res) => {
+      fetchWorld();
+    });
   };
 
   const chooseTab = () => {
@@ -92,7 +103,7 @@ const Description: React.FC = () => {
         ).map(elem => elem.outro) || []) as ObjectParams[];
       };
 
-      return <CategoriesList category={current} items={items} />;
+      return <CategoriesList category={current} items={items} onDelete={onDelete} />;
     }
   };
 

@@ -2,11 +2,18 @@
 
 import * as express from 'express';
 
+import { apagarElemento } from '../controllers/ElementoNarrativo';
+
 
 const ElementoNarrativoRouter = express.Router();
 
 ElementoNarrativoRouter.get('/', (req, res) => {
   res.send(req.query);
+});
+
+ElementoNarrativoRouter.delete('/:id', async (req, res) => {
+  await apagarElemento(parseInt(req.params.id));
+  res.json();
 });
 
 /***

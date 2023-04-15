@@ -74,6 +74,9 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
           _active={{ color: "white", bg: "whiteAlpha.300" }}
         />
         <MenuList>
+          <Link to="/">
+            <MenuItem>Início</MenuItem>
+          </Link>
           <Link to="/profile">
             <MenuItem>Perfil</MenuItem>
           </Link>

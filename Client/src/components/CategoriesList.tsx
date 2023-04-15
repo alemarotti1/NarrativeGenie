@@ -16,9 +16,10 @@ import { CharacterParams, ObjectParams, PlaceParams } from "../pages/Description
 interface CategoriesListProps {
   items: CharacterParams[] | ObjectParams[] | PlaceParams[];
   category: string;
+  onDelete: (id: number) => void;
 }
 
-const CategoriesList: React.FC<CategoriesListProps> = ({ items, category }) => {
+const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDelete }) => {
   const navigate = useNavigate();
 
   return (
@@ -97,6 +98,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category }) => {
               textColor="white"
               fontWeight="regular"
               borderRadius="3xl"
+              onClick={() => onDelete(item.id_elem_narr)}
             >
               Deletar
             </Button>

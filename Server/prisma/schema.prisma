@@ -34,7 +34,7 @@ model historia {
   path_img_capa      String?              @db.VarChar(255)
   email_escritor     String               @db.VarChar(255)
   elemento_narrativo elemento_narrativo[]
-  conta              conta                @relation(fields: [email_escritor], references: [email], onDelete: NoAction, onUpdate: NoAction, map: "fk_Historia_Conta")
+  conta              conta                @relation(fields: [email_escritor], references: [email], onDelete: Cascade, onUpdate: NoAction, map: "fk_Historia_Conta")
 
   @@index([email_escritor], map: "fk_Historia_Conta")
 }
@@ -44,7 +44,7 @@ model lugar {
   nome               String?      @db.VarChar(255)
   descricao          String?      @db.VarChar(2000)
   imagem             String?      @db.VarChar(255)
-  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Lugar_Elemento_narrativo1")
+  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: NoAction, map: "fk_Lugar_Elemento_narrativo1")
 }
 
 model outro {
@@ -52,7 +52,7 @@ model outro {
   nome               String?      @db.VarChar(255)
   descricao          String?      @db.VarChar(2000)
   imagem             String?      @db.VarChar(255)
-  elemento_narrativo              elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Outro_Elemento_narrativo1")
+  elemento_narrativo              elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: NoAction, map: "fk_Outro_Elemento_narrativo1")
 }
 
 model personagem {
@@ -62,7 +62,7 @@ model personagem {
   backstory          String?            @db.VarChar(2000)
   especie            String?            @db.VarChar(255)
   imagem             String?            @db.VarChar(255)
-  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: NoAction, onUpdate: NoAction, map: "fk_Personagem_Elemento_narrativo1")
+  elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: NoAction, map: "fk_Personagem_Elemento_narrativo1")
 }
 
 model relacao {

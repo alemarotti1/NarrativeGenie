@@ -34,6 +34,14 @@ export const buscarPersonagem = async (id_elem_narr: number) => {
   return personagem;
 };
 
+export const apagarPersonagem = async (id_elem_narr: number) => {
+  await db.personagem.delete({
+    where: {
+      id_elem_narr
+    }
+  });
+};
+
 type PersonagemParams = {
   imagem: string;
   nome: string;
