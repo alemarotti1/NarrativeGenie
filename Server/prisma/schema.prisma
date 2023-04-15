@@ -44,6 +44,10 @@ model lugar {
   nome               String?      @db.VarChar(255)
   descricao          String?      @db.VarChar(2000)
   imagem             String?      @db.VarChar(255)
+  riqueza            Int          @default(0)
+  saude              Int          @default(0)
+  seguranca          Int          @default(0)
+  agua               Int          @default(0)
   elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: NoAction, map: "fk_Lugar_Elemento_narrativo1")
 }
 
@@ -61,6 +65,7 @@ model personagem {
   descricao          String?            @db.VarChar(2000)
   backstory          String?            @db.VarChar(2000)
   especie            String?            @db.VarChar(255)
+  personalidade      String?            @db.VarChar(2000)
   imagem             String?            @db.VarChar(255)
   elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: NoAction, map: "fk_Personagem_Elemento_narrativo1")
 }

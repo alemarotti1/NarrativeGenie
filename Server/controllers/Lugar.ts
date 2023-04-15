@@ -46,6 +46,10 @@ type LugarParams = {
   imagem: string;
   nome: string;
   descricao: string;
+  riqueza: number;
+  saude: number;
+  seguranca: number;
+  agua: number;
   id_historia: number;
 }
 
@@ -55,6 +59,10 @@ export const criarLugar = async (lugarParams: LugarParams) => {
       imagem: lugarParams.imagem,
       nome: lugarParams.nome,
       descricao: lugarParams.descricao,
+      riqueza: lugarParams.riqueza,
+      saude: lugarParams.saude,
+      seguranca: lugarParams.seguranca,
+      agua: lugarParams.agua,
       elemento_narrativo: {
         create: {
           tipo: "lugar",

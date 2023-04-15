@@ -13,6 +13,7 @@ export type CharacterParams = {
   nome: string;
   descricao: string;
   backstory: string;
+  personalidade: string;
   especie: string;
   imagem: string;
 }
@@ -28,6 +29,10 @@ export type PlaceParams = {
   id_elem_narr: number;
   nome: string;
   descricao: string;
+  riqueza: number;
+  saude: number;
+  seguranca: number;
+  agua: number;
   imagem: string;
 }
 

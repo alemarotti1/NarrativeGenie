@@ -22,6 +22,10 @@ type PlaceParams = {
   nome: string;
   descricao: string;
   imagem: string;
+  riqueza: number;
+  saude: number;
+  seguranca: number;
+  agua: number;
   elemento_narrativo: {
     historia: {
       id_historia: number;

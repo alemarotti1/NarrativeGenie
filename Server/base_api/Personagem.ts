@@ -35,6 +35,7 @@ PersonagemRouter.post('/', async (req, res) => {
     imagem: waifuResult?.toString() || "",
     backstory: "Lorem Ipsum",
     especie: "Lorem Ipsum",
+    personalidade: "Lorem Ipsum",
     id_historia: req.body.id_historia
   };
 
