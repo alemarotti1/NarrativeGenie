@@ -25,6 +25,7 @@ import image from "../assets/image.png";
 import api from "../config/api";
 
 const categories = [
+  { label: "Mundo", api: "historia", path: "worlds" },
   { label: "Personagem", api: "personagem", path: "characters" },
   { label: "Lugar", api: "lugar", path: "places" },
   { label: "Objeto", api: "outro", path: "objects" },
@@ -64,6 +65,21 @@ const Root: React.FC = () => {
       setIsLoading(false);
       navigate(`/${categoryObject?.path}/${res.data.id}`);
     });
+  };
+
+  const sendPrompt = () => {
+    if (category === "Categoria") {
+      alert("Selecione uma categoria");
+      return;
+    }
+
+    if (category === "Mundo") {
+      setWorld("Mundo");
+      handleCreate();
+      return;
+    }
+
+    onOpen();
   };
 
   return (
@@ -184,7 +200,8 @@ const Root: React.FC = () => {
             _active={{ bg: "#4e4a44" }}
             borderRadius="xl"
             fontWeight={"regular"}
-            onClick={onOpen}
+            onClick={sendPrompt}
+            isLoading={isLoading}
           >
             Criar
           </Button>
