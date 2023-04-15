@@ -29,27 +29,37 @@ const DescriptionCard: React.FC = () => {
 
   return (
     <>
-      <Flex direction={"column"} h="100vh" w="full" align="center">
+      <Flex
+        direction={"column"}
+        h="fit-content"
+        align="center"
+        overflow="hidden"
+        m="10"
+        mr="5"
+      >
         <Grid
-          mx="10"
-          h="fit-content"
+          //mx="10"
+          h="full"
           bg="rgba(255,255,255,0.3)"
           border="none"
           borderRadius="3xl"
-          columnGap={3}
-          p="5"
-          px="10"
+          gridGap={3}
+          p="7"
           pb="10"
           templateAreas={`
                   "main main"
                   "nav footer"`}
-          gridTemplateRows={"40px  1fr"}
+          gridTemplateRows={"1fr  8fr"}
           gridTemplateColumns={"1fr 3fr"}
-          gap="1"
           color="blackAlpha.700"
           fontWeight="bold"
         >
-          <GridItem area="main" display="flex" justifyContent="flex-end">
+          <GridItem
+            area="main"
+            display="flex"
+            alignItems="flex-end"
+            justifyContent="flex-end"
+          >
             <Button
               variant="solid"
               bg="none"
@@ -82,10 +92,6 @@ const DescriptionCard: React.FC = () => {
 
           <GridItem area={"nav"} alignSelf="auto">
             <Image
-              w="full"
-              maxW="400px"
-              h="250px"
-              maxH="400px"
               alignSelf="auto"
               objectFit="cover"
               borderRadius="2xl"
@@ -94,11 +100,8 @@ const DescriptionCard: React.FC = () => {
             />
           </GridItem>
           <GridItem
-            pl="2"
-            w="full"
-            h="250px"
             area={"footer"}
-            overflowY="scroll"
+            overflowY={disabled ? "scroll" : "hidden"}
             sx={{
               "&::-webkit-scrollbar": {
                 width: "16px",
@@ -121,6 +124,7 @@ const DescriptionCard: React.FC = () => {
                 bg="white"
                 maxH="full"
                 h="full"
+                w="full"
                 onChange={handleInputChange}
                 overflowY="scroll"
                 sx={{
