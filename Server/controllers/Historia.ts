@@ -16,6 +16,15 @@ export const buscarHistoria = async (id_historia: number) => {
   const historia = await db.historia.findUnique({
     where: {
       id_historia
+    },
+    include: {
+      elemento_narrativo: {
+        include: {
+          personagem: true,
+          lugar: true,
+          outro: true,
+        }
+      }
     }
   });
 

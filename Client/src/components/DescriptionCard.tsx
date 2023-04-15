@@ -14,30 +14,18 @@ import { useParams } from 'react-router-dom';
 
 import api from "../config/api";
 import environment from "../config/environment";
+import { WorldParams } from "../pages/Description";
 
-type WorldParams = {
-  id_historia: number;
-  nome: string;
-  descricao: string;
-  path_img_capa: string;
-  email_escritor: string;
+interface DescriptionCardProps {
+  world: WorldParams;
 };
 
-const DescriptionCard: React.FC = () => {
+const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
   const { id } = useParams();
-  const [world, setWorld] = useState<WorldParams | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(world?.descricao || "");
   const [backup, setBackup] = useState("");
-
-  useEffect(() => {
-    api.get(`/historia/${id}`).then((res) => {
-      setWorld(res.data.story);
-      setValue(res.data.story.descricao);
-      setLoading(false);
-    });
-  }, []);
 
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
