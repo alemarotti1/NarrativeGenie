@@ -34,6 +34,14 @@ export const buscarLugar = async (id_elem_narr: number) => {
   return lugar;
 };
 
+export const apagarLugar = async (id_elem_narr: number) => {
+  await db.lugar.delete({
+    where: {
+      id_elem_narr
+    }
+  });
+};
+
 type LugarParams = {
   imagem: string;
   nome: string;

@@ -33,11 +33,22 @@ const Worlds: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    fetchWorlds();
+  }, []);
+
+  const fetchWorlds = () => {
+    setLoading(true);
     api.get("/historia", { params: { email: "teste@teste.com" }}).then((res) => {
       setWorlds(res.data.stories || []);
       setLoading(false);
     });
-  }, []);
+  };
+
+  const deleteWorld = (id: string) => {
+    api.delete(`/historia/${id}`).then((res) => {
+      fetchWorlds();
+    });
+  };
 
   return (
     <Flex direction={"column"}>
@@ -180,6 +191,7 @@ const Worlds: React.FC = () => {
                   textColor="white"
                   fontWeight="regular"
                   borderRadius="3xl"
+                  onClick={() => deleteWorld(world.id_historia)}
                 >
                   Deletar
                 </Button>

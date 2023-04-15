@@ -34,6 +34,14 @@ export const buscarOutro = async (id_elem_narr: number) => {
   return outro;
 };
 
+export const apagarOutro = async (id_elem_narr: number) => {
+  await db.outro.delete({
+    where: {
+      id_elem_narr
+    }
+  });
+};
+
 type OutroParams = {
   imagem: string;
   nome: string;

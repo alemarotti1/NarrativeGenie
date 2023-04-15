@@ -31,6 +31,14 @@ export const buscarHistoria = async (id_historia: number) => {
   return historia;
 };
 
+export const apagarHistoria = async (id_historia: number) => {
+  await db.historia.delete({
+    where: {
+      id_historia
+    }
+  });
+};
+
 type HistoriaParams = {
   nome: string;
   descricao: string;
