@@ -5,6 +5,7 @@ import * as express from 'express';
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
 import { apagarLugar, buscarLugar, criarLugar, listarLugares } from '../controllers/Lugar';
+import { lugarPrompt } from '../helpers/prompt';
 
 const LugarRouter = express.Router();
 
@@ -24,19 +25,22 @@ LugarRouter.delete('/:id', async (req, res) => {
 });
 
 LugarRouter.post('/', async (req, res) => {
-  const [gptResult, waifuResult] = await Promise.all([
-    chatGPT.completion(req.body['gptPrompt']?.toString() || "Hello world"),
-    waifuDiff.query(req.body['waifuPrompt']?.toString() || "Hello world")
-  ]);
+  const prompt = lugarPrompt(req.body['prompt']?.toString() || "Hello world");
+  const gptResult = await chatGPT.completion(prompt);
+  const jsonResult = JSON.parse(gptResult.data.choices[0].message?.content.toString() || "");
+  const imgPrompt = jsonResult.prompt_para_modelo_de_imagem_em_ingles?.toString() || "Hello world";
+  const waifuResult = await waifuDiff.query(imgPrompt);
 
   const lugarParams = {
-    nome: "Lorem Ipsum",
-    descricao: gptResult?.data[0].generated_text,
-    imagem: waifuResult?.toString() || "",
-    riqueza: 2,
-    saude: 3,
-    seguranca: 2,
-    agua: 1,
+    nome: jsonResult.nome?.toString() || "Nome do lugar",
+    descricao: jsonResult.descricao?.toString() || "Descrição do lugar",
+    imagem: waifuResult?.toString() || "images/teste.jpg",
+    riqueza: parseInt(jsonResult.riqueza) || 0,
+    saude: parseInt(jsonResult.saude) || 0,
+    seguranca: parseInt(jsonResult.seguranca) || 0,
+    agua: parseInt(jsonResult.agua) || 0,
+    prompt: prompt,
+    imgPrompt: imgPrompt,
     id_historia: req.body.id_historia
   };
 

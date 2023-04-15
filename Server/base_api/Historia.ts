@@ -5,6 +5,7 @@ import * as express from 'express';
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
 import { listarHistorias, buscarHistoria, criarHistoria, apagarHistoria } from '../controllers/Historia';
+import { historiaPrompt } from '../helpers/prompt';
 
 const HistoriaRouter = express.Router();
 
@@ -30,20 +31,29 @@ HistoriaRouter.delete('/:id', async (req, res) => {
  * @param {string} titulo - Título da história
  */
 HistoriaRouter.post('/', async (req, res) => {
-  const [gptResult, waifuResult] = await Promise.all([
-    chatGPT.completion(req.body['gptPrompt']?.toString() || "Hello world"),
-    waifuDiff.query(req.body['waifuPrompt']?.toString() || "Hello world")
-  ]);
+  const prompt = historiaPrompt(req.body['prompt']?.toString() || "Hello world");
+  const gptResult = await chatGPT.completion(prompt);
+  const jsonResult = JSON.parse(gptResult.data.choices[0].message?.content.toString() || "");
+  const imgPrompt = jsonResult.prompt_para_modelo_de_imagem_em_ingles?.toString() || "Hello world";
+  const waifuResult = await waifuDiff.query(imgPrompt);
 
   const historiaParams = {
-    nome: "Lorem Ipsum",
-    descricao: gptResult?.data[0].generated_text,
-    path_img_capa: waifuResult?.toString() || ""
+    nome: jsonResult.nome?.toString() || "Nome do mundo",
+    descricao: jsonResult.descricao?.toString() || "Descrição do mundo",
+    path_img_capa: waifuResult?.toString() || "images/teste.jpg",
+    prompt: prompt,
+    imgPrompt: imgPrompt,
   };
 
   const historiaId = await criarHistoria(historiaParams);
   
   res.json({ id: historiaId });
+});
+
+HistoriaRouter.post('/gpt/', async (req, res) => {
+  const gptResult = await chatGPT.completion(req.body['prompt']?.toString() || "Hello world");
+  
+  res.json({ result: gptResult.data });
 });
 
 HistoriaRouter.get('/waifu/', async (req, res) => {

@@ -46,6 +46,8 @@ type OutroParams = {
   imagem: string;
   nome: string;
   descricao: string;
+  prompt: string;
+  imgPrompt: string;
   id_historia: number;
 }
 
@@ -55,6 +57,8 @@ export const criarOutro = async (outroParams: OutroParams) => {
       imagem: outroParams.imagem,
       nome: outroParams.nome,
       descricao: outroParams.descricao,
+      prompt: outroParams.prompt,
+      imgPrompt: outroParams.imgPrompt,
       elemento_narrativo: {
         create: {
           tipo: "outro",

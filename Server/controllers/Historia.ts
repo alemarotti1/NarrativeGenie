@@ -43,6 +43,8 @@ type HistoriaParams = {
   nome: string;
   descricao: string;
   path_img_capa: string;
+  prompt: string;
+  imgPrompt: string;
 }
 
 export const criarHistoria = async (historiaParams: HistoriaParams) => {
@@ -51,6 +53,8 @@ export const criarHistoria = async (historiaParams: HistoriaParams) => {
       nome: historiaParams.nome,
       descricao: historiaParams.descricao,
       path_img_capa: historiaParams.path_img_capa,
+      prompt: historiaParams.prompt,
+      imgPrompt: historiaParams.imgPrompt,
       conta: {
         connect: {
           email: "teste@teste.com"

@@ -49,6 +49,8 @@ type PersonagemParams = {
   backstory: string;
   personalidade: string;
   especie: string;
+  prompt: string;
+  imgPrompt: string;
   id_historia: number;
 }
 
@@ -61,6 +63,8 @@ export const criarPersonagem = async (personagemParams: PersonagemParams) => {
       backstory: personagemParams.backstory,
       personalidade: personagemParams.personalidade,
       especie: personagemParams.especie,
+      prompt: personagemParams.prompt,
+      imgPrompt: personagemParams.imgPrompt,
       elemento_narrativo: {
         create: {
           tipo: "personagem",

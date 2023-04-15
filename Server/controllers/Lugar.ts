@@ -50,6 +50,8 @@ type LugarParams = {
   saude: number;
   seguranca: number;
   agua: number;
+  prompt: string;
+  imgPrompt: string;
   id_historia: number;
 }
 
@@ -63,6 +65,8 @@ export const criarLugar = async (lugarParams: LugarParams) => {
       saude: lugarParams.saude,
       seguranca: lugarParams.seguranca,
       agua: lugarParams.agua,
+      prompt: lugarParams.prompt,
+      imgPrompt: lugarParams.imgPrompt,
       elemento_narrativo: {
         create: {
           tipo: "lugar",

@@ -59,7 +59,7 @@ const Root: React.FC = () => {
     setIsLoading(true);
     const worldId = worlds.find((w: any) => w.label === world)?.value;
     const categoryObject = categories.find((c) => c.label === category);
-    api.post(`/${categoryObject?.api}`, { gptPrompt: prompt, waifuPrompt: prompt, id_historia: worldId }).then(res => {
+    api.post(`/${categoryObject?.api}`, { prompt: prompt, id_historia: worldId }).then(res => {
       setPrompt("");
       onClose();
       setIsLoading(false);

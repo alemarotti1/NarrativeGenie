@@ -5,6 +5,7 @@ import * as express from 'express';
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
 import { apagarOutro, buscarOutro, criarOutro, listarOutros } from '../controllers/Outro';
+import { outroPrompt } from '../helpers/prompt';
 
 const OutroRouter = express.Router();
 
@@ -24,15 +25,18 @@ OutroRouter.delete('/:id', async (req, res) => {
 });
 
 OutroRouter.post('/', async (req, res) => {
-  const [gptResult, waifuResult] = await Promise.all([
-    chatGPT.completion(req.body['gptPrompt']?.toString() || "Hello world"),
-    waifuDiff.query(req.body['waifuPrompt']?.toString() || "Hello world")
-  ]);
+  const prompt = outroPrompt(req.body['prompt']?.toString() || "Hello world");
+  const gptResult = await chatGPT.completion(prompt);
+  const jsonResult = JSON.parse(gptResult.data.choices[0].message?.content.toString() || "");
+  const imgPrompt = jsonResult.prompt_para_modelo_de_imagem_em_ingles?.toString() || "Hello world";
+  const waifuResult = await waifuDiff.query(imgPrompt);
 
   const outroParams = {
-    nome: "Lorem Ipsum",
-    descricao: gptResult?.data[0].generated_text,
-    imagem: waifuResult?.toString() || "",
+    nome: jsonResult.nome?.toString() || "Nome do objeto",
+    descricao: jsonResult.descricao?.toString() || "Descrição do objeto",
+    imagem: waifuResult?.toString() || "images/teste.jpg",
+    prompt: prompt,
+    imgPrompt: imgPrompt,
     id_historia: req.body.id_historia
   };
 
