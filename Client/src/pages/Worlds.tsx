@@ -21,7 +21,7 @@ const Worlds: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <Flex direction={"column"} mb="40px">
+    <Flex direction={"column"}>
       <Header text="Mundos" href="/worlds" />
       <Flex
         w="fit-content"
@@ -30,7 +30,6 @@ const Worlds: React.FC = () => {
         py="1"
         borderRadius="3xl"
         mx="10"
-        mt="-6"
         bg="rgba(0,0,0,0.4)"
         justifyContent="flex-end"
       >
@@ -94,7 +93,6 @@ const Worlds: React.FC = () => {
         gridTemplateRows={"1fr 40px"}
         gridTemplateColumns={"200px 1fr"}
         h="250px"
-        gap="1"
         color="blackAlpha.700"
         fontWeight="bold"
       >

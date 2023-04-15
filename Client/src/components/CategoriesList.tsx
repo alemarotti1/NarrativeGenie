@@ -14,13 +14,14 @@ interface WorldsProps {
   category: string;
 }
 
-const CategoriesList: React.FC<WorldsProps> = ({category}) => {
+const CategoriesList: React.FC<WorldsProps> = ({ category }) => {
   const navigate = useNavigate();
 
   return (
-    <Flex direction={"column"} mb="40px" h="full" >
+    <Flex direction={"column"} mb="40px" h="full">
       <Grid
         mx="10"
+        my="7"
         bg="rgba(0,0,0,0.6)"
         border="none"
         borderRadius="3xl"
@@ -32,7 +33,6 @@ const CategoriesList: React.FC<WorldsProps> = ({category}) => {
         gridTemplateRows={"1fr 40px"}
         gridTemplateColumns={"200px 1fr"}
         h="250px"
-        gap="1"
         color="blackAlpha.700"
         fontWeight="bold"
       >
@@ -42,7 +42,7 @@ const CategoriesList: React.FC<WorldsProps> = ({category}) => {
             h="full"
             margin="auto"
             objectFit="cover"
-            borderRadius='full'
+            borderRadius="full"
             src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
             alt="Caffe Latte"
           />
@@ -65,12 +65,20 @@ const CategoriesList: React.FC<WorldsProps> = ({category}) => {
               WebkitBoxOrient: "vertical",
             }}
           >
-            História: Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável.
-            Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas.Um dia, Noldorin Glynkas conheceu
-            uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado
-            por ela e logo eles se apaixonaram.Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos,
-            e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos
-            e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.
+            História: Na terra de Aranthia, vivia um guerreiro chamado Noldorin
+            Glynkas. Ele era conhecido em todo o país por sua coragem, força e
+            determinação inabalável. Noldorin Glynkas vivia em um mundo onde a
+            magia fluía livremente, e as criaturas selvagens eram tão perigosas
+            quanto bonitas.Um dia, Noldorin Glynkas conheceu uma bruxa chamada
+            Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos
+            negros e penetrantes olhos verdes. Noldorin ficou imediatamente
+            fascinado por ela e logo eles se apaixonaram.Chasianna era uma bruxa
+            poderosa, temida e respeitada por todos que a conheciam. Ela tinha a
+            habilidade de controlar os elementos, e seus feitiços eram
+            conhecidos por estarem entre os mais poderosos de toda Aranthia.
+            Noldorin e Chasianna se casaram em uma grande cerimônia, cercados
+            por seus amigos e entes queridos. O casamento foi uma ocasião
+            alegre, com música, dança e festa que duraram dias.
           </Text>
         </GridItem>
         <GridItem
@@ -103,7 +111,7 @@ const CategoriesList: React.FC<WorldsProps> = ({category}) => {
       </Grid>
 
       <Grid
-        mt="5"
+        //mt="5"
         mx="10"
         bg="rgba(0,0,0,0.6)"
         border="none"
@@ -133,7 +141,7 @@ const CategoriesList: React.FC<WorldsProps> = ({category}) => {
         </GridItem>
         <GridItem pl="2" area={"main"} overflow="hidden">
           <Heading color="white" size="md" fontFamily="Fondamento">
-            Chasianna Darkweaver 
+            Chasianna Darkweaver
           </Heading>
           <Text
             py="1"

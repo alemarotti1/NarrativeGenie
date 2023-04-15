@@ -36,13 +36,10 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
   return (
     <Flex
       px="4"
-      py="3"
+      py="2"
       bg="rgba(0,0,0,0.5)"
       align="center"
       mx="20"
-      mt="-6"
-      mb="6"
-      h="50px"
       style={{
         borderRadius: "30px",
         boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.8)",
@@ -53,7 +50,6 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
         fontWeight="normal"
         onClick={onChangeTabDescricao}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
-        h="40px"
         borderRadius="3xl"
         bg={tab == "Des" ? "rgba(255,255,255, 0.3)" : "none"}
       >
@@ -64,7 +60,6 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
         fontWeight="normal"
         onClick={onChangeTabPersonagem}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
-        h="40px"
         borderRadius="3xl"
         bg={tab == "character" ? "rgba(255,255,255, 0.3)" : "none"}
       >
@@ -77,7 +72,6 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
         fontWeight="normal"
         onClick={onChangeTabLugares}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
-        h="40px"
         borderRadius="3xl"
       >
         Lugares
@@ -89,7 +83,6 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
         fontWeight="normal"
         onClick={onChangeTabObjetos}
         _hover={{ bg: "rgba(255,255,255, 0.3)" }}
-        h="40px"
         borderRadius="3xl"
       >
         Objetos

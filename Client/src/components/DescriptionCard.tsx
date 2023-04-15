@@ -34,8 +34,9 @@ const DescriptionCard: React.FC = () => {
         h="fit-content"
         align="center"
         overflow="hidden"
-        m="10"
-        mr="5"
+        mx="10"
+        my="7"
+        mr="9"
       >
         <Grid
           h="full"

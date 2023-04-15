@@ -8,6 +8,7 @@ import {
   Text,
   Textarea,
   Tag,
+  Input,
 } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
 import Header from "../layout/Header";
@@ -17,13 +18,14 @@ const Character: React.FC = () => {
   const text =
     "Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável. Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas. Um dia, Noldorin Glynkas conheceu uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado por ela e logo eles se apaixonaram. Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos, e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.Na terra de Aranthia, vivia um guerreiro chamado Noldorin Glynkas. Ele era conhecido em todo o país por sua coragem, força e determinação inabalável. Noldorin Glynkas vivia em um mundo onde a magia fluía livremente, e as criaturas selvagens eram tão perigosas quanto bonitas. Um dia, Noldorin Glynkas conheceu uma bruxa chamada Chasianna Darkweaver. Ela era uma mulher bonita, com longos cabelos negros e penetrantes olhos verdes. Noldorin ficou imediatamente fascinado por ela e logo eles se apaixonaram. Chasianna era uma bruxa poderosa, temida e respeitada por todos que a conheciam. Ela tinha a habilidade de controlar os elementos, e seus feitiços eram conhecidos por estarem entre os mais poderosos de toda Aranthia. Noldorin e Chasianna se casaram em uma grande cerimônia, cercados por seus amigos e entes queridos. O casamento foi uma ocasião alegre, com música, dança e festa que duraram dias.";
   const [value, setValue] = useState(text);
+  const [TitleValue, setTitleValue] = useState("Noldorin Glynkas");
   const [backup, setBackup] = useState("");
 
   const related = {
     personagens: ["Chasianna Darkweaver", "Thorfinn Glynkas"],
     lugares: ["Aranthia", "Celestyal City"],
     personalidade: ["temperamental", "corajoso", "determinado"],
-    caracteristicas: ["alto", "forte", "olhos pretos"]
+    caracteristicas: ["alto", "forte", "olhos pretos"],
   };
 
   const handleInputChange = (e: any) => {
@@ -31,9 +33,13 @@ const Character: React.FC = () => {
     setValue(inputValue);
   };
 
+  const handleTitleInputChange = (e: any) => {
+    const inputValue = e.target.value;
+    setTitleValue(inputValue);
+  };
   const capitalize = (string: string) => {
-    return <text>{string[0].toUpperCase()+string.substring(1)}</text>;
-  }
+    return <text>{string[0].toUpperCase() + string.substring(1)}</text>;
+  };
 
   const handleEdit = () => {
     setBackup(text);
@@ -57,26 +63,27 @@ const Character: React.FC = () => {
           border="none"
           borderRadius="3xl"
           overflowY={"scroll"}
-            sx={{
-              "&::-webkit-scrollbar": {
-                width: "16px",
-                borderRadius: "8px",
-                backgroundColor: "none",
-              },
-              "&::-webkit-scrollbar-thumb": {
-                borderRadius: "8px",
-                backgroundColor: `rgba(0, 0, 0, 0.8)`,
-              },
-            }}
+          sx={{
+            "&::-webkit-scrollbar": {
+              width: "16px",
+              borderRadius: "8px",
+              backgroundColor: "none",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              borderRadius: "8px",
+              backgroundColor: `rgba(0, 0, 0, 0.8)`,
+            },
+          }}
           gridGap={3}
           p="7"
           pt="5"
           pb="10"
           templateAreas={`
                   "main main"
+                  "nav title"
                   "nav footer"
                   "tags tags"`}
-          gridTemplateRows={"1fr  auto 2fr"}
+          gridTemplateRows={"auto  0.5fr 4fr 2fr"}
           gridTemplateColumns={"1fr 3fr"}
           color="blackAlpha.700"
           fontWeight="bold"
@@ -117,7 +124,7 @@ const Character: React.FC = () => {
             )}
           </GridItem>
 
-          <GridItem area={"nav"} alignSelf="auto">
+          <GridItem area={"nav"} alignSelf="flex-end" alignItems={"flex-end"}>
             <Image
               alignSelf="auto"
               objectFit="cover"
@@ -125,6 +132,24 @@ const Character: React.FC = () => {
               src="https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60"
               alt="Caffe Latte"
             />
+          </GridItem>
+          <GridItem area={"title"}>
+          {disabled ? (
+              <>
+                <Text py="1" color="white" fontSize={"xl"}>
+                  {TitleValue}
+                </Text>
+              </>
+            ) : (
+              <>
+                <Input
+                  value={TitleValue}
+                  bg="white"
+                  //w="full"
+                  onChange={handleTitleInputChange}
+                />
+              </>
+            )}
           </GridItem>
           <GridItem
             area={"footer"}
@@ -143,34 +168,33 @@ const Character: React.FC = () => {
           >
             {disabled ? (
               <>
-                <Text color="white" fontSize="xl">
-                  Noldorin Glynkas
-                </Text>
                 <Text py="1" color="white" fontWeight="normal">
                   {value}
                 </Text>
               </>
             ) : (
-              <Textarea
-                value={value}
-                bg="white"
-                w="full"
-                maxH="full"
-                h="full"
-                onChange={handleInputChange}
-                overflowY="scroll"
-                sx={{
-                  "&::-webkit-scrollbar": {
-                    width: "16px",
-                    borderRadius: "8px",
-                    backgroundColor: "none",
-                  },
-                  "&::-webkit-scrollbar-thumb": {
-                    borderRadius: "8px",
-                    backgroundColor: `rgba(0, 0, 0, 0.8)`,
-                  },
-                }}
-              />
+              <>
+                <Textarea
+                  value={value}
+                  bg="white"
+                  w="full"
+                  maxH="full"
+                  h="full"
+                  onChange={handleInputChange}
+                  overflowY="scroll"
+                  sx={{
+                    "&::-webkit-scrollbar": {
+                      width: "16px",
+                      borderRadius: "8px",
+                      backgroundColor: "none",
+                    },
+                    "&::-webkit-scrollbar-thumb": {
+                      borderRadius: "8px",
+                      backgroundColor: `rgba(0, 0, 0, 0.8)`,
+                    },
+                  }}
+                />
+              </>
             )}
           </GridItem>
           <GridItem area={"tags"} alignSelf="flex-start" mt="2">
