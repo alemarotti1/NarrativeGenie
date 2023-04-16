@@ -79,7 +79,6 @@ const Root: React.FC = () => {
       .then((res) => {
         setPrompt("");
         onClose();
-        setIsLoading(false);
         navigate(`/${categoryObject?.path}/${res.data.id}`);
       })
       .catch((err) => {
@@ -90,6 +89,9 @@ const Root: React.FC = () => {
           duration: 9000,
           isClosable: true,
         });
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 

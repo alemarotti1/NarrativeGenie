@@ -1,9 +1,24 @@
 import * as express from 'express';
 import db from '../config/db';
+import { relacaoPrompt } from '../helpers/prompt';
+import chatGPT from '../external/chatgpt';
 const RelacoesRouter = express.Router();
 
 RelacoesRouter.post('/', async (req, res) => {
     
+});
+
+RelacoesRouter.get('/descricao', async (req, res) => {
+  const prompt = relacaoPrompt(
+    req.query['categoria_1']?.toString() || "personagem",
+    req.query['nome_1']?.toString() || "Nome",
+    req.query['categoria_2']?.toString() || "personagem",
+    req.query['nome_2']?.toString() || "Nome",
+    req.query['prompt']?.toString() || "relacionamento entre personagens",
+  );
+
+  const gptResult = await chatGPT.completion(prompt);
+  res.json({ result: gptResult.data.choices[0].message?.content.toString() || "Descrição da relação", prompt: prompt });
 });
 
 RelacoesRouter.put('/', async (req, res) => {

@@ -21,3 +21,8 @@ export const personagemPrompt = (prompt: string) => {
   result += `{ nome: string; descricao: string[]; backstory: string; especie: string; personalidade: string[]; descricao_fisica_em_ingles: string[]; }`;
   return result;
 };
+
+export const relacaoPrompt = (category1: string, name1: string, category2: string, name2: string, prompt: string) => {
+  let result = `escreva a relação entre um ${category1.trim()} ${name1.trim()} e um ${category2.trim()} ${name2.trim()} descrita por "${prompt.trim()}"`;
+  return result;
+};
