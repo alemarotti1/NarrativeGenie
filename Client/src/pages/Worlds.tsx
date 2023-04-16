@@ -12,15 +12,18 @@ import {
   GridItem,
   Spinner,
   useToast,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from "@chakra-ui/react";
-import { HiOutlineSearch, HiOutlineFilter } from "react-icons/hi";
+import { HiOutlineSearch } from "react-icons/hi";
 import { BsFilter } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
 import api from "../config/api";
 import environment from "../config/environment";
 import Header from "../layout/Header";
-import WorldHeader from "../components/WorldHeader";
 
 type WorldParams = {
   id_historia: string;
@@ -34,6 +37,10 @@ const Worlds: React.FC = () => {
   const [worlds, setWorlds] = useState<WorldParams[]>([]);
   const [loading, setLoading] = useState(true);
   const toast = useToast();
+  const options = ["Nome", "Mais novo", "Mais antigo", "Última atualização"];
+  const [option, setOption] = useState("Nome");
+  const [searchString, setSearchString] = useState("");
+  const [sort, setSort] = useState("Nome");
 
   useEffect(() => {
     fetchWorlds();
@@ -75,6 +82,48 @@ const Worlds: React.FC = () => {
       });
   };
 
+  const handleSearch = (e: any) => {
+    const value = e.target.value.toLowerCase();
+    setSearchString(value);
+  };
+
+  const filteredData = (ws: WorldParams[]) => {
+    let filteredItems = ws.filter(
+      (w) => w.nome.toLowerCase().indexOf(searchString) > -1
+    );
+    return filteredItems;
+  };
+
+  const classification = (sort_by: string) => {
+    setSort(sort_by);
+  };
+
+  const sortedData = (ws: WorldParams[]) => {
+    switch (sort) {
+      case "Nome":
+        ws = ws.sort(function (a, b) {
+          if (a.nome < b.nome) return -1;
+          else if (a.nome > b.nome) return 1;
+          return 0;
+        });
+        return ws;
+      case "Mais antigo":
+        break;
+      case "Mais novo":
+        break;
+      case "Última atualização":
+        break;
+    }
+  };
+
+  const formattedData = (ws: WorldParams[]) => {
+    let newItems: any;
+
+    newItems = filteredData(ws);
+    newItems = sortedData(newItems);
+    return newItems;
+  };
+
   return (
     <Flex direction={"column"}>
       <Header text="Mundos" href="/worlds" />
@@ -110,7 +159,8 @@ const Worlds: React.FC = () => {
               placeholder="Pesquisar..."
               h="25px"
               borderRadius="3xl"
-            ></Input>
+              onChange={handleSearch}
+            />
             <InputRightElement>
               <HiOutlineSearch
                 size="20px"
@@ -118,20 +168,37 @@ const Worlds: React.FC = () => {
               />
             </InputRightElement>
           </InputGroup>
-
-          <Button
-            size="sm"
-            ml="2"
-            bg="none"
-            color="white"
-            _hover={{ bg: "#4e4a44" }}
-            _active={{ bg: "#4e4a44" }}
-            borderRadius="3xl"
-            fontWeight={"regular"}
-          >
-            <BsFilter style={{ marginRight: "5px" }} />
-            Classificar
-          </Button>
+          <Menu>
+            <MenuButton
+              as={Button}
+              size="sm"
+              ml="2"
+              pr="7"
+              bg="none"
+              color="white"
+              _hover={{ bg: "#4e4a44" }}
+              _active={{ bg: "#4e4a44" }}
+              borderRadius="3xl"
+              fontWeight={"regular"}
+              leftIcon={<BsFilter />}
+            >
+              {`Ordenar por: ${option}`}
+            </MenuButton>
+            <MenuList>
+              {options.map((op) => (
+                <MenuItem
+                  bg={option == op ? "gray.200" : "none"}
+                  _hover={{ bg: "gray.200" }}
+                  onClick={() => {
+                    setOption(op);
+                    classification(op);
+                  }}
+                >
+                  {op}
+                </MenuItem>
+              ))}
+            </MenuList>
+          </Menu>
         </Flex>
       </Flex>
 
@@ -141,7 +208,7 @@ const Worlds: React.FC = () => {
         </Flex>
       ) : (
         <>
-          {worlds.map((world) => (
+          {formattedData(worlds)?.map((world: any) => (
             <Grid
               key={world.id_historia}
               mt="10"

@@ -144,7 +144,7 @@ const Description: React.FC = () => {
   };
 
   const searchString = (data: string) => {
-    setSearchValue(data);
+    setSearchValue(data.toLowerCase());
   };
 
   const classification = (data: string) => {
@@ -154,7 +154,7 @@ const Description: React.FC = () => {
   const filteredData = (
     items: CharacterParams[] | PlaceParams[] | ObjectParams[]
   ) => {
-    let filteredItems = items.filter((i) => i.nome.indexOf(searchValue) !== -1);
+    let filteredItems = items.filter((i) => i.nome.toLowerCase().indexOf(searchValue) > -1);
 
     return filteredItems;
   };
