@@ -42,7 +42,6 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
       <Flex
         direction={"column"}
         h="fit-content"
-        align="center"
         overflow="hidden"
         mx="10"
         my="7"
@@ -55,12 +54,11 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
           borderRadius="3xl"
           gridGap={3}
           p="7"
-          pt="5"
-          pb="10"
+          pt="4"
           templateAreas={`
                   "main main"
                   "nav footer"`}
-          gridTemplateRows={"1fr  8fr"}
+          gridTemplateRows={"1fr  auto"}
           gridTemplateColumns={"1fr 3fr"}
           color="blackAlpha.700"
           fontWeight="bold"
@@ -72,6 +70,7 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
             justifyContent="flex-end"
           >
             <Button
+              size="sm"
               variant="solid"
               bg="none"
               textColor="white"
@@ -88,6 +87,7 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
               <></>
             ) : (
               <Button
+              size="sm"
                 variant="solid"
                 bg="none"
                 textColor="white"
@@ -111,10 +111,6 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
             <>
               <GridItem area={"nav"} alignSelf="auto">
                 <Image
-                  w="full"
-                  maxW="400px"
-                  h="250px"
-                  maxH="400px"
                   alignSelf="auto"
                   objectFit="cover"
                   borderRadius="2xl"
@@ -125,7 +121,6 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
               <GridItem
                 pl="2"
                 w="full"
-                h="250px"
                 area={"footer"}
                 overflowY={disabled ? "scroll" : "hidden"}
                 sx={{
