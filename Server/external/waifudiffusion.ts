@@ -10,7 +10,7 @@ class WaifuDiff {
 
   constructor() {
     this.api = axios.create({
-      baseURL: "https://api-inference.huggingface.co/models/runwayml/",
+      baseURL: "https://api-inference.huggingface.co/models/WarriorMama777/",
       headers: {
         Authorization: `Bearer ${environment.HUGGING_FACE_API_TOKEN}`
       }
@@ -18,7 +18,7 @@ class WaifuDiff {
   }
 
   public async query(prompt: string) {
-    const response = await this.api.post("/stable-diffusion-v1-5", {
+    const response = await this.api.post("/EerieOrangeMix", {
       inputs: prompt
     }, { responseType: 'stream' });
 

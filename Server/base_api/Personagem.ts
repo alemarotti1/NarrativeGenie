@@ -28,12 +28,12 @@ PersonagemRouter.post('/', async (req, res) => {
   const prompt = personagemPrompt(req.body['prompt']?.toString() || "Hello world");
   const gptResult = await chatGPT.completion(prompt);
   const jsonResult = JSON.parse(gptResult.data.choices[0].message?.content.toString() || "");
-  const imgPrompt = jsonResult.prompt_para_modelo_de_imagem_em_ingles?.toString() || "Hello world";
+  const imgPrompt = jsonResult.descricao_fisica_em_ingles?.join(",") || "Hello world";
   const waifuResult = await waifuDiff.query(imgPrompt);
 
   const personagemParams = {
     nome: jsonResult.nome?.toString() || "Nome do personagem",
-    descricao: jsonResult.descricao?.toString() || "Descrição do personagem",
+    descricao: jsonResult.descricao?.join(",") || "Descrição do personagem",
     imagem: waifuResult?.toString() || "images/teste.jpg",
     backstory: jsonResult.backstory?.toString() || "Backstory do personagem",
     especie: jsonResult.especie?.toString() || "Espécie do personagem",
