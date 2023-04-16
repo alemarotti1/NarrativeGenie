@@ -12,7 +12,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 import api from "../config/api";
 import environment from "../config/environment";
@@ -30,8 +30,8 @@ type CharacterParams = {
     historia: {
       id_historia: number;
       nome: string;
-    }
-  }
+    };
+  };
 };
 
 const Character: React.FC = () => {
@@ -39,26 +39,29 @@ const Character: React.FC = () => {
   const [character, setCharacter] = useState<CharacterParams | null>(null);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const [value, setValue] = useState(character?.backstory || "");
+  const [value, setValue] = useState(character?.descricao || "");
   const [titleValue, setTitleValue] = useState(character?.nome || "");
   const [backup, setBackup] = useState("");
   const toast = useToast();
 
   useEffect(() => {
-    api.get(`/personagem/${id}`).then((res) => {
-      setCharacter(res.data.character);
-      setValue(res.data.character.backstory);
-      setTitleValue(res.data.character.nome);
-      setLoading(false);
-    }).catch(err => {
-      toast({
-        title: "Erro no carregamento",
-        description: "Tente novamente mais tarde",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
+    api
+      .get(`/personagem/${id}`)
+      .then((res) => {
+        setCharacter(res.data.character);
+        setValue(res.data.character.descricao);
+        setTitleValue(res.data.character.nome);
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast({
+          title: "Erro no carregamento",
+          description: "Tente novamente mais tarde",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       });
-    });
   }, []);
 
   const related = {
@@ -90,7 +93,10 @@ const Character: React.FC = () => {
 
   return (
     <>
-      <Header text={story?.nome || "Carregando..."} href={`/worlds/${story?.id_historia}`} />
+      <Header
+        text={story?.nome || "Carregando..."}
+        href={`/worlds/${story?.id_historia}`}
+      />
       <Flex
         direction={"column"}
         h="fit-content"
@@ -117,16 +123,15 @@ const Character: React.FC = () => {
               backgroundColor: `rgba(0, 0, 0, 0.8)`,
             },
           }}
-          gridGap={4}
+          gridGap={3}
           p="7"
           pt="5"
           pb="10"
           templateAreas={`
                   "main main"
-                  "nav title"
                   "nav footer"
                   "tags tags"`}
-          gridTemplateRows={"auto  0.5fr 4fr 2fr"}
+          gridTemplateRows={"1fr  auto 2fr"}
           gridTemplateColumns={"1fr 3fr"}
           color="blackAlpha.700"
           fontWeight="bold"
@@ -136,17 +141,15 @@ const Character: React.FC = () => {
             display="flex"
             alignItems="flex-end"
             justifyContent="flex-end"
-            gap="2"
           >
             <Button
+              size="sm"
               variant="solid"
               bg="none"
               textColor="white"
               fontWeight="regular"
               borderRadius="3xl"
               onClick={() => (disabled ? handleEdit() : setDisabled(true))}
-              _hover={{ bg: "whiteAlpha.200" }}
-              _active={{ bg: "whiteAlpha.300" }}
             >
               <HiPencilAlt style={{ marginRight: "5px" }} />
               {disabled ? "Editar" : "Salvar"}
@@ -155,6 +158,7 @@ const Character: React.FC = () => {
               <></>
             ) : (
               <Button
+                size="sm"
                 variant="solid"
                 bg="none"
                 textColor="white"
@@ -164,15 +168,13 @@ const Character: React.FC = () => {
                   setDisabled(true);
                   setValue(backup);
                 }}
-                _hover={{ bg: "whiteAlpha.200" }}
-                _active={{ bg: "whiteAlpha.300" }}
               >
                 Cancelar
               </Button>
             )}
           </GridItem>
 
-          <GridItem area={"nav"} alignSelf="flex-end" alignItems={"flex-end"}>
+          <GridItem area={"nav"} alignSelf="auto">
             <Image
               alignSelf="auto"
               objectFit="cover"
@@ -180,27 +182,6 @@ const Character: React.FC = () => {
               src={environment.API_URL + character?.imagem}
               alt="Lugar"
             />
-          </GridItem>
-          <GridItem area={"title"}>
-          {disabled ? (
-              <>
-                <Text py="1" color="white" fontSize={"2xl"}>
-                  {titleValue}
-                </Text>
-              </>
-            ) : (
-              <>
-                <Input
-                  value={titleValue}
-                  bg="whiteAlpha.600"
-                  border="0"
-                  color="black"
-                  fontWeight="bold"
-                  //w="full"
-                  onChange={handleTitleInputChange}
-                />
-              </>
-            )}
           </GridItem>
           <GridItem
             area={"footer"}
@@ -219,20 +200,29 @@ const Character: React.FC = () => {
           >
             {disabled ? (
               <>
-                <Text py="1" color="white" fontWeight="normal">
+                <Text color="white">
+                  {titleValue}
+                </Text>
+                <Text color="white" fontWeight="normal">
                   {value}
                 </Text>
               </>
             ) : (
               <>
-                <Textarea
-                  value={value}
-                  bg="whiteAlpha.600"
-                  border="0"
-                  color="black"
-                  resize="none"
+              <Input
+              size="sm"
+                  mb="1"
+                  value={titleValue}
+                  bg="white"
                   w="full"
-                  maxH="full"
+                  onChange={handleTitleInputChange}
+                />
+                <Textarea
+                size="sm"
+                  value={value}
+                  bg="white"
+                  w="full"
+                  maxH="87%"
                   h="full"
                   onChange={handleInputChange}
                   overflowY="scroll"
@@ -253,13 +243,13 @@ const Character: React.FC = () => {
           </GridItem>
           <GridItem area={"tags"} alignSelf="flex-start" mt="2">
             {Object.entries(related).map(([key, value]) => (
-              <Text color="white" fontSize="xl">
+              <Text color="white" fontSize="md">
                 {capitalize(key)}:{" "}
                 {value.map((v) => (
                   <Tag
                     m="2px"
                     fontWeight="bold"
-                    fontSize="md"
+                    fontSize="sm"
                     borderRadius="xl"
                     color="orange.600"
                   >

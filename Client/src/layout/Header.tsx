@@ -40,12 +40,12 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
       }}
     >
       <a  href="/">
-        <Image src={logo} alt="logo" h="20" />
+        <Image src={logo} alt="logo" h="60px" />
       </a>
       
       <Heading
         pl="4"
-        fontSize="70px"
+        fontSize="50px"
         textColor="white"
         fontFamily="Fondamento"
         fontWeight="regular"
@@ -55,7 +55,7 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
       <Spacer />
       <Text
         color="white"
-        fontSize="2xl"
+        fontSize="xl"
         fontFamily={"Fondamento"}
         fontWeight="regular"
       >
@@ -67,7 +67,7 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
           as={IconButton}
           ml="2"
           aria-label="Menu"
-          icon={<RiMenuFill size="25px" />}
+          icon={<RiMenuFill size="20px" />}
           color="white"
           bg="none"
           _hover={{ color: "white", bg: "whiteAlpha.300" }}

@@ -28,7 +28,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
         <Grid
           key={item.id_elem_narr}
           mx="10"
-          my="7"
+          mt="7"
           bg="rgba(0,0,0,0.6)"
           border="none"
           borderRadius="3xl"
@@ -55,7 +55,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
             />
           </GridItem>
           <GridItem pl="2" area={"main"} overflow="hidden">
-            <Heading color="white" size="lg" fontFamily="Fondamento">
+            <Heading color="white" size="md" fontFamily="Fondamento">
               {item.nome}
             </Heading>
             <Text
@@ -82,6 +82,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
             justifyContent="flex-end"
           >
             <Button
+            size="sm"
               variant="solid"
               bg="#3C6C66"
               marginRight="5"
@@ -95,6 +96,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
               Ver mais
             </Button>
             <Button
+            size="sm"
               variant="solid"
               bg="red.700"
               textColor="white"

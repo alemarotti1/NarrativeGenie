@@ -40,92 +40,98 @@ const Worlds: React.FC = () => {
 
   const fetchWorlds = () => {
     setLoading(true);
-    api.get("/historia", { params: { email: "teste@teste.com" }}).then((res) => {
-      setWorlds(res.data.stories || []);
-      setLoading(false);
-    }).catch(err => {
-      toast({
-        title: "Erro no carregamento",
-        description: "Tente novamente mais tarde",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
+    api
+      .get("/historia", { params: { email: "teste@teste.com" } })
+      .then((res) => {
+        setWorlds(res.data.stories || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast({
+          title: "Erro no carregamento",
+          description: "Tente novamente mais tarde",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       });
-    });
   };
 
   const deleteWorld = (id: string) => {
-    api.delete(`/historia/${id}`).then((res) => {
-      fetchWorlds();
-    }).catch(err => {
-      toast({
-        title: "Erro ao apagar",
-        description: "Tente novamente mais tarde",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
+    api
+      .delete(`/historia/${id}`)
+      .then((res) => {
+        fetchWorlds();
+      })
+      .catch((err) => {
+        toast({
+          title: "Erro ao apagar",
+          description: "Tente novamente mais tarde",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       });
-    });
   };
 
   return (
     <Flex direction={"column"}>
       <Header text="Mundos" href="/worlds" />
       <Flex
-        w="fit-content"
-        alignSelf={"flex-end"}
         px="4"
+        justifyContent={"flex-end"}
         py="1"
-        borderRadius="3xl"
-        mx="10"
-        mb="10"
-        bg="rgba(0,0,0,0.4)"
-        justifyContent="flex-end"
+        bg="rgba(0,0,0,0.5)"
+        align="center"
+        mx="20"
+        style={{
+          borderRadius: "30px",
+          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.8)",
+        }}
       >
-        <InputGroup
-          bg="gray.200"
-          border="1px solid black"
-          color="black"
-          h="25px"
-          w="50%"
-          ml="2"
+        <Flex
+          w="fit-content"
+          alignSelf={"flex-end"}
           borderRadius="3xl"
-          my="auto"
+          justifyContent="flex-end"
         >
-          <Input placeholder="Pesquisar..." h="25px" borderRadius="3xl" border="0"></Input>
-          <InputRightElement>
-            <HiOutlineSearch
-              size="20px"
-              style={{ marginTop: "-15px", color: "gray" }}
-            />
-          </InputRightElement>
-        </InputGroup>
+          <InputGroup
+            bg="gray.200"
+            border="1px solid black"
+            color="black"
+            w="50%"
+            ml="2"
+            borderRadius="3xl"
+            my="auto"
+          >
+            <Input
+              size="sm"
+              placeholder="Pesquisar..."
+              h="25px"
+              borderRadius="3xl"
+            ></Input>
+            <InputRightElement>
+              <HiOutlineSearch
+                size="20px"
+                style={{ marginTop: "-15px", color: "gray" }}
+              />
+            </InputRightElement>
+          </InputGroup>
 
-        <Button
-          ml="2"
-          bg="none"
-          color="white"
-          _hover={{ bg: "#4e4a44" }}
-          _active={{ bg: "#4e4a44" }}
-          borderRadius="3xl"
-          fontWeight={"regular"}
-        >
-          <BsFilter style={{ marginRight: "5px" }} />
-          Classificar
-        </Button>
-
-        <Button
-          ml="2"
-          bg="none"
-          color="white"
-          _hover={{ bg: "#4e4a44" }}
-          _active={{ bg: "#4e4a44" }}
-          borderRadius="3xl"
-          fontWeight={"regular"}
-        >
-          <HiOutlineFilter style={{ marginRight: "5px" }} />
-          Filtrar
-        </Button>
+          <Button
+            size="sm"
+            ml="2"
+            bg="none"
+            color="white"
+            _hover={{ bg: "#4e4a44" }}
+            _active={{ bg: "#4e4a44" }}
+            borderRadius="3xl"
+            fontWeight={"regular"}
+          >
+            <BsFilter style={{ marginRight: "5px" }} />
+            Classificar
+          </Button>
+        </Flex>
       </Flex>
 
       {loading ? (
@@ -134,10 +140,10 @@ const Worlds: React.FC = () => {
         </Flex>
       ) : (
         <>
-          {worlds.map(world => (
+          {worlds.map((world) => (
             <Grid
               key={world.id_historia}
-              mb="10"
+              mt="10"
               mx="10"
               bg="rgba(0,0,0,0.6)"
               border="none"
@@ -194,27 +200,25 @@ const Worlds: React.FC = () => {
               >
                 <Link to={`/worlds/${world.id_historia}`}>
                   <Button
+                    size="sm"
                     variant="solid"
                     bg="#3C6C66"
                     textColor="white"
                     fontWeight="regular"
                     borderRadius="3xl"
                     mr="2"
-                    _hover={{ bg: "#36615C", color: "white" }}
-                    _active={{ bg: "#305651", color: "white" }}
                   >
                     Ver mais
                   </Button>
                 </Link>
                 <Button
+                  size="sm"
                   variant="solid"
                   bg="red.700"
                   textColor="white"
                   fontWeight="regular"
                   borderRadius="3xl"
                   onClick={() => deleteWorld(world.id_historia)}
-                  _hover={{ bg: "red.800", color: "white" }}
-                  _active={{ bg: "red.900", color: "white" }}
                 >
                   Deletar
                 </Button>
