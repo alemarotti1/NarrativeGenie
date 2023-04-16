@@ -200,17 +200,29 @@ const Character: React.FC = () => {
           >
             {disabled ? (
               <>
+                <Text color="white">
+                  {titleValue}
+                </Text>
                 <Text color="white" fontWeight="normal">
                   {value}
                 </Text>
               </>
             ) : (
               <>
+              <Input
+              size="sm"
+                  mb="1"
+                  value={titleValue}
+                  bg="white"
+                  w="full"
+                  onChange={handleTitleInputChange}
+                />
                 <Textarea
+                size="sm"
                   value={value}
                   bg="white"
                   w="full"
-                  maxH="full"
+                  maxH="87%"
                   h="full"
                   onChange={handleInputChange}
                   overflowY="scroll"
