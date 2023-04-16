@@ -74,10 +74,11 @@ const Worlds: React.FC = () => {
       <Flex
         w="fit-content"
         alignSelf={"flex-end"}
-        px="6"
+        px="4"
         py="1"
         borderRadius="3xl"
         mx="10"
+        mb="10"
         bg="rgba(0,0,0,0.4)"
         justifyContent="flex-end"
       >
@@ -91,7 +92,7 @@ const Worlds: React.FC = () => {
           borderRadius="3xl"
           my="auto"
         >
-          <Input placeholder="Pesquisar..." h="25px" borderRadius="3xl"></Input>
+          <Input placeholder="Pesquisar..." h="25px" borderRadius="3xl" border="0"></Input>
           <InputRightElement>
             <HiOutlineSearch
               size="20px"
@@ -136,7 +137,7 @@ const Worlds: React.FC = () => {
           {worlds.map(world => (
             <Grid
               key={world.id_historia}
-              mt="10"
+              mb="10"
               mx="10"
               bg="rgba(0,0,0,0.6)"
               border="none"
@@ -199,6 +200,8 @@ const Worlds: React.FC = () => {
                     fontWeight="regular"
                     borderRadius="3xl"
                     mr="2"
+                    _hover={{ bg: "#36615C", color: "white" }}
+                    _active={{ bg: "#305651", color: "white" }}
                   >
                     Ver mais
                   </Button>
@@ -210,6 +213,8 @@ const Worlds: React.FC = () => {
                   fontWeight="regular"
                   borderRadius="3xl"
                   onClick={() => deleteWorld(world.id_historia)}
+                  _hover={{ bg: "red.800", color: "white" }}
+                  _active={{ bg: "red.900", color: "white" }}
                 >
                   Deletar
                 </Button>

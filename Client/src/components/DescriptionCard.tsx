@@ -50,7 +50,7 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
       >
         <Grid
           h="full"
-          bg="rgba(255,255,255,0.3)"
+          bg="rgba(255,255,255,0.2)"
           border="none"
           borderRadius="3xl"
           gridGap={3}
@@ -78,6 +78,8 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
               fontWeight="regular"
               borderRadius="3xl"
               onClick={() => (disabled ? handleEdit() : setDisabled(true))}
+              _hover={{ bg: "blackAlpha.200" }}
+              _active={{ bg: "blackAlpha.300" }}
             >
               <HiPencilAlt style={{ marginRight: "5px" }} />
               {disabled ? "Editar" : "Salvar"}

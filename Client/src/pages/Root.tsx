@@ -167,7 +167,7 @@ const Root: React.FC = () => {
         w="60%"
         maxWidth={"1000px"}
         m="auto"
-        px="1"
+        px="6"
         py="7"
         direction="column"
         align="center"
