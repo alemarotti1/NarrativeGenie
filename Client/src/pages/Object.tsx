@@ -9,6 +9,7 @@ import {
   Textarea,
   Tag,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
 import { useParams } from 'react-router-dom';
@@ -36,14 +37,24 @@ const ObjectPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(obj?.descricao || "");
-  const [TitleValue, setTitleValue] = useState("Noldorin Glynkas");
+  const [titleValue, setTitleValue] = useState(obj?.nome || "");
   const [backup, setBackup] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     api.get(`/outro/${id}`).then((res) => {
       setObj(res.data.other);
       setValue(res.data.other.descricao);
+      setTitleValue(res.data.other.nome);
       setLoading(false);
+    }).catch(err => {
+      toast({
+        title: "Erro no carregamento",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   }, []);
 
@@ -165,13 +176,13 @@ const ObjectPage: React.FC = () => {
           {disabled ? (
               <>
                 <Text py="1" color="white" fontSize={"xl"}>
-                  {TitleValue}
+                  {titleValue}
                 </Text>
               </>
             ) : (
               <>
                 <Input
-                  value={TitleValue}
+                  value={titleValue}
                   bg="white"
                   //w="full"
                   onChange={handleTitleInputChange}
@@ -196,9 +207,6 @@ const ObjectPage: React.FC = () => {
           >
             {disabled ? (
               <>
-                <Text color="white" fontSize="xl">
-                  {obj?.nome}
-                </Text>
                 <Text py="1" color="white" fontWeight="normal">
                   {value}
                 </Text>

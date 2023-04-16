@@ -9,6 +9,7 @@ import {
   Textarea,
   Tag,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
 import { useParams } from 'react-router-dom';
@@ -40,14 +41,24 @@ const Place: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(place?.descricao || "");
-  const [TitleValue, setTitleValue] = useState("Noldorin Glynkas");
+  const [titleValue, setTitleValue] = useState(place?.nome || "");
   const [backup, setBackup] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     api.get(`/lugar/${id}`).then((res) => {
       setPlace(res.data.place);
       setValue(res.data.place.descricao);
+      setTitleValue(res.data.place.nome);
       setLoading(false);
+    }).catch(err => {
+      toast({
+        title: "Erro no carregamento",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   }, []);
 
@@ -169,13 +180,13 @@ const Place: React.FC = () => {
           {disabled ? (
               <>
                 <Text py="1" color="white" fontSize={"xl"}>
-                  {TitleValue}
+                  {titleValue}
                 </Text>
               </>
             ) : (
               <>
                 <Input
-                  value={TitleValue}
+                  value={titleValue}
                   bg="white"
                   //w="full"
                   onChange={handleTitleInputChange}
@@ -200,9 +211,6 @@ const Place: React.FC = () => {
           >
             {disabled ? (
               <>
-                <Text color="white" fontSize="xl">
-                  {place?.nome}
-                </Text>
                 <Text py="1" color="white" fontWeight="normal">
                   {value}
                 </Text>

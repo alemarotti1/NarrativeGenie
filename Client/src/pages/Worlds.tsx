@@ -11,6 +11,7 @@ import {
   Grid,
   GridItem,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { HiOutlineSearch, HiOutlineFilter } from "react-icons/hi";
 import { BsFilter } from "react-icons/bs";
@@ -31,6 +32,7 @@ type WorldParams = {
 const Worlds: React.FC = () => {
   const [worlds, setWorlds] = useState<WorldParams[]>([]);
   const [loading, setLoading] = useState(true);
+  const toast = useToast();
 
   useEffect(() => {
     fetchWorlds();
@@ -41,12 +43,28 @@ const Worlds: React.FC = () => {
     api.get("/historia", { params: { email: "teste@teste.com" }}).then((res) => {
       setWorlds(res.data.stories || []);
       setLoading(false);
+    }).catch(err => {
+      toast({
+        title: "Erro no carregamento",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   };
 
   const deleteWorld = (id: string) => {
     api.delete(`/historia/${id}`).then((res) => {
       fetchWorlds();
+    }).catch(err => {
+      toast({
+        title: "Erro ao apagar",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   };
 

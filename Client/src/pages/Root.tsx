@@ -17,6 +17,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Spacer,
+  useToast,
 } from "@chakra-ui/react";
 import { HiOutlineChevronDown, HiOutlinePlusCircle } from "react-icons/hi";
 import { useNavigate } from "react-router-dom"; 
@@ -41,6 +42,7 @@ const Root: React.FC = () => {
   const [prompt, setPrompt] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  const toast = useToast();
 
   useEffect(() => {
     api.get("/historia", { params: { email: "teste@teste.com" }}).then((res) => {
@@ -48,6 +50,14 @@ const Root: React.FC = () => {
         value: story.id_historia,
         label: story.nome
       })) || []);
+    }).catch(err => {
+      toast({
+        title: "Erro no carregamento",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   }, []);
 
@@ -64,12 +74,26 @@ const Root: React.FC = () => {
       onClose();
       setIsLoading(false);
       navigate(`/${categoryObject?.path}/${res.data.id}`);
+    }).catch(err => {
+      toast({
+        title: "Erro na criação",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   };
 
   const sendPrompt = () => {
     if (category === "Categoria") {
-      alert("Selecione uma categoria");
+      toast({
+        title: "Atenção",
+        description: "Selecione uma categoria",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
       return;
     }
 

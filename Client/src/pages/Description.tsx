@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Flex, Spinner } from "@chakra-ui/react";
+import { Flex, Spinner, useToast } from "@chakra-ui/react";
 import { useParams } from 'react-router-dom';
 
 import api from "../config/api";
@@ -59,6 +59,7 @@ const Description: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [world, setWorld] = useState<WorldParams | null>(null);
   const [current, setCurrent] = useState("Des");
+  const toast = useToast();
 
   useEffect(() => {
     fetchWorld();
@@ -69,6 +70,14 @@ const Description: React.FC = () => {
     api.get(`/historia/${id}`).then((res) => {
       setWorld(res.data.story);
       setLoading(false);
+    }).catch(err => {
+      toast({
+        title: "Erro no carregamento",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   };
 
@@ -79,6 +88,14 @@ const Description: React.FC = () => {
   const onDelete = (id: number) => {
     api.delete(`/elemento-narrativo/${id}`).then((res) => {
       fetchWorld();
+    }).catch(err => {
+      toast({
+        title: "Erro ao apagar",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   };
 

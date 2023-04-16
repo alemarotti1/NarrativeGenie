@@ -9,6 +9,7 @@ import {
   Textarea,
   Tag,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
 import { useParams } from 'react-router-dom';
@@ -39,14 +40,24 @@ const Character: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(character?.descricao || "");
-  const [TitleValue, setTitleValue] = useState("Noldorin Glynkas");
+  const [titleValue, setTitleValue] = useState(character?.nome || "");
   const [backup, setBackup] = useState("");
+  const toast = useToast();
 
   useEffect(() => {
     api.get(`/personagem/${id}`).then((res) => {
       setCharacter(res.data.character);
       setValue(res.data.character.descricao);
+      setTitleValue(res.data.character.nome);
       setLoading(false);
+    }).catch(err => {
+      toast({
+        title: "Erro no carregamento",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
     });
   }, []);
 
@@ -168,13 +179,13 @@ const Character: React.FC = () => {
           {disabled ? (
               <>
                 <Text py="1" color="white" fontSize={"xl"}>
-                  {TitleValue}
+                  {titleValue}
                 </Text>
               </>
             ) : (
               <>
                 <Input
-                  value={TitleValue}
+                  value={titleValue}
                   bg="white"
                   //w="full"
                   onChange={handleTitleInputChange}
@@ -199,9 +210,6 @@ const Character: React.FC = () => {
           >
             {disabled ? (
               <>
-                <Text color="white" fontSize="xl">
-                  {character?.nome}
-                </Text>
                 <Text py="1" color="white" fontWeight="normal">
                   {value}
                 </Text>
