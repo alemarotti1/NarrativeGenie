@@ -8,9 +8,10 @@ import {
   Text,
   Spinner,
   Textarea,
+  Input,
 } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 import api from "../config/api";
 import environment from "../config/environment";
@@ -18,18 +19,24 @@ import { WorldParams } from "../pages/Description";
 
 interface DescriptionCardProps {
   world: WorldParams;
-};
+}
 
 const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(world?.descricao || "");
+  const [titleValue, setTitleValue] = useState(world?.nome || "");
   const [backup, setBackup] = useState("");
 
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
     setValue(inputValue);
+  };
+
+  const handleTitleInputChange = (e: any) => {
+    const inputValue = e.target.value;
+    setTitleValue(inputValue);
   };
 
   const handleEdit = () => {
@@ -87,7 +94,7 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
               <></>
             ) : (
               <Button
-              size="sm"
+                size="sm"
                 variant="solid"
                 bg="none"
                 textColor="white"
@@ -135,32 +142,43 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
                   },
                 }}
               >
-              {disabled ? (
-                <Text py="1" color="white" fontWeight="normal">
-                  {value}
-                </Text>
-              ) : (
-                <Textarea
-                  value={value}
-                  bg="white"
-                  maxH="full"
-                  h="full"
-                  w="full"
-                  onChange={handleInputChange}
-                  overflowY="scroll"
-                  sx={{
-                    "&::-webkit-scrollbar": {
-                      width: "16px",
-                      borderRadius: "8px",
-                      backgroundColor: "none",
-                    },
-                    "&::-webkit-scrollbar-thumb": {
-                      borderRadius: "8px",
-                      backgroundColor: `rgba(0, 0, 0, 0.8)`,
-                    },
-                  }}
-                />
-              )}
+                {disabled ? (
+                  <Text py="1" color="white" fontWeight="normal">
+                    {value}
+                  </Text>
+                ) : (
+                  <>
+                    <Input
+                      size="sm"
+                      mb="1"
+                      value={titleValue}
+                      bg="white"
+                      w="full"
+                      onChange={handleTitleInputChange}
+                    />
+                    <Textarea
+                      value={value}
+                      size="sm"
+                      bg="white"
+                      maxH="87%"
+                      h="full"
+                      w="full"
+                      onChange={handleInputChange}
+                      overflowY="scroll"
+                      sx={{
+                        "&::-webkit-scrollbar": {
+                          width: "16px",
+                          borderRadius: "8px",
+                          backgroundColor: "none",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          borderRadius: "8px",
+                          backgroundColor: `rgba(0, 0, 0, 0.8)`,
+                        },
+                      }}
+                    />
+                  </>
+                )}
               </GridItem>
             </>
           )}

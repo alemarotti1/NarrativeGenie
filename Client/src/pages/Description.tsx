@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Flex, Spinner, useToast } from "@chakra-ui/react";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 
 import api from "../config/api";
 import DescriptionCard from "../components/DescriptionCard";
@@ -16,14 +16,14 @@ export type CharacterParams = {
   personalidade: string;
   especie: string;
   imagem: string;
-}
+};
 
 export type ObjectParams = {
   id_elem_narr: number;
   nome: string;
   descricao: string;
   imagem: string;
-}
+};
 
 export type PlaceParams = {
   id_elem_narr: number;
@@ -34,7 +34,7 @@ export type PlaceParams = {
   seguranca: number;
   agua: number;
   imagem: string;
-}
+};
 
 export type NarrativeElementParams = {
   id_elem_narr: number;
@@ -60,6 +60,8 @@ const Description: React.FC = () => {
   const [world, setWorld] = useState<WorldParams | null>(null);
   const [current, setCurrent] = useState("Des");
   const toast = useToast();
+  const [searchValue, setSearchValue] = useState("");
+  const [sort, setSort] = useState("");
 
   useEffect(() => {
     fetchWorld();
@@ -67,18 +69,21 @@ const Description: React.FC = () => {
 
   const fetchWorld = () => {
     setLoading(true);
-    api.get(`/historia/${id}`).then((res) => {
-      setWorld(res.data.story);
-      setLoading(false);
-    }).catch(err => {
-      toast({
-        title: "Erro no carregamento",
-        description: "Tente novamente mais tarde",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
+    api
+      .get(`/historia/${id}`)
+      .then((res) => {
+        setWorld(res.data.story);
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast({
+          title: "Erro no carregamento",
+          description: "Tente novamente mais tarde",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       });
-    });
   };
 
   const onEdit = (newCurrent: any) => {
@@ -86,17 +91,20 @@ const Description: React.FC = () => {
   };
 
   const onDelete = (id: number) => {
-    api.delete(`/elemento-narrativo/${id}`).then((res) => {
-      fetchWorld();
-    }).catch(err => {
-      toast({
-        title: "Erro ao apagar",
-        description: "Tente novamente mais tarde",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
+    api
+      .delete(`/elemento-narrativo/${id}`)
+      .then((res) => {
+        fetchWorld();
+      })
+      .catch((err) => {
+        toast({
+          title: "Erro ao apagar",
+          description: "Tente novamente mais tarde",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
       });
-    });
   };
 
   const chooseTab = () => {
@@ -110,34 +118,87 @@ const Description: React.FC = () => {
       return <DescriptionCard world={world as WorldParams} />;
     } else {
       let items: CharacterParams[] | PlaceParams[] | ObjectParams[] = [];
-      
-      if (current === "characters") {
-        items = (world?.elemento_narrativo.filter(
-          elem => elem.tipo === "personagem"
-        ).map(elem => elem.personagem) || []) as CharacterParams[];
-      } else if (current === "places") {
-        items = (world?.elemento_narrativo.filter(
-          elem => elem.tipo === "lugar"
-        ).map(elem => elem.lugar) || []) as PlaceParams[];
-      } else if (current === "objects") {
-        items = (world?.elemento_narrativo.filter(
-          elem => elem.tipo === "outro"
-        ).map(elem => elem.outro) || []) as ObjectParams[];
-      };
 
-      return <CategoriesList category={current} items={items} onDelete={onDelete} />;
+      if (current === "characters") {
+        items = (world?.elemento_narrativo
+          .filter((elem) => elem.tipo === "personagem")
+          .map((elem) => elem.personagem) || []) as CharacterParams[];
+      } else if (current === "places") {
+        items = (world?.elemento_narrativo
+          .filter((elem) => elem.tipo === "lugar")
+          .map((elem) => elem.lugar) || []) as PlaceParams[];
+      } else if (current === "objects") {
+        items = (world?.elemento_narrativo
+          .filter((elem) => elem.tipo === "outro")
+          .map((elem) => elem.outro) || []) as ObjectParams[];
+      }
+
+      return (
+        <CategoriesList
+          category={current}
+          items={formattedData(items)}
+          onDelete={onDelete}
+        />
+      );
     }
   };
 
+  const searchString = (data: string) => {
+    setSearchValue(data.toLowerCase());
+  };
+
+  const classification = (data: string) => {
+    setSort(data);
+  };
+
+  const filteredData = (
+    items: CharacterParams[] | PlaceParams[] | ObjectParams[]
+  ) => {
+    let filteredItems = items.filter((i) => i.nome.toLowerCase().indexOf(searchValue) > -1);
+
+    return filteredItems;
+  };
+
+  const sortedData = (
+    items: CharacterParams[] | PlaceParams[] | ObjectParams[]
+  ) => {
+    switch (sort) {
+      case "Nome":
+        items = items.sort(function (a, b) {
+          if (a.nome < b.nome) return -1;
+          if (a.nome > b.nome) return 1;
+          return 0;
+        });
+        return items;
+      case "Mais antigo":
+        return items;
+      case "Mais novo":
+        return items;
+      case "Última atualização":
+        return items;
+    }
+    return items;
+  };
+
+  const formattedData = (
+    items: CharacterParams[] | PlaceParams[] | ObjectParams[]
+  ) => {
+    let newItems: any;
+
+    newItems = filteredData(items);
+    newItems = sortedData(newItems);
+    return newItems;
+  };
+
   return (
-    <Flex
-      direction={"column"}
-      h="full"
-      w="full"
-      alignSelf={"center"}
-    >
+    <Flex direction={"column"} h="full" w="full" alignSelf={"center"}>
       <Header text={world?.nome || "Carregando..."} href="/worlds" />
-      <WorldHeader current={current} onEdit={onEdit} />
+      <WorldHeader
+        current={current}
+        onEdit={onEdit}
+        searchString={searchString}
+        classification={classification}
+      />
       {chooseTab()}
     </Flex>
   );

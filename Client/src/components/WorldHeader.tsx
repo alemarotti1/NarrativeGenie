@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Flex,
   Button,
@@ -6,17 +6,31 @@ import {
   Input,
   InputRightElement,
   Spacer,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Divider,
 } from "@chakra-ui/react";
-import { HiOutlineFilter, HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineSearch } from "react-icons/hi";
 import { BsFilter } from "react-icons/bs";
 
 interface ComponentHandlerProps {
   current: any;
   onEdit: (state: any) => void;
+  searchString: (data: string) => void;
+  classification: (data: string) => void;
 }
 
-const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
+const WorldHeader: React.FC<ComponentHandlerProps> = ({
+  current,
+  onEdit,
+  searchString,
+  classification,
+}) => {
   const [tab, setTab] = React.useState("Des");
+  const options = ["Nome", "Mais novo", "Mais antigo", "Última atualização"];
+  const [option, setOption] = useState("Nome");
 
   const onChangeTabDescricao = () => {
     console.log("teste", tab);
@@ -37,6 +51,11 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
   const onChangeTabObjetos = () => {
     setTab("objects");
     onEdit("objects");
+  };
+
+  const handleSearch = (e: any) => {
+    const value = e.target.value;
+    searchString(value);
   };
 
   return (
@@ -98,6 +117,7 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
       >
         Objetos
       </Button>
+
       {tab == "Des" ? (
         <></>
       ) : (
@@ -123,7 +143,8 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
                 placeholder="Pesquisar..."
                 h="25px"
                 borderRadius="3xl"
-              ></Input>
+                onChange={handleSearch}
+              />
               <InputRightElement>
                 <HiOutlineSearch
                   size="20px"
@@ -131,20 +152,37 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
                 />
               </InputRightElement>
             </InputGroup>
-
-            <Button
-              size="sm"
-              ml="2"
-              bg="none"
-              color="white"
-              _hover={{ bg: "#4e4a44" }}
-              _active={{ bg: "#4e4a44" }}
-              borderRadius="3xl"
-              fontWeight={"regular"}
-            >
-              <BsFilter style={{ marginRight: "5px" }} />
-              Classificar
-            </Button>
+            <Menu>
+              <MenuButton
+                as={Button}
+                size="sm"
+                ml="2"
+                pr="7"
+                bg="none"
+                color="white"
+                _hover={{ bg: "#4e4a44" }}
+                _active={{ bg: "#4e4a44" }}
+                borderRadius="3xl"
+                fontWeight={"regular"}
+                leftIcon={<BsFilter />}
+              >
+                {`Ordenar por: ${option}`}
+              </MenuButton>
+              <MenuList>
+                {options.map((op) => (
+                  <MenuItem
+                    bg={option == op ? "gray.200" : "none"}
+                    _hover={{ bg: "gray.200" }}
+                    onClick={() => {
+                      setOption(op);
+                      classification(op);
+                    }}
+                  >
+                    {op}
+                  </MenuItem>
+                ))}
+              </MenuList>
+            </Menu>
           </Flex>
         </>
       )}
