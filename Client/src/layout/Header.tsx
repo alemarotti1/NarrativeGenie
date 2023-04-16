@@ -39,8 +39,8 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
         boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.7)",
       }}
     >
-      <a  href="/">
-        <Image src={logo} alt="logo" h="60px" />
+      <a href="/">
+        <Image src={logo} alt="logo" h="60px" flexShrink={0} />
       </a>
       
       <Heading
@@ -49,6 +49,9 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
         textColor="white"
         fontFamily="Fondamento"
         fontWeight="regular"
+        whiteSpace="nowrap"
+        overflow="hidden"
+        textOverflow="ellipsis"
       >
         <a href={href ?? "/"}> {text ?? "Narrative Genie"} </a>
       </Heading>
@@ -58,6 +61,7 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
         fontSize="xl"
         fontFamily={"Fondamento"}
         fontWeight="regular"
+        flexShrink={0}
       >
         Olá, autor
       </Text>
