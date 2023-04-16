@@ -1,3 +1,3 @@
 export default {
-  API_URL: 'http://narrative-genie.onrender.com/',
+  API_URL: 'https://narrative-genie.onrender.com/',
 };
