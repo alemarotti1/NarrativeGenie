@@ -210,7 +210,7 @@ const Character: React.FC = () => {
             ) : (
               <>
               <Input
-              size="sm"
+                  size="sm"
                   mb="1"
                   value={titleValue}
                   bg="white"
@@ -218,7 +218,7 @@ const Character: React.FC = () => {
                   onChange={handleTitleInputChange}
                 />
                 <Textarea
-                size="sm"
+                  size="sm"
                   value={value}
                   bg="white"
                   w="full"

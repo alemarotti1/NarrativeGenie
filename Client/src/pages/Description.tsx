@@ -60,6 +60,7 @@ const Description: React.FC = () => {
   const [world, setWorld] = useState<WorldParams | null>(null);
   const [current, setCurrent] = useState("Des");
   const toast = useToast();
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     fetchWorld();
@@ -125,9 +126,19 @@ const Description: React.FC = () => {
         ).map(elem => elem.outro) || []) as ObjectParams[];
       };
 
-      return <CategoriesList category={current} items={items} onDelete={onDelete} />;
+      return <CategoriesList category={current} items={filteredData(items)} onDelete={onDelete} />;
     }
   };
+
+  const searchString = (data: string) => {
+    setSearchValue(data);
+  }
+
+  const filteredData = (items: CharacterParams[] | PlaceParams[] | ObjectParams[]) => {
+    let filteredItems = items.filter(i => i.nome.indexOf(searchValue) !== -1)
+
+    return filteredItems
+  }
 
   return (
     <Flex
@@ -137,7 +148,7 @@ const Description: React.FC = () => {
       alignSelf={"center"}
     >
       <Header text={world?.nome || "Carregando..."} href="/worlds" />
-      <WorldHeader current={current} onEdit={onEdit} />
+      <WorldHeader current={current} onEdit={onEdit} searchString={searchString}/>
       {chooseTab()}
     </Flex>
   );

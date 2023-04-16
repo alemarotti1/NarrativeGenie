@@ -13,10 +13,12 @@ import { BsFilter } from "react-icons/bs";
 interface ComponentHandlerProps {
   current: any;
   onEdit: (state: any) => void;
+  searchString: (data: string) => void;
 }
 
-const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
+const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit, searchString }) => {
   const [tab, setTab] = React.useState("Des");
+  const [search, setSearch] = React.useState("")
 
   const onChangeTabDescricao = () => {
     console.log("teste", tab);
@@ -38,6 +40,12 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
     setTab("objects");
     onEdit("objects");
   };
+
+  const handleSearch = (e:any) => {
+    const value = e.target.value;
+    setSearch(value);
+    searchString(value);
+  }
 
   return (
     <Flex
@@ -123,7 +131,8 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
                 placeholder="Pesquisar..."
                 h="25px"
                 borderRadius="3xl"
-              ></Input>
+                onChange={handleSearch}
+              />
               <InputRightElement>
                 <HiOutlineSearch
                   size="20px"
