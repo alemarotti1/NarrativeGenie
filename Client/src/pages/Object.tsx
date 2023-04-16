@@ -18,13 +18,10 @@ import api from "../config/api";
 import environment from "../config/environment";
 import Header from "../layout/Header";
 
-type CharacterParams = {
+type ObjectParams = {
   id_elem_narr: number;
   nome: string;
   descricao: string;
-  backstory: string;
-  personalidade: string;
-  especie: string;
   imagem: string;
   elemento_narrativo: {
     historia: {
@@ -34,21 +31,21 @@ type CharacterParams = {
   }
 };
 
-const Character: React.FC = () => {
+const ObjectPage: React.FC = () => {
   const { id } = useParams();
-  const [character, setCharacter] = useState<CharacterParams | null>(null);
+  const [obj, setObj] = useState<ObjectParams | null>(null);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const [value, setValue] = useState(character?.descricao || "");
-  const [titleValue, setTitleValue] = useState(character?.nome || "");
+  const [value, setValue] = useState(obj?.descricao || "");
+  const [titleValue, setTitleValue] = useState(obj?.nome || "");
   const [backup, setBackup] = useState("");
   const toast = useToast();
 
   useEffect(() => {
-    api.get(`/personagem/${id}`).then((res) => {
-      setCharacter(res.data.character);
-      setValue(res.data.character.descricao);
-      setTitleValue(res.data.character.nome);
+    api.get(`/outro/${id}`).then((res) => {
+      setObj(res.data.other);
+      setValue(res.data.other.descricao);
+      setTitleValue(res.data.other.nome);
       setLoading(false);
     }).catch(err => {
       toast({
@@ -86,7 +83,7 @@ const Character: React.FC = () => {
     setDisabled(false);
   };
 
-  const story = character?.elemento_narrativo.historia;
+  const story = obj?.elemento_narrativo.historia;
 
   return (
     <>
@@ -94,10 +91,10 @@ const Character: React.FC = () => {
       <Flex
         direction={"column"}
         h="fit-content"
-        bg="rgba(0,0,0,0.3)"
-        border="none"
-        borderRadius="3xl"
-        mx="10"
+        align="center"
+        overflow="hidden"
+        m="10"
+        mr="5"
       >
         <Grid
           h="full"
@@ -171,7 +168,7 @@ const Character: React.FC = () => {
               alignSelf="auto"
               objectFit="cover"
               borderRadius="2xl"
-              src={environment.API_URL + character?.imagem}
+              src={environment.API_URL + obj?.imagem}
               alt="Lugar"
             />
           </GridItem>
@@ -263,4 +260,4 @@ const Character: React.FC = () => {
   );
 };
 
-export default Character;
+export default ObjectPage;

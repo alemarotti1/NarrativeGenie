@@ -2,32 +2,15 @@ import React, { useState } from "react";
 import {
   Button,
   Flex,
-  Heading,
   Input,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
   Image,
-  useDisclosure,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
-  Spacer,
   Grid,
   GridItem,
   Text,
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
-import {
-  HiOutlineChevronDown,
-  HiOutlinePlusCircle,
-  HiPencilAlt,
-} from "react-icons/hi";
+import { HiPencilAlt } from "react-icons/hi";
 
 import avatar from "../assets/avatar.png";
 
@@ -38,14 +21,32 @@ const Profile: React.FC = () => {
   const handleClick = () => setShow(!show);
 
   const [disabled, setDisabled] = useState(true);
+  const [username, setUsername] = useState("Username");
+  const [email, setEmail] = useState("user@email.com");
+  const [password, setPassword] = useState("lalala");
 
+  const handleNameChange = (e: any) => {
+    const inputValue = e.target.value;
+    setUsername(inputValue);
+  };
+
+  const handleEmailChange = (e: any) => {
+    const inputValue = e.target.value;
+    setEmail(inputValue);
+  };
+
+  const handlePasswordChange = (e: any) => {
+    const inputValue = e.target.value;
+    setPassword(inputValue);
+  };
   return (
     <>
       <Header text="Perfil" href="/profile" />
       <Grid
         mx="10"
+        my="7"
         h="fit-content"
-        bg="rgba(255,255,255,0.2)"
+        bg="rgba(255,255,255,0.3)"
         border="none"
         borderRadius="3xl"
         columnGap={6}
@@ -88,7 +89,6 @@ const Profile: React.FC = () => {
             </Button>
           )}
         </GridItem>
-
         <GridItem area={"nav"} alignSelf="auto">
           <Image
             w="full"
@@ -105,21 +105,36 @@ const Profile: React.FC = () => {
               Nome:
             </Text>
             <Input
-              placeholder="Username"
-              bg="white"
+              value={username}
               maxW="xl"
+              onChange={handleNameChange}
+              bg="white"
               disabled={disabled}
+              _disabled={{
+                bg: "none",
+                border: "none",
+                fontSize: "xl",
+                color: "white",
+              }}
             />
           </Flex>
           <Flex align="center">
             <Text p="3" color="white" fontSize="xl">
               Email:
             </Text>
+
             <Input
-              placeholder="User@email.com"
+              value={email}
               bg="white"
               maxW="xl"
+              onChange={handleEmailChange}
               disabled={disabled}
+              _disabled={{
+                bg: "none",
+                border: "none",
+                fontSize: "xl",
+                color: "white",
+              }}
             />
           </Flex>
           <Flex align="center">
@@ -130,13 +145,20 @@ const Profile: React.FC = () => {
               <Input
                 pr="4.5rem"
                 type={show ? "text" : "password"}
-                placeholder="******"
-                disabled={disabled}
                 bg="white"
+                value={password}
+                disabled={disabled}
+                onChange={handlePasswordChange}
+                _disabled={{
+                  bg: "none",
+                  border: "none",
+                  fontSize: "xl",
+                  color: "white",
+                }}
               />
               <InputRightElement width="4.5rem">
-                <Button h="1.75rem" size="sm" onClick={handleClick}>
-                  {show ? "Hide" : "Show"}
+                <Button borderRadius="3xl" h="1.75rem" size="sm" onClick={handleClick}>
+                  {show ? "Esconder" : "Mostrar"}
                 </Button>
               </InputRightElement>
             </InputGroup>

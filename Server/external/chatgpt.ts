@@ -1,35 +1,26 @@
-import axios from "axios";
-import * as openai from "openai";
-
-import environment from "../config/environment";
+import { OpenAIApi, Configuration } from "openai";
 
 class ChatGPT {
-  private readonly api : openai.OpenAIApi;
-  private readonly configuration : openai.Configuration;
-  private models : any;
+  private readonly api: OpenAIApi;
+  private readonly configuration: Configuration;
 
   constructor() {
-    this.configuration = new openai.Configuration({
+    this.configuration = new Configuration({
       apiKey: process.env.OPENAI_API_KEY,
       organization: process.env.OPENAI_ORGANIZATION,
     });
 
-    this.api = new openai.OpenAIApi(this.configuration);
-  }
-
-  public async loadModels() {
-    this.models = await this.api.listModels();
+    this.api = new OpenAIApi(this.configuration);
   }
 
   public async completion(prompt: string) {
-    const data = await this.api.createCompletion({
+    const response = await this.api.createChatCompletion({
       model: "gpt-3.5-turbo",
-      prompt: prompt,
-      max_tokens: 200,
+      messages: [{ role: "user", content: prompt }],
       temperature: 0.5,
     });
 
-    return data;
+    return response;
   }
 }
 

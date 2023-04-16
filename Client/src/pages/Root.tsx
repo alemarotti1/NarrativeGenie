@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Flex,
@@ -17,16 +17,19 @@ import {
   ModalBody,
   ModalCloseButton,
   Spacer,
+  useToast,
 } from "@chakra-ui/react";
 import { HiOutlineChevronDown, HiOutlinePlusCircle } from "react-icons/hi";
+import { useNavigate } from "react-router-dom"; 
 
 import image from "../assets/image.png";
 import api from "../config/api";
 
-const categories = ["Personagem", "Lugar", "Objeto"];
-const worlds = [
-  "Witunkles, The Spirit Vales",
-  "Eldlubach, Reach of the Elders",
+const categories = [
+  { label: "Mundo", api: "historia", path: "worlds" },
+  { label: "Personagem", api: "personagem", path: "characters" },
+  { label: "Lugar", api: "lugar", path: "places" },
+  { label: "Objeto", api: "outro", path: "objects" },
 ];
 
 import Header from "../layout/Header";
@@ -34,9 +37,29 @@ import Header from "../layout/Header";
 const Root: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [category, setCategory] = useState("Categoria");
+  const [worlds, setWorlds] = useState<any[]>([]);
   const [world, setWorld] = useState("Mundo");
   const [prompt, setPrompt] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  useEffect(() => {
+    api.get("/historia", { params: { email: "teste@teste.com" }}).then((res) => {
+      setWorlds(res.data.stories.map((story: any) => ({
+        value: story.id_historia,
+        label: story.nome
+      })) || []);
+    }).catch(err => {
+      toast({
+        title: "Erro no carregamento",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    });
+  }, []);
 
   const handleCategory = (category: string) => {
     setCategory(category);
@@ -44,13 +67,43 @@ const Root: React.FC = () => {
 
   const handleCreate = () => {
     setIsLoading(true);
-    api
-      .get("/historia", { params: { prompt: `${category}: ${prompt}` } })
-      .then((res) => {
-        alert(res.data.result);
-        setPrompt("");
-        setIsLoading(false);
+    const worldId = worlds.find((w: any) => w.label === world)?.value;
+    const categoryObject = categories.find((c) => c.label === category);
+    api.post(`/${categoryObject?.api}`, { prompt: prompt, id_historia: worldId }).then(res => {
+      setPrompt("");
+      onClose();
+      setIsLoading(false);
+      navigate(`/${categoryObject?.path}/${res.data.id}`);
+    }).catch(err => {
+      toast({
+        title: "Erro na criação",
+        description: "Tente novamente mais tarde",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
       });
+    });
+  };
+
+  const sendPrompt = () => {
+    if (category === "Categoria") {
+      toast({
+        title: "Atenção",
+        description: "Selecione uma categoria",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
+    if (category === "Mundo") {
+      setWorld("Mundo");
+      handleCreate();
+      return;
+    }
+
+    onOpen();
   };
 
   return (
@@ -87,8 +140,8 @@ const Root: React.FC = () => {
               </MenuButton>
               <MenuList>
                 {worlds.map((world) => (
-                  <MenuItem onClick={() => setWorld(world)} key={world}>
-                    {world}
+                  <MenuItem onClick={() => setWorld(world.label)} key={world.value}>
+                    {world.label}
                   </MenuItem>
                 ))}
               </MenuList>
@@ -143,10 +196,10 @@ const Root: React.FC = () => {
             <MenuList>
               {categories.map((category) => (
                 <MenuItem
-                  onClick={() => handleCategory(category)}
-                  key={category}
+                  onClick={() => handleCategory(category.label)}
+                  key={category.path}
                 >
-                  {category}
+                  {category.label}
                 </MenuItem>
               ))}
             </MenuList>
@@ -171,7 +224,8 @@ const Root: React.FC = () => {
             _active={{ bg: "#4e4a44" }}
             borderRadius="xl"
             fontWeight={"regular"}
-            onClick={() => onOpen()}
+            onClick={sendPrompt}
+            isLoading={isLoading}
           >
             Criar
           </Button>

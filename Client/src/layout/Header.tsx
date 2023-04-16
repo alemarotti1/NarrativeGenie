@@ -12,8 +12,8 @@ import {
   Text,
   Heading,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import { RiMenuFill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
 
 import logo from "../assets/logo_img.svg";
 import avatar from "../assets/avatar.png";
@@ -24,15 +24,16 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ text, href }) => {
-  const navigate = useNavigate();
   return (
     <Flex
       px="4"
       py="3"
       bg="rgba(0,0,0,0.7)"
       align="center"
-      mx="10"
-      my="10"
+      ml="10"
+      mr="9"
+      mt="10"
+      mb="5"
       style={{
         borderRadius: "30px",
         boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.7)",
@@ -73,9 +74,18 @@ const Header: React.FC<HeaderProps> = ({ text, href }) => {
           _active={{ color: "white", bg: "whiteAlpha.300" }}
         />
         <MenuList>
-          <MenuItem onClick={() => navigate("/profile")}>Perfil</MenuItem>
-          <MenuItem onClick={() => navigate("/worlds")}>Mundos</MenuItem>
-          <MenuItem>Sair</MenuItem>
+          <Link to="/">
+            <MenuItem>Início</MenuItem>
+          </Link>
+          <Link to="/profile">
+            <MenuItem>Perfil</MenuItem>
+          </Link>
+          <Link to="/worlds">
+            <MenuItem>Mundos</MenuItem>
+          </Link>
+          <Link to="/">
+            <MenuItem>Sair</MenuItem>
+          </Link>
         </MenuList>
       </Menu>
     </Flex>

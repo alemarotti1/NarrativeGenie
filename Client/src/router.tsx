@@ -8,6 +8,8 @@ import Worlds from "./pages/Worlds";
 import Description from "./pages/Description";
 import Profile from "./pages/Profile";
 import Character from "./pages/Character";
+import Place from "./pages/Place";
+import ObjectPage from "./pages/Object";
 
 const router = createBrowserRouter([
   {
@@ -19,52 +21,33 @@ const router = createBrowserRouter([
         path: "/",
         element: <Root />,
       },
-    ],
-  },
-  {
-    path: "/worlds",
-    element: <Main />,
-    errorElement: <Error />,
-    children: [
       {
         path: "/worlds",
         element: <Worlds />,
       },
-    ],
-  },
-  {
-    path: "/world",
-    element: <Main />,
-    errorElement: <Error />,
-    children: [
       {
-        path: "/world",
+        path: "/worlds/:id",
         element: <Description />,
       },
-    ],
-  },
-  {
-    path: "/profile",
-    element: <Main />,
-    errorElement: <Error />,
-    children: [
       {
         path: "/profile",
         element: <Profile />,
       },
-    ],
-  },
-  {
-    path: "/character",
-    element: <Main />,
-    errorElement: <Error />,
-    children: [
       {
-        path: "/character",
+        path: "/characters/:id",
         element: <Character />,
+      },
+      {
+        path: "/places/:id",
+        element: <Place />,
+      },
+      {
+        path: "/objects/:id",
+        element: <ObjectPage />,
       },
     ],
   },
+  
 ]);
 
 const Router: React.FC = () => <RouterProvider router={router} />;
