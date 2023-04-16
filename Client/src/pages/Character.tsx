@@ -39,7 +39,7 @@ const Character: React.FC = () => {
   const [character, setCharacter] = useState<CharacterParams | null>(null);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const [value, setValue] = useState(character?.descricao || "");
+  const [value, setValue] = useState(character?.backstory || "");
   const [titleValue, setTitleValue] = useState(character?.nome || "");
   const [backup, setBackup] = useState("");
   const toast = useToast();
@@ -47,7 +47,7 @@ const Character: React.FC = () => {
   useEffect(() => {
     api.get(`/personagem/${id}`).then((res) => {
       setCharacter(res.data.character);
-      setValue(res.data.character.descricao);
+      setValue(res.data.character.backstory);
       setTitleValue(res.data.character.nome);
       setLoading(false);
     }).catch(err => {
@@ -100,6 +100,7 @@ const Character: React.FC = () => {
         mx="10"
       >
         <Grid
+          w="full"
           h="full"
           bg="rgba(0,0,0,0.4)"
           border="none"
@@ -116,7 +117,7 @@ const Character: React.FC = () => {
               backgroundColor: `rgba(0, 0, 0, 0.8)`,
             },
           }}
-          gridGap={3}
+          gridGap={4}
           p="7"
           pt="5"
           pb="10"
@@ -135,6 +136,7 @@ const Character: React.FC = () => {
             display="flex"
             alignItems="flex-end"
             justifyContent="flex-end"
+            gap="2"
           >
             <Button
               variant="solid"
@@ -143,6 +145,8 @@ const Character: React.FC = () => {
               fontWeight="regular"
               borderRadius="3xl"
               onClick={() => (disabled ? handleEdit() : setDisabled(true))}
+              _hover={{ bg: "whiteAlpha.200" }}
+              _active={{ bg: "whiteAlpha.300" }}
             >
               <HiPencilAlt style={{ marginRight: "5px" }} />
               {disabled ? "Editar" : "Salvar"}
@@ -160,6 +164,8 @@ const Character: React.FC = () => {
                   setDisabled(true);
                   setValue(backup);
                 }}
+                _hover={{ bg: "whiteAlpha.200" }}
+                _active={{ bg: "whiteAlpha.300" }}
               >
                 Cancelar
               </Button>
@@ -178,7 +184,7 @@ const Character: React.FC = () => {
           <GridItem area={"title"}>
           {disabled ? (
               <>
-                <Text py="1" color="white" fontSize={"xl"}>
+                <Text py="1" color="white" fontSize={"2xl"}>
                   {titleValue}
                 </Text>
               </>
@@ -186,7 +192,10 @@ const Character: React.FC = () => {
               <>
                 <Input
                   value={titleValue}
-                  bg="white"
+                  bg="whiteAlpha.600"
+                  border="0"
+                  color="black"
+                  fontWeight="bold"
                   //w="full"
                   onChange={handleTitleInputChange}
                 />
@@ -218,7 +227,10 @@ const Character: React.FC = () => {
               <>
                 <Textarea
                   value={value}
-                  bg="white"
+                  bg="whiteAlpha.600"
+                  border="0"
+                  color="black"
+                  resize="none"
                   w="full"
                   maxH="full"
                   h="full"

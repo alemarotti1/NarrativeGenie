@@ -55,7 +55,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
             />
           </GridItem>
           <GridItem pl="2" area={"main"} overflow="hidden">
-            <Heading color="white" size="md" fontFamily="Fondamento">
+            <Heading color="white" size="lg" fontFamily="Fondamento">
               {item.nome}
             </Heading>
             <Text
@@ -72,7 +72,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
                 WebkitBoxOrient: "vertical",
               }}
             >
-              {item.descricao}
+              {category === "characters" ? (item as CharacterParams).backstory : item.descricao}
             </Text>
           </GridItem>
           <GridItem
@@ -89,6 +89,8 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
               fontWeight="regular"
               borderRadius="3xl"
               onClick={() => navigate(`/${category}/${item.id_elem_narr}`)}
+              _hover={{ bg: "#36615C", color: "white" }}
+              _active={{ bg: "#305651", color: "white" }}
             >
               Ver mais
             </Button>
@@ -99,6 +101,8 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
               fontWeight="regular"
               borderRadius="3xl"
               onClick={() => onDelete(item.id_elem_narr)}
+              _hover={{ bg: "red.800", color: "white" }}
+              _active={{ bg: "red.900", color: "white" }}
             >
               Deletar
             </Button>

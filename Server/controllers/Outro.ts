@@ -74,3 +74,27 @@ export const criarOutro = async (outroParams: OutroParams) => {
 
   return outro.id_elem_narr;
 };
+
+type AtualizarOutroParams = {
+  id_elem_narr: number;
+  imagem?: string;
+  nome?: string;
+  descricao?: string;
+  prompt?: string;
+  imgPrompt?: string;
+}
+
+export const atualizarOutro = async (outroParams: AtualizarOutroParams) => {
+  await db.outro.update({
+    where: {
+      id_elem_narr: outroParams.id_elem_narr
+    },
+    data: {
+      imagem: outroParams.imagem,
+      nome: outroParams.nome,
+      descricao: outroParams.descricao,
+      prompt: outroParams.prompt,
+      imgPrompt: outroParams.imgPrompt,
+    }
+  });
+};

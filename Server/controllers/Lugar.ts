@@ -82,3 +82,35 @@ export const criarLugar = async (lugarParams: LugarParams) => {
 
   return lugar.id_elem_narr;
 };
+
+type AtualizarLugarParams = {
+  id_elem_narr: number;
+  imagem?: string;
+  nome?: string;
+  descricao?: string;
+  riqueza?: number;
+  saude?: number;
+  seguranca?: number;
+  agua?: number;
+  prompt?: string;
+  imgPrompt?: string;
+}
+
+export const atualizarLugar = async (lugarParams: AtualizarLugarParams) => {
+  await db.lugar.update({
+    where: {
+      id_elem_narr: lugarParams.id_elem_narr
+    },
+    data: {
+      imagem: lugarParams.imagem,
+      nome: lugarParams.nome,
+      descricao: lugarParams.descricao,
+      riqueza: lugarParams.riqueza,
+      saude: lugarParams.saude,
+      seguranca: lugarParams.seguranca,
+      agua: lugarParams.agua,
+      prompt: lugarParams.prompt,
+      imgPrompt: lugarParams.imgPrompt,
+    }
+  });
+};

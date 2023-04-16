@@ -97,6 +97,7 @@ const ObjectPage: React.FC = () => {
         mr="5"
       >
         <Grid
+          w="full"
           h="full"
           bg="rgba(0,0,0,0.4)"
           border="none"
@@ -113,7 +114,7 @@ const ObjectPage: React.FC = () => {
               backgroundColor: `rgba(0, 0, 0, 0.8)`,
             },
           }}
-          gridGap={3}
+          gridGap={4}
           p="7"
           pt="5"
           pb="10"
@@ -132,6 +133,7 @@ const ObjectPage: React.FC = () => {
             display="flex"
             alignItems="flex-end"
             justifyContent="flex-end"
+            gap="2"
           >
             <Button
               variant="solid"
@@ -140,6 +142,8 @@ const ObjectPage: React.FC = () => {
               fontWeight="regular"
               borderRadius="3xl"
               onClick={() => (disabled ? handleEdit() : setDisabled(true))}
+              _hover={{ bg: "whiteAlpha.200" }}
+              _active={{ bg: "whiteAlpha.300" }}
             >
               <HiPencilAlt style={{ marginRight: "5px" }} />
               {disabled ? "Editar" : "Salvar"}
@@ -157,6 +161,8 @@ const ObjectPage: React.FC = () => {
                   setDisabled(true);
                   setValue(backup);
                 }}
+                _hover={{ bg: "whiteAlpha.200" }}
+                _active={{ bg: "whiteAlpha.300" }}
               >
                 Cancelar
               </Button>
@@ -175,7 +181,7 @@ const ObjectPage: React.FC = () => {
           <GridItem area={"title"}>
           {disabled ? (
               <>
-                <Text py="1" color="white" fontSize={"xl"}>
+                <Text py="1" color="white" fontSize={"2xl"}>
                   {titleValue}
                 </Text>
               </>
@@ -183,7 +189,10 @@ const ObjectPage: React.FC = () => {
               <>
                 <Input
                   value={titleValue}
-                  bg="white"
+                  bg="whiteAlpha.600"
+                  border="0"
+                  color="black"
+                  fontWeight="bold"
                   //w="full"
                   onChange={handleTitleInputChange}
                 />
@@ -215,7 +224,10 @@ const ObjectPage: React.FC = () => {
               <>
                 <Textarea
                   value={value}
-                  bg="white"
+                  bg="whiteAlpha.600"
+                  border="0"
+                  color="black"
+                  resize="none"
                   w="full"
                   maxH="full"
                   h="full"

@@ -4,7 +4,7 @@ import * as express from 'express';
 
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
-import { apagarOutro, buscarOutro, criarOutro, listarOutros } from '../controllers/Outro';
+import { apagarOutro, atualizarOutro, buscarOutro, criarOutro, listarOutros } from '../controllers/Outro';
 import { outroPrompt } from '../helpers/prompt';
 
 const OutroRouter = express.Router();
@@ -22,6 +22,15 @@ OutroRouter.get('/:id', async (req, res) => {
 OutroRouter.delete('/:id', async (req, res) => {
   await apagarOutro(parseInt(req.params.id));
   res.json();
+});
+
+OutroRouter.patch('/:id', async (req, res) => {
+  const outroParams = {
+    id_elem_narr: parseInt(req.params.id),
+    ...req.body,
+  };
+
+  await atualizarOutro(outroParams);
 });
 
 OutroRouter.post('/', async (req, res) => {

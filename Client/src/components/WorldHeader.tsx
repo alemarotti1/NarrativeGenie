@@ -41,6 +41,7 @@ const WorldHeader: React.FC<ComponentHandlerProps> = ({ current, onEdit }) => {
         borderRadius: "30px",
         boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.8)",
       }}
+      gap="2"
     >
       <Button
         color="white"

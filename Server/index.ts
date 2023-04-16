@@ -16,7 +16,7 @@ import OutroRouter from './base_api/Outro';
 import LugarRouter from './base_api/Lugar';
 
 const app = express();
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 

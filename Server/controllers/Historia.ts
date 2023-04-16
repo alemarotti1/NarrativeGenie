@@ -65,3 +65,27 @@ export const criarHistoria = async (historiaParams: HistoriaParams) => {
 
   return historia.id_historia;
 };
+
+type AtualizarHistoriaParams = {
+  id_historia: number;
+  nome?: string;
+  descricao?: string;
+  path_img_capa?: string;
+  prompt?: string;
+  imgPrompt?: string;
+}
+
+export const atualizarHistoria = async (historiaParams: AtualizarHistoriaParams) => {
+  await db.historia.update({
+    where: {
+      id_historia: historiaParams.id_historia
+    },
+    data: {
+      nome: historiaParams.nome,
+      descricao: historiaParams.descricao,
+      path_img_capa: historiaParams.path_img_capa,
+      prompt: historiaParams.prompt,
+      imgPrompt: historiaParams.imgPrompt,
+    }
+  });
+};
