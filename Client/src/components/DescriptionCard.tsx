@@ -27,14 +27,6 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
   const [value, setValue] = useState(world?.descricao || "");
   const [backup, setBackup] = useState("");
 
-  useEffect(() => {
-    api.get(`/historia/${id}`).then((res) => {
-      setWorld(res.data.story);
-      setValue(res.data.story.descricao);
-      setLoading(false);
-    });
-  }, []);
-
   const handleInputChange = (e: any) => {
     const inputValue = e.target.value;
     setValue(inputValue);
