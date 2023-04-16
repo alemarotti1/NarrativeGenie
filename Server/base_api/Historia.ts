@@ -4,7 +4,7 @@ import * as express from 'express';
 
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
-import { listarHistorias, buscarHistoria, criarHistoria, apagarHistoria } from '../controllers/Historia';
+import { listarHistorias, buscarHistoria, criarHistoria, apagarHistoria, atualizarHistoria } from '../controllers/Historia';
 import { historiaPrompt } from '../helpers/prompt';
 
 const HistoriaRouter = express.Router();
@@ -22,6 +22,15 @@ HistoriaRouter.get('/:id', async (req, res) => {
 HistoriaRouter.delete('/:id', async (req, res) => {
   await apagarHistoria(parseInt(req.params.id));
   res.json();
+});
+
+HistoriaRouter.patch('/:id', async (req, res) => {
+  const historiaParams = {
+    id_elem_narr: parseInt(req.params.id),
+    ...req.body,
+  };
+
+  await atualizarHistoria(historiaParams);
 });
 
 /***

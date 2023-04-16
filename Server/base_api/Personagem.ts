@@ -4,7 +4,7 @@ import * as express from 'express';
 
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
-import { apagarPersonagem, buscarPersonagem, criarPersonagem, listarPersonagens } from '../controllers/Personagem';
+import { apagarPersonagem, atualizarPersonagem, buscarPersonagem, criarPersonagem, listarPersonagens } from '../controllers/Personagem';
 import { personagemPrompt } from '../helpers/prompt';
 
 const PersonagemRouter = express.Router();
@@ -22,6 +22,15 @@ PersonagemRouter.get('/:id', async (req, res) => {
 PersonagemRouter.delete('/:id', async (req, res) => {
   await apagarPersonagem(parseInt(req.params.id));
   res.json();
+});
+
+PersonagemRouter.patch('/:id', async (req, res) => {
+  const personagemParams = {
+    id_elem_narr: parseInt(req.params.id),
+    ...req.body,
+  };
+
+  await atualizarPersonagem(personagemParams);
 });
 
 PersonagemRouter.post('/', async (req, res) => {

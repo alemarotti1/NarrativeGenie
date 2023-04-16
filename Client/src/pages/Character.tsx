@@ -39,7 +39,7 @@ const Character: React.FC = () => {
   const [character, setCharacter] = useState<CharacterParams | null>(null);
   const [loading, setLoading] = useState(true);
   const [disabled, setDisabled] = useState(true);
-  const [value, setValue] = useState(character?.descricao || "");
+  const [value, setValue] = useState(character?.backstory || "");
   const [titleValue, setTitleValue] = useState(character?.nome || "");
   const [backup, setBackup] = useState("");
   const toast = useToast();
@@ -47,7 +47,7 @@ const Character: React.FC = () => {
   useEffect(() => {
     api.get(`/personagem/${id}`).then((res) => {
       setCharacter(res.data.character);
-      setValue(res.data.character.descricao);
+      setValue(res.data.character.backstory);
       setTitleValue(res.data.character.nome);
       setLoading(false);
     }).catch(err => {

@@ -80,3 +80,33 @@ export const criarPersonagem = async (personagemParams: PersonagemParams) => {
 
   return personagem.id_elem_narr;
 };
+
+type AtualizarPersonagemParams = {
+  id_elem_narr: number;
+  imagem?: string;
+  nome?: string;
+  descricao?: string;
+  backstory?: string;
+  personalidade?: string;
+  especie?: string;
+  prompt?: string;
+  imgPrompt?: string;
+}
+
+export const atualizarPersonagem = async (personagemParams: AtualizarPersonagemParams) => {
+  await db.personagem.update({
+    where: {
+      id_elem_narr: personagemParams.id_elem_narr
+    },
+    data: {
+      imagem: personagemParams.imagem,
+      nome: personagemParams.nome,
+      descricao: personagemParams.descricao,
+      backstory: personagemParams.backstory,
+      personalidade: personagemParams.personalidade,
+      especie: personagemParams.especie,
+      prompt: personagemParams.prompt,
+      imgPrompt: personagemParams.imgPrompt,
+    }
+  });
+};

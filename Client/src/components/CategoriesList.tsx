@@ -72,7 +72,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
                 WebkitBoxOrient: "vertical",
               }}
             >
-              {item.descricao}
+              {category === "characters" ? (item as CharacterParams).backstory : item.descricao}
             </Text>
           </GridItem>
           <GridItem

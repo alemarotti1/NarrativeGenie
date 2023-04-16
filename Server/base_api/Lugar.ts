@@ -4,7 +4,7 @@ import * as express from 'express';
 
 import chatGPT from '../external/chatgpt';
 import waifuDiff from '../external/waifudiffusion';
-import { apagarLugar, buscarLugar, criarLugar, listarLugares } from '../controllers/Lugar';
+import { apagarLugar, atualizarLugar, buscarLugar, criarLugar, listarLugares } from '../controllers/Lugar';
 import { lugarPrompt } from '../helpers/prompt';
 
 const LugarRouter = express.Router();
@@ -22,6 +22,15 @@ LugarRouter.get('/:id', async (req, res) => {
 LugarRouter.delete('/:id', async (req, res) => {
   await apagarLugar(parseInt(req.params.id));
   res.json();
+});
+
+LugarRouter.patch('/:id', async (req, res) => {
+  const lugarParams = {
+    id_elem_narr: parseInt(req.params.id),
+    ...req.body,
+  };
+
+  await atualizarLugar(lugarParams);
 });
 
 LugarRouter.post('/', async (req, res) => {
