@@ -73,7 +73,7 @@ class WaifuDiff {
 
   private async eerieOrangeMix(prompt: string) : Promise<AxiosResponse<any>> {
     const api = axios.create({
-      baseURL: "https://api-inference.huggingface.co/models/WarriorMama777/AbyssOrangeMix2",
+      baseURL: "https://api-inference.huggingface.co/models/WarriorMama777/EerieOrangeMix",
       headers: {
         Authorization: `Bearer ${environment.HUGGING_FACE_API_TOKEN}`
       }
