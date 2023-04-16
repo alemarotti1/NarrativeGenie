@@ -28,7 +28,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
         <Grid
           key={item.id_elem_narr}
           mx="10"
-          my="7"
+          mt="7"
           bg="rgba(0,0,0,0.6)"
           border="none"
           borderRadius="3xl"
