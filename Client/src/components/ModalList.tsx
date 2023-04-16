@@ -75,13 +75,22 @@ const ModalList: React.FC<ModalListProps> = ({ isOpen, onClose, ...params }) => 
             <Button
               borderRadius="xl"
               bg="#3C6C66"
+              _hover={{ bg: "#36615C", color: "white" }}
+              _active={{ bg: "#305651", color: "white" }}
               color="white"
               mr="2"
               onClick={() => onClose(true, value)}
             >
-              {params.index ? "Atualizar" : "Criar"}
+              {params.index !== null ? "Atualizar" : "Criar"}
             </Button>
-            <Button borderRadius="xl" bg="red.700" color="white" onClick={() => onClose(false)}>
+            <Button
+              borderRadius="xl"
+              bg="red.700"
+              color="white"
+              _hover={{ bg: "red.800", color: "white" }}
+              _active={{ bg: "red.900", color: "white" }}
+              onClick={() => onClose(false)}
+            >
               Cancelar
             </Button>
           </Flex>

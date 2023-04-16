@@ -19,15 +19,32 @@ export const buscarPersonagem = async (id_elem_narr: number) => {
     },
     include: {
       elemento_narrativo: {
-        select: {
-          historia: {
-            select: {
-              id_historia: true,
-              nome: true,
+        include: {
+          historia: true,
+          relacao_relacao_id_elem_narr1Toelemento_narrativo: {
+            include: {
+              elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo: {
+                include: {
+                  personagem: true,
+                  outro: true,
+                  lugar: true,
+                }
+              }
+            }
+          },
+          relacao_relacao_id_elem_narr2Toelemento_narrativo: {
+            include: {
+              elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo: {
+                include: {
+                  personagem: true,
+                  outro: true,
+                  lugar: true,
+                }
+              }
             }
           }
         }
-      }
+      },
     }
   });
 
@@ -91,6 +108,24 @@ type AtualizarPersonagemParams = {
   especie?: string;
   prompt?: string;
   imgPrompt?: string;
+  personagens?: {
+    id_elem_narr: number;
+    descricao: string;
+    nome_relacao: string;
+    prompt: string;
+  }[];
+  lugares?: {
+    id_elem_narr: number;
+    descricao: string;
+    nome_relacao: string;
+    prompt: string;
+  }[];
+  objetos?: {
+    id_elem_narr: number;
+    descricao: string;
+    nome_relacao: string;
+    prompt: string;
+  }[];
 }
 
 export const atualizarPersonagem = async (personagemParams: AtualizarPersonagemParams) => {
@@ -108,5 +143,30 @@ export const atualizarPersonagem = async (personagemParams: AtualizarPersonagemP
       prompt: personagemParams.prompt,
       imgPrompt: personagemParams.imgPrompt,
     }
+  });
+
+  await db.relacao.deleteMany({
+    where: {
+      OR: [
+        { id_elem_narr1: personagemParams.id_elem_narr },
+        { id_elem_narr2: personagemParams.id_elem_narr }
+      ]
+    }
+  });
+
+  const relacoes = [
+    ...(personagemParams.personagens || []),
+    ...(personagemParams.lugares || []),
+    ...(personagemParams.objetos || []),
+  ];
+
+  await db.relacao.createMany({
+    data: relacoes.map(relacao => ({
+      id_elem_narr1: personagemParams.id_elem_narr,
+      id_elem_narr2: relacao.id_elem_narr,
+      descricao: relacao.descricao,
+      nome_relacao: relacao.nome_relacao,
+      prompt: relacao.prompt,
+    }))
   });
 };

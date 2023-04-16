@@ -23,6 +23,7 @@ import {
   Spacer,
   useDisclosure,
   Icon,
+  Tooltip,
 } from "@chakra-ui/react";
 import { HiPencilAlt, HiOutlineChevronDown, HiTrash } from "react-icons/hi";
 import { useParams } from "react-router-dom";
@@ -31,6 +32,15 @@ import api from "../config/api";
 import environment from "../config/environment";
 import Header from "../layout/Header";
 import ModalList from "../components/ModalList";
+import ModalRelation, { RelationParams } from "../components/ModalRelation";
+
+type RelatedParams = {
+  personagens: RelationParams[],
+  lugares: RelationParams[],
+  objetos: RelationParams[],
+  personalidade: string[],
+  caracteristicas: string[],
+};
 
 type CharacterParams = {
   id_elem_narr: number;
@@ -48,6 +58,12 @@ type CharacterParams = {
   };
 };
 
+const relatedKeyToPath: Record<string, string> = {
+  personagens: "personagem",
+  objetos: "outro",
+  lugares: "lugar",
+};
+
 const Character: React.FC = () => {
   const { id } = useParams();
   const [character, setCharacter] = useState<CharacterParams | null>(null);
@@ -55,19 +71,32 @@ const Character: React.FC = () => {
   const [disabled, setDisabled] = useState(true);
   const [value, setValue] = useState(character?.descricao || "");
   const [titleValue, setTitleValue] = useState(character?.nome || "");
+  const [related, setRelated] = useState<RelatedParams>({
+    personagens: [],
+    lugares: [],
+    objetos: [],
+    personalidade: [],
+    caracteristicas: [],
+  });
   const [backup, setBackup] = useState("");
   const [backupTitle, setBackupTitle] = useState("");
-  const [related, setRelated] = useState({
-    personagens: ["Chasianna Darkweaver", "Thorfinn Glynkas"],
-    lugares: ["Aranthia", "Celestyal City"],
+  const [backupRelated, setBackupRelated] = useState<RelatedParams>({
+    personagens: [],
+    lugares: [],
+    objetos: [],
     personalidade: [],
     caracteristicas: [],
   });
   const [modalConfig, setModalConfig] = useState({
     type: "",
     title: "",
-    id: null,
-    value: ""
+    index: null,
+    value: {
+      id_elem_narr: null,
+      label: "",
+      descricao: "",
+      prompt: ""
+    }
   });
   const [listConfig, setListConfig] = useState({
     type: "",
@@ -84,8 +113,68 @@ const Character: React.FC = () => {
       setCharacter(res.data.character);
       setValue(res.data.character.backstory);
       setTitleValue(res.data.character.nome);
+
+      const elemento_narrativo = res.data.character.elemento_narrativo;
+
+      const personagens1 = elemento_narrativo?.relacao_relacao_id_elem_narr1Toelemento_narrativo?.filter((relacao: any) =>
+        relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo.tipo === "personagem"
+      ).map((relacao: any) => ({
+        id_elem_narr: relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo.id_elem_narr,
+        label: relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo["personagem"].nome,
+        descricao: relacao.descricao,
+        prompt: relacao.prompt,
+      })) || [];
+
+      const personagens2 = elemento_narrativo?.relacao_relacao_id_elem_narr2Toelemento_narrativo?.filter((relacao: any) =>
+        relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo.tipo === "personagem"
+      ).map((relacao: any) => ({
+        id_elem_narr: relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo.id_elem_narr,
+        label: relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo["personagem"].nome,
+        descricao: relacao.descricao,
+        prompt: relacao.prompt,
+      })) || [];
+
+      const lugares1 = elemento_narrativo?.relacao_relacao_id_elem_narr1Toelemento_narrativo?.filter((relacao: any) =>
+        relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo.tipo === "lugar"
+      ).map((relacao: any) => ({
+        id_elem_narr: relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo.id_elem_narr,
+        label: relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo["lugar"].nome,
+        descricao: relacao.descricao,
+        prompt: relacao.prompt,
+      })) || [];
+
+      const lugares2 = elemento_narrativo?.relacao_relacao_id_elem_narr2Toelemento_narrativo?.filter((relacao: any) =>
+        relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo.tipo === "lugar"
+      ).map((relacao: any) => ({
+        id_elem_narr: relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo.id_elem_narr,
+        label: relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo["lugar"].nome,
+        descricao: relacao.descricao,
+        prompt: relacao.prompt,
+      })) || [];
+
+      const objetos1 = elemento_narrativo?.relacao_relacao_id_elem_narr1Toelemento_narrativo?.filter((relacao: any) =>
+        relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo.tipo === "outro"
+      ).map((relacao: any) => ({
+        id_elem_narr: relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo.id_elem_narr,
+        label: relacao.elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo["outro"].nome,
+        descricao: relacao.descricao,
+        prompt: relacao.prompt,
+      })) || [];
+
+      const objetos2 = elemento_narrativo?.relacao_relacao_id_elem_narr2Toelemento_narrativo?.filter((relacao: any) =>
+        relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo.tipo === "outro"
+      ).map((relacao: any) => ({
+        id_elem_narr: relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo.id_elem_narr,
+        label: relacao.elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo["outro"].nome,
+        descricao: relacao.descricao,
+        prompt: relacao.prompt,
+      })) || [];
+
       setRelated(related => ({
         ...related,
+        personagens: [...personagens1, ...personagens2],
+        lugares: [...lugares1, ...lugares2],
+        objetos: [...objetos1, ...objetos2],
         personalidade: res.data.character.personalidade.split(","),
         caracteristicas: res.data.character.descricao.split(","),
       }));
@@ -118,6 +207,7 @@ const Character: React.FC = () => {
   const handleEdit = () => {
     setBackup(value);
     setBackupTitle(titleValue);
+    setBackupRelated(related);
     setDisabled(false);
   };
 
@@ -130,6 +220,9 @@ const Character: React.FC = () => {
       backstory: value,
       personalidade: related.personalidade.join(","),
       descricao: related.caracteristicas.join(","),
+      personagens: related.personagens.map((personagem: any) => ({ ...personagem, nome_relacao: "Relação" })),
+      lugares: related.lugares.map((personagem: any) => ({ ...personagem, nome_relacao: "Relação" })),
+      objetos: related.objetos.map((objeto: any) => ({ ...objeto, nome_relacao: "Relação" })),
     }).then(res => {
       toast({
         title: "Personagem atualizado",
@@ -185,6 +278,28 @@ const Character: React.FC = () => {
     onOpen();
   };
 
+  const closeModal = (saved: boolean, value?: RelationParams) => {
+    if (saved) {
+      setRelated(related => {
+        // @ts-ignore
+        const newRelated = [...related[modalConfig.type]];
+
+        if (modalConfig.index !== null) {
+          newRelated[modalConfig.index] = value;
+        } else {
+          newRelated.push(value);
+        }
+        
+        return {
+          ...related,
+          [modalConfig.type]: newRelated
+        };
+      });
+    }
+
+    onClose();
+  };
+
   const removeRelated = (type: string, index: number) => {
     setRelated(related => {
       // @ts-ignore
@@ -203,68 +318,18 @@ const Character: React.FC = () => {
 
   return (
     <>
-      <Modal isCentered isOpen={isOpen} onClose={onClose} size="xl">
-        <ModalOverlay
-          bg="rgba(0,0,0,0.5)"
-          backdropFilter="auto"
-          backdropBlur="2px"
-        />
-        <ModalContent>
-          <ModalHeader>
-            Adicionar relação a {character?.nome}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Flex justify="center" flexWrap="nowrap">
-              <Menu>
-                <MenuButton
-                  as={Button}
-                  margin="auto"
-                  borderRadius="xl"
-                  border="1px solid black"
-                  fontWeight={"regular"}
-                  rightIcon={
-                    <HiOutlineChevronDown style={{ marginLeft: "30px" }} />
-                  }
-                >
-                  teste
-                </MenuButton>
-                <MenuList>
-                  <MenuItem>
-                    Mundo 1
-                  </MenuItem>
-                  <MenuItem>
-                    Mundo 2
-                  </MenuItem>
-                </MenuList>
-              </Menu>
-              <Input
-                bg="white"
-                border="1px solid black"
-                color="black"
-                placeholder="Digite o que você deseja criar..."
-                ml="2"
-                w="full"
-                borderRadius="xl"
-              />
-            </Flex>
-            <Flex w="full" my="16px">
-              <Spacer />
-              <Button
-                borderRadius="xl"
-                bg="#3C6C66"
-                color="white"
-                mr="2"
-              >
-                Criar
-              </Button>
-              <Button borderRadius="xl" bg="red.700" color="white" onClick={onClose}>
-                Cancelar
-              </Button>
-            </Flex>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      {isOpen && (<ModalRelation
+        isOpen
+        onClose={closeModal}
+        path={relatedKeyToPath[modalConfig.type] || ""}
+        storyId={story?.id_historia || 0}
+        type={modalConfig.type}
+        title={modalConfig.title}
+        index={modalConfig.index}
+        value={modalConfig.value}
+        elemCategory="personagem"
+        elemName={character?.nome || "Nome"}
+      />)}
       {isOpenList && (<ModalList
         isOpen
         onClose={closeModalList}
@@ -348,6 +413,7 @@ const Character: React.FC = () => {
                   setDisabled(true);
                   setValue(backup);
                   setTitleValue(backupTitle);
+                  setRelated(backupRelated);
                 }}
                 _hover={{ bg: "whiteAlpha.200" }}
                 _active={{ bg: "whiteAlpha.300" }}
@@ -437,37 +503,45 @@ const Character: React.FC = () => {
                     borderRadius="xl"
                     color="orange.600"
                   >
-                    {v}
-                    {!disabled && (
-                      <>
-                        <Icon
-                          as={HiPencilAlt}
-                          ml="2"
-                          cursor="pointer"
-                          _hover={{ color: "orange.700" }}
-                          _active={{ color: "orange.800" }}
-                          onClick={() => ["personalidade", "caracteristicas"].includes(key) ? openModalList({
-                            title: capitalize(key),
-                            type: key,
-                            index: i,
-                            value: v,
-                          }) : openModal({
-                            title: capitalize(key),
-                            type: key,
-                            id: null,
-                            value: "",
-                          })}
-                        />
-                        <Icon
-                          as={HiTrash}
-                          ml="1"
-                          cursor="pointer"
-                          _hover={{ color: "orange.700" }}
-                          _active={{ color: "orange.800" }}
-                          onClick={() => removeRelated(key, i)}
-                        />
-                      </>
-                    )}
+                    <>
+                      {["personalidade", "caracteristicas"].includes(key) ? (
+                        v
+                      ) : (
+                        <Tooltip hasArrow label={(v as RelationParams).descricao}>
+                          {(v as RelationParams).label}
+                        </Tooltip>
+                      )}
+                      {!disabled && (
+                        <>
+                          <Icon
+                            as={HiPencilAlt}
+                            ml="2"
+                            cursor="pointer"
+                            _hover={{ color: "orange.700" }}
+                            _active={{ color: "orange.800" }}
+                            onClick={() => ["personalidade", "caracteristicas"].includes(key) ? openModalList({
+                              title: capitalize(key),
+                              type: key,
+                              index: i,
+                              value: v,
+                            }) : openModal({
+                              title: capitalize(key),
+                              type: key,
+                              index: i,
+                              value: v,
+                            })}
+                          />
+                          <Icon
+                            as={HiTrash}
+                            ml="1"
+                            cursor="pointer"
+                            _hover={{ color: "orange.700" }}
+                            _active={{ color: "orange.800" }}
+                            onClick={() => removeRelated(key, i)}
+                          />
+                        </>
+                      )}
+                    </>
                   </Tag>
                 ))}
                 {!disabled && (
@@ -489,8 +563,13 @@ const Character: React.FC = () => {
                     }) : openModal({
                       title: capitalize(key),
                       type: key,
-                      id: null,
-                      value: "",
+                      index: null,
+                      value: {
+                        id_elem_narr: null,
+                        label: "",
+                        descricao: "",
+                        prompt: ""
+                      },
                     })}
                   >
                     +
