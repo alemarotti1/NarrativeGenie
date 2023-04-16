@@ -20,6 +20,7 @@ import { Link } from "react-router-dom";
 import api from "../config/api";
 import environment from "../config/environment";
 import Header from "../layout/Header";
+import WorldHeader from "../components/WorldHeader";
 
 type WorldParams = {
   id_historia: string;
