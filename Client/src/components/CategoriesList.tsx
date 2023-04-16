@@ -52,6 +52,7 @@ const CategoriesList: React.FC<CategoriesListProps> = ({ items, category, onDele
               borderRadius="full"
               src={environment.API_URL + item.imagem}
               alt="Imagem"
+              fallbackSrc="https://demofree.sirv.com/nope-not-here.jpg"
             />
           </GridItem>
           <GridItem pl="2" area={"main"} overflow="hidden">

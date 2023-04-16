@@ -123,6 +123,7 @@ const DescriptionCard: React.FC<DescriptionCardProps> = ({ world }) => {
                   borderRadius="2xl"
                   src={environment.API_URL + world?.path_img_capa}
                   alt="Imagem do mundo"
+                  fallbackSrc="https://demofree.sirv.com/nope-not-here.jpg"
                 />
               </GridItem>
               <GridItem
