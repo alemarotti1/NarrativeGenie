@@ -59,7 +59,7 @@ class WaifuDiff {
     const url = "https://holy-grass-05650.pktriot.net/sdapi/v1/txt2img";
 
     let body = {
-      "prompt": prompt+", masterpiece, high quality,",
+      "prompt": prompt+", masterpiece, high quality, realistic,",
       "negative_prompt": "nsfw, nude, text",
       "sampler_name": "DPM++ 2S a Karras",
     } 
@@ -72,6 +72,7 @@ class WaifuDiff {
   }
 
   private async eerieOrangeMix(prompt: string) : Promise<AxiosResponse<any>> {
+    prompt = prompt + ", masterpiece, high quality, realistic,";
     const api = axios.create({
       baseURL: "https://api-inference.huggingface.co/models/WarriorMama777/EerieOrangeMix",
       headers: {
@@ -92,6 +93,7 @@ class WaifuDiff {
   }
 
   private async waifuDiffusion(prompt: string) : Promise<AxiosResponse<any>> {
+    prompt = prompt + ", masterpiece, high quality, realistic,";
     let response = await this.api.post("/stable-diffusion-v1-5", {
       inputs: prompt
     }, { responseType: 'stream' });
