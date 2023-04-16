@@ -150,6 +150,8 @@ const Character: React.FC = () => {
               fontWeight="regular"
               borderRadius="3xl"
               onClick={() => (disabled ? handleEdit() : setDisabled(true))}
+              _hover={{ bg: "whiteAlpha.200" }}
+              _active={{ bg: "whiteAlpha.300" }}
             >
               <HiPencilAlt style={{ marginRight: "5px" }} />
               {disabled ? "Editar" : "Salvar"}
@@ -168,6 +170,8 @@ const Character: React.FC = () => {
                   setDisabled(true);
                   setValue(backup);
                 }}
+                _hover={{ bg: "whiteAlpha.200" }}
+                _active={{ bg: "whiteAlpha.300" }}
               >
                 Cancelar
               </Button>
