@@ -14,6 +14,18 @@ HistoriaRouter.get('/', async (req, res) => {
   res.json({ stories });
 });
 
+HistoriaRouter.post('/gpt/', async (req, res) => {
+  const gptResult = await chatGPT.completion(req.body['prompt']?.toString() || "Hello world");
+  
+  res.json({ result: gptResult.data });
+});
+
+HistoriaRouter.get('/waifu/', async (req, res) => {
+  const result = await waifuDiff.query(req.query.prompt?.toString() || "Hello world");
+  
+  res.json({ result });
+});
+
 HistoriaRouter.get('/:id', async (req, res) => {
   const story = await buscarHistoria(parseInt(req.params.id));
   res.json({ story });
@@ -57,18 +69,6 @@ HistoriaRouter.post('/', async (req, res) => {
   const historiaId = await criarHistoria(historiaParams);
   
   res.json({ id: historiaId });
-});
-
-HistoriaRouter.post('/gpt/', async (req, res) => {
-  const gptResult = await chatGPT.completion(req.body['prompt']?.toString() || "Hello world");
-  
-  res.json({ result: gptResult.data });
-});
-
-HistoriaRouter.get('/waifu/', async (req, res) => {
-  const result = await waifuDiff.query(req.query.prompt?.toString() || "Hello world");
-  
-  res.json({ result });
 });
 
 export default HistoriaRouter;
