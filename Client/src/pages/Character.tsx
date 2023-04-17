@@ -496,7 +496,7 @@ const Character: React.FC = () => {
                       {["personalidade", "caracteristicas"].includes(key) ? (
                         v
                       ) : (
-                        <Tooltip hasArrow label={(v as RelationParams).descricao}>
+                        <Tooltip hasArrow label={(v as RelationParams).descricao} placement="top">
                           {(v as RelationParams).label}
                         </Tooltip>
                       )}

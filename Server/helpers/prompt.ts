@@ -27,6 +27,8 @@ export const personagemPrompt = (prompt: string) => {
 };
 
 export const relacaoPrompt = (category1: string, name1: string, category2: string, name2: string, prompt: string) => {
-  let result = `escreva a relação entre um ${category1.trim()} ${name1.trim()} e um ${category2.trim()} ${name2.trim()} descrita por "${prompt.trim()}". adicione coisas como: como eles se encontraram, como se relacionam, marcos importantes da sua história conjunta, etc.`;
+  let result = `escreva a relação entre um ${category1.trim()} ${name1.trim()} e um ${category2.trim()} ${name2.trim()} descrita por "${prompt.trim()}". `;
+  result += `adicione coisas como: como eles se encontraram, como se relacionam, etc. `;
+  result += `Gere no máximo 200 caracteres.`
   return result;
 };

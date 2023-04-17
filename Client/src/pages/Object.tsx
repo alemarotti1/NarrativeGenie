@@ -486,7 +486,7 @@ const ObjectPage: React.FC = () => {
                     color="orange.600"
                   >
                     <>
-                      <Tooltip hasArrow label={(v as RelationParams).descricao}>
+                      <Tooltip hasArrow label={(v as RelationParams).descricao} placement="top">
                         {(v as RelationParams).label}
                       </Tooltip>
                       {!disabled && (
