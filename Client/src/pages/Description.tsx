@@ -16,6 +16,8 @@ export type CharacterParams = {
   personalidade: string;
   especie: string;
   imagem: string;
+  created_at: any;
+  updated_at: any;
 };
 
 export type ObjectParams = {
@@ -23,6 +25,8 @@ export type ObjectParams = {
   nome: string;
   descricao: string;
   imagem: string;
+  created_at: any;
+  updated_at: any;
 };
 
 export type PlaceParams = {
@@ -34,6 +38,8 @@ export type PlaceParams = {
   seguranca: number;
   agua: number;
   imagem: string;
+  created_at: any;
+  updated_at: any;
 };
 
 export type NarrativeElementParams = {
@@ -43,6 +49,8 @@ export type NarrativeElementParams = {
   personagem: CharacterParams | null;
   lugar: PlaceParams | null;
   outro: ObjectParams | null;
+  created_at: any;
+  updated_at: any;
 };
 
 export type WorldParams = {
@@ -52,6 +60,8 @@ export type WorldParams = {
   path_img_capa: string;
   email_escritor: string;
   elemento_narrativo: NarrativeElementParams[];
+  created_at: any;
+  updated_at: any;
 };
 
 const Description: React.FC = () => {
@@ -170,12 +180,27 @@ const Description: React.FC = () => {
           return 0;
         });
         return items;
-      case "Mais antigo":
-        return items;
-      case "Mais novo":
-        return items;
-      case "Última atualização":
-        return items;
+        case "Mais antigo":
+          items = items.sort(function (a, b) {
+            if (a.created_at < b.created_at) return -1;
+            else if (a.created_at > b.created_at) return 1;
+            return 0;
+          });
+          return items;
+        case "Mais novo":
+          items = items.sort(function (a, b) {
+            if (a.created_at < b.created_at) return 1;
+            else if (a.created_at > b.created_at) return -1;
+            return 0;
+          });
+          return items;
+        case "Última atualização":
+          items = items.sort(function (a, b) {
+            if (a.updated_at < b.updated_at) return 1;
+            else if (a.updated_at > b.updated_at) return -1;
+            return 0;
+          });
+          return items;
     }
     return items;
   };
