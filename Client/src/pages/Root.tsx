@@ -71,9 +71,22 @@ const Root: React.FC = () => {
   };
 
   const handleCreate = () => {
+    if (category !== "Mundo" && world === "Mundo") {
+      toast({
+        title: "Atenção",
+        description: "Selecione um mundo",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
+    }
+
     setIsLoading(true);
+
     const worldId = worlds.find((w: any) => w.label === world)?.value;
     const categoryObject = categories.find((c) => c.label === category);
+  
     api
       .post(`/${categoryObject?.api}`, { prompt: prompt, id_historia: worldId })
       .then((res) => {
@@ -163,13 +176,23 @@ const Root: React.FC = () => {
             <Button
               borderRadius="xl"
               bg="#3C6C66"
+              color="white"
               mr="2"
               isLoading={isLoading}
               onClick={handleCreate}
+              _hover={{ bg: "#36615C", color: "white" }}
+              _active={{ bg: "#305651", color: "white" }}
             >
               Criar
             </Button>
-            <Button borderRadius="xl" bg="red.700" onClick={onClose}>
+            <Button
+              borderRadius="xl"
+              bg="red.700"
+              color="white"
+              onClick={onClose}
+              _hover={{ bg: "red.800", color: "white" }}
+              _active={{ bg: "red.900", color: "white" }}
+            >
               Cancelar
             </Button>
           </ModalBody>

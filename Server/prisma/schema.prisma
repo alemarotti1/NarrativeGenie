@@ -35,7 +35,9 @@ model historia {
   path_img_capa      String?              @db.VarChar(255)
   email_escritor     String               @db.VarChar(255)
   prompt             String?              @db.VarChar(2000)
-  imgPrompt          String?      @db.VarChar(2000)
+  imgPrompt          String?              @db.VarChar(2000)
+  created_at         DateTime             @default(now())
+  updated_at         DateTime             @updatedAt        @default(now())
   elemento_narrativo elemento_narrativo[]
   conta              conta                @relation(fields: [email_escritor], references: [email], onDelete: Cascade, onUpdate: Cascade, map: "fk_Historia_Conta")
 
@@ -52,7 +54,9 @@ model lugar {
   seguranca          Int                @default(0)
   agua               Int                @default(0)
   prompt             String?            @db.VarChar(2000)
-  imgPrompt          String?      @db.VarChar(2000)
+  imgPrompt          String?            @db.VarChar(2000)
+  created_at         DateTime           @default(now())
+  updated_at         DateTime           @updatedAt        @default(now())
   elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: Cascade, map: "fk_Lugar_Elemento_narrativo1")
   
   @@index([id_elem_narr])
@@ -65,6 +69,8 @@ model outro {
   imagem             String?      @db.VarChar(255)
   prompt             String?      @db.VarChar(2000)
   imgPrompt          String?      @db.VarChar(2000)
+  created_at         DateTime     @default(now())
+  updated_at         DateTime     @updatedAt        @default(now())
   elemento_narrativo              elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: Cascade, map: "fk_Outro_Elemento_narrativo1")
 
   @@index([id_elem_narr])
@@ -80,6 +86,8 @@ model personagem {
   imagem             String?            @db.VarChar(255)
   prompt             String?            @db.VarChar(2000)
   imgPrompt          String?            @db.VarChar(2000)
+  created_at         DateTime           @default(now())
+  updated_at         DateTime           @updatedAt        @default(now())
   elemento_narrativo elemento_narrativo @relation(fields: [id_elem_narr], references: [id_elem_narr], onDelete: Cascade, onUpdate: Cascade, map: "fk_Personagem_Elemento_narrativo1")
 
   @@index([id_elem_narr])

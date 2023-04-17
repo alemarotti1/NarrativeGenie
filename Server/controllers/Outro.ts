@@ -19,15 +19,32 @@ export const buscarOutro = async (id_elem_narr: number) => {
     },
     include: {
       elemento_narrativo: {
-        select: {
-          historia: {
-            select: {
-              id_historia: true,
-              nome: true,
+        include: {
+          historia: true,
+          relacao_relacao_id_elem_narr1Toelemento_narrativo: {
+            include: {
+              elemento_narrativo_relacao_id_elem_narr2Toelemento_narrativo: {
+                include: {
+                  personagem: true,
+                  outro: true,
+                  lugar: true,
+                }
+              }
+            }
+          },
+          relacao_relacao_id_elem_narr2Toelemento_narrativo: {
+            include: {
+              elemento_narrativo_relacao_id_elem_narr1Toelemento_narrativo: {
+                include: {
+                  personagem: true,
+                  outro: true,
+                  lugar: true,
+                }
+              }
             }
           }
         }
-      }
+      },
     }
   });
 
@@ -82,6 +99,24 @@ type AtualizarOutroParams = {
   descricao?: string;
   prompt?: string;
   imgPrompt?: string;
+  personagens?: {
+    id_elem_narr: number;
+    descricao: string;
+    nome_relacao: string;
+    prompt: string;
+  }[];
+  lugares?: {
+    id_elem_narr: number;
+    descricao: string;
+    nome_relacao: string;
+    prompt: string;
+  }[];
+  objetos?: {
+    id_elem_narr: number;
+    descricao: string;
+    nome_relacao: string;
+    prompt: string;
+  }[];
 }
 
 export const atualizarOutro = async (outroParams: AtualizarOutroParams) => {
@@ -96,5 +131,30 @@ export const atualizarOutro = async (outroParams: AtualizarOutroParams) => {
       prompt: outroParams.prompt,
       imgPrompt: outroParams.imgPrompt,
     }
+  });
+  
+  await db.relacao.deleteMany({
+    where: {
+      OR: [
+        { id_elem_narr1: outroParams.id_elem_narr },
+        { id_elem_narr2: outroParams.id_elem_narr }
+      ]
+    }
+  });
+
+  const relacoes = [
+    ...(outroParams.personagens || []),
+    ...(outroParams.lugares || []),
+    ...(outroParams.objetos || []),
+  ];
+
+  await db.relacao.createMany({
+    data: relacoes.map(relacao => ({
+      id_elem_narr1: outroParams.id_elem_narr,
+      id_elem_narr2: relacao.id_elem_narr,
+      descricao: relacao.descricao,
+      nome_relacao: relacao.nome_relacao,
+      prompt: relacao.prompt,
+    }))
   });
 };
