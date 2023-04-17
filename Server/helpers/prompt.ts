@@ -12,7 +12,7 @@ export const lugarPrompt = (prompt: string) => {
 
 export const outroPrompt = (prompt: string) => {
   let result = `preencha o json com os dados de um objeto descrito por "${prompt.trim()}". onde "descricao" é uma lista de adjetivos do objeto e "descricao_fisica_em_ingles" tem a lista em inglês das características físicas mais importantes. Adicione coisas como formato, cor, material `;
-  result += `{ nome: string; descricao: string; prompt_para_modelo_de_imagem_em_ingles: string; }`;
+  result += `{ nome: string; descricao: string; descricao_fisica_em_ingles: string[]; }`;
   return result;
 };
 

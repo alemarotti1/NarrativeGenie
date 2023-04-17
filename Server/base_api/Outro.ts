@@ -37,7 +37,7 @@ OutroRouter.post('/', async (req, res) => {
   const prompt = outroPrompt(req.body['prompt']?.toString() || "Hello world");
   const gptResult = await chatGPT.completion(prompt);
   const jsonResult = JSON.parse(gptResult.data.choices[0].message?.content.toString() || "");
-  const imgPrompt = jsonResult.prompt_para_modelo_de_imagem_em_ingles?.toString() || "Hello world";
+  const imgPrompt = jsonResult.descricao_fisica_em_ingles?.toString() || "Hello world";
   const waifuResult = await waifuDiff.query(imgPrompt);
 
   const outroParams = {
