@@ -237,6 +237,7 @@ const Worlds: React.FC = () => {
                   borderRadius="2xl"
                   src={environment.API_URL + world.path_img_capa}
                   alt="Imagem do mundo"
+                  fallbackSrc="https://demofree.sirv.com/nope-not-here.jpg"
                 />
               </GridItem>
               <GridItem pl="2" area={"main"} overflow="hidden">
