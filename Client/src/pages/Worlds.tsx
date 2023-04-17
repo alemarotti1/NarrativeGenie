@@ -31,6 +31,8 @@ type WorldParams = {
   descricao: string;
   path_img_capa: string;
   email_escritor: string;
+  created_at: any;
+  updated_at: any;
 };
 
 const Worlds: React.FC = () => {
@@ -108,11 +110,26 @@ const Worlds: React.FC = () => {
         });
         return ws;
       case "Mais antigo":
-        break;
+        ws = ws.sort(function (a, b) {
+          if (a.created_at < b.created_at) return -1;
+          else if (a.created_at > b.created_at) return 1;
+          return 0;
+        });
+        return ws;
       case "Mais novo":
-        break;
+        ws = ws.sort(function (a, b) {
+          if (a.created_at < b.created_at) return 1;
+          else if (a.created_at > b.created_at) return -1;
+          return 0;
+        });
+        return ws;
       case "Última atualização":
-        break;
+        ws = ws.sort(function (a, b) {
+          if (a.updated_at < b.updated_at) return 1;
+          else if (a.updated_at > b.updated_at) return -1;
+          return 0;
+        });
+        return ws;
     }
   };
 
